@@ -62,12 +62,15 @@ class Renderer
 	";
 	
 	static inline var fragmentShaderSource = "
+		precision mediump float;
+	
 		varying vec2 vTexCoord;
-        uniform sampler2D uImage0;
+		
+		uniform sampler2D uImage0;
                         
         void main(void)
         {
-            gl_FragColor = texture2D (uImage0, vTexCoord).gbar;
+            gl_FragColor = texture2D(uImage0, vTexCoord);
         }
 	";
 
@@ -75,7 +78,7 @@ class Renderer
 	{
 		meshes = new Array<Mesh>();
 		
-		bitmapData = Assets.getBitmapData("img/avatar.jpg");
+		bitmapData = Assets.getBitmapData("img/avatar.png");
 
 		view = new OpenGLView();
 		
@@ -123,8 +126,11 @@ class Renderer
 		GL.compileShader (vertexShader);
 		
 		if (GL.getShaderParameter (vertexShader, GL.COMPILE_STATUS) == 0)
-			throw "Error compiling vertex shader";
-		
+		{
+			var message = GL.getShaderInfoLog(vertexShader);
+			throw "Error compiling vertex shader : " + message;
+		}
+			
 		return vertexShader;
 	}
 	
@@ -139,7 +145,10 @@ class Renderer
 		GL.compileShader (fragmentShader);
 		
 		if (GL.getShaderParameter (fragmentShader, GL.COMPILE_STATUS) == 0)
-			throw "Error compiling fragment shader";
+		{
+			var message = GL.getShaderInfoLog(fragmentShader);
+			throw "Error compiling fragment shader : " + message;
+		}
 		
 		return fragmentShader;
 	}
@@ -151,24 +160,19 @@ class Renderer
 		
 		var pixels : ByteArray = bitmapData.getPixels(bitmapData.rect);
 		
-		pixels.position = 0;
-		
 		var array = new Array<UInt>();
 		
-		//for (i in 0 ... pixels.length)
-			//array.push(pixels.readUnsignedByte());.
+		pixels.position = 0;
 		
-		var max : UInt = 8 * 8 * 4;
-			
-		for (i in 0 ... max)
-			array.push(cast (Math.random() * 0xff));
+		for (i in 0 ... pixels.length)
+			array.push(pixels.readUnsignedByte());	
 		
-		trace(array.length);
-		
+		GL.pixelStorei(GL.UNPACK_FLIP_Y_WEBGL, 1);
 		GL.texImage2D(GL.TEXTURE_2D, 0, GL.RGBA, bitmapData.width, bitmapData.height, 0, GL.RGBA, GL.UNSIGNED_BYTE, new UInt8Array(array));
-		GL.texParameteri (GL.TEXTURE_2D, GL.TEXTURE_MAG_FILTER, GL.LINEAR);
-        GL.texParameteri (GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.LINEAR);
-        GL.bindTexture (GL.TEXTURE_2D, null);
+		GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MAG_FILTER, GL.NEAREST);
+        GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.NEAREST);
+		GL.generateMipmap(GL.TEXTURE_2D);
+        GL.bindTexture(GL.TEXTURE_2D, null);
 	}
 	
 	function render(viewport : Rectangle) : Void
@@ -194,7 +198,7 @@ class Renderer
 	{
 		GL.activeTexture(GL.TEXTURE0);
 		GL.bindTexture(GL.TEXTURE_2D, texture);
-		GL.enable(GL.TEXTURE_2D);
+		//GL.enable(GL.TEXTURE);
 		
 		GL.bindBuffer (GL.ARRAY_BUFFER, mesh.getBuffer());
 		GL.vertexAttribPointer (vertexPosAttribute, 3, GL.FLOAT, false, 0, 0);
@@ -215,7 +219,7 @@ class Renderer
 		GL.drawArrays (GL.TRIANGLES, 0, cast(mesh.vertices.length / 3));
 			
 		GL.bindBuffer (GL.ARRAY_BUFFER, null);
-		GL.disable (GL.TEXTURE_2D);
+		//GL.disable (GL.TEXTURE);
 		GL.bindTexture(GL.TEXTURE_2D, null);
 	}
 	

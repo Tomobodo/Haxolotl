@@ -4,7 +4,7 @@
 -lib lime
 -lib actuate
 -cp src
--D tools=1.2.0
+-D tools=1.2.1
 -D lime_native
 -D no-compilation
 -D openfl=1.2

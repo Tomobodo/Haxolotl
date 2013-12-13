@@ -26,6 +26,9 @@ ApplicationMain.main = function() {
 	var loader = new flash.display.Loader();
 	ApplicationMain.loaders.set("img/avatar.jpg",loader);
 	ApplicationMain.total++;
+	var loader1 = new flash.display.Loader();
+	ApplicationMain.loaders.set("img/avatar.png",loader1);
+	ApplicationMain.total++;
 	var resourcePrefix = "__ASSET__:bitmap_";
 	var _g = 0, _g1 = haxe.Resource.listNames();
 	while(_g < _g1.length) {
@@ -43,9 +46,9 @@ ApplicationMain.main = function() {
 		var $it0 = ApplicationMain.loaders.keys();
 		while( $it0.hasNext() ) {
 			var path = $it0.next();
-			var loader1 = ApplicationMain.loaders.get(path);
-			loader1.contentLoaderInfo.addEventListener("complete",ApplicationMain.loader_onComplete);
-			loader1.load(new flash.net.URLRequest(path));
+			var loader2 = ApplicationMain.loaders.get(path);
+			loader2.contentLoaderInfo.addEventListener("complete",ApplicationMain.loader_onComplete);
+			loader2.load(new flash.net.URLRequest(path));
 		}
 		var $it1 = ApplicationMain.urlLoaders.keys();
 		while( $it1.hasNext() ) {
@@ -1329,6 +1332,9 @@ var DefaultAssetLibrary = function() {
 	DefaultAssetLibrary.path.set("img/avatar.jpg","img/avatar.jpg");
 	var value = Reflect.field(openfl.AssetType,"image".toUpperCase());
 	DefaultAssetLibrary.type.set("img/avatar.jpg",value);
+	DefaultAssetLibrary.path.set("img/avatar.png","img/avatar.png");
+	var value = Reflect.field(openfl.AssetType,"image".toUpperCase());
+	DefaultAssetLibrary.type.set("img/avatar.png",value);
 };
 $hxClasses["DefaultAssetLibrary"] = DefaultAssetLibrary;
 DefaultAssetLibrary.__name__ = ["DefaultAssetLibrary"];
@@ -1759,7 +1765,7 @@ com.pixodrome.ld28.App = function() {
 	this.batch = new com.pixodrome.ld28.meshes.SpriteBatch();
 	this.quads = new Array();
 	var _g = 0;
-	while(_g < 500) {
+	while(_g < 1000) {
 		var i = _g++;
 		var quad = new com.pixodrome.ld28.Quad(32,32);
 		quad.set_x(Math.random() * 800);
@@ -1769,7 +1775,7 @@ com.pixodrome.ld28.App = function() {
 		this.batch.add(quad);
 	}
 	this.renderer.addMesh(this.batch);
-	this.addChild(new openfl.display.FPS(0,0,16777215));
+	this.addChild(new openfl.display.FPS(0,0,0));
 	this.addEventListener(flash.events.Event.ADDED_TO_STAGE,$bind(this,this.onAddedToStage));
 };
 $hxClasses["com.pixodrome.ld28.App"] = com.pixodrome.ld28.App;
@@ -10094,7 +10100,7 @@ src.com.pixodrome = {}
 src.com.pixodrome.ld28 = {}
 src.com.pixodrome.ld28.Renderer = function() {
 	this.meshes = new Array();
-	this.bitmapData = openfl.Assets.getBitmapData("img/avatar.jpg");
+	this.bitmapData = openfl.Assets.getBitmapData("img/avatar.png");
 	this.view = new openfl.display.OpenGLView();
 	this.createTexture();
 	this.initShaders();
@@ -10107,7 +10113,6 @@ src.com.pixodrome.ld28.Renderer.prototype = {
 	draw: function(mesh) {
 		openfl.gl.GL.activeTexture(33984);
 		openfl.gl.GL.bindTexture(3553,this.texture);
-		openfl.gl.GL.enable(3553);
 		openfl.gl.GL.bindBuffer(34962,mesh.getBuffer());
 		openfl.gl.GL.vertexAttribPointer(this.vertexPosAttribute,3,5126,false,0,0);
 		openfl.gl.GL.bindBuffer(34962,mesh.getTextCoord());
@@ -10121,7 +10126,6 @@ src.com.pixodrome.ld28.Renderer.prototype = {
 		openfl.gl.GL.uniform1i(this.imageUniform,0);
 		openfl.gl.GL.drawArrays(4,0,mesh.vertices.length / 3);
 		openfl.gl.GL.bindBuffer(34962,null);
-		openfl.gl.GL.disable(3553);
 		openfl.gl.GL.bindTexture(3553,null);
 	}
 	,render: function(viewport) {
@@ -10144,31 +10148,38 @@ src.com.pixodrome.ld28.Renderer.prototype = {
 		this.texture = openfl.gl.GL.createTexture();
 		openfl.gl.GL.bindTexture(3553,this.texture);
 		var pixels = this.bitmapData.getPixels(this.bitmapData.rect);
-		pixels.position = 0;
 		var array = new Array();
+		pixels.position = 0;
 		var _g1 = 0, _g = pixels.length;
 		while(_g1 < _g) {
 			var i = _g1++;
 			array.push(pixels.readUnsignedByte());
 		}
-		console.log(array.length);
+		openfl.gl.GL.pixelStorei(37440,1);
 		openfl.gl.GL.texImage2D(3553,0,6408,this.bitmapData.get_width(),this.bitmapData.get_height(),0,6408,5121,new Uint8Array(array));
-		openfl.gl.GL.texParameteri(3553,10240,9729);
-		openfl.gl.GL.texParameteri(3553,10241,9729);
+		openfl.gl.GL.texParameteri(3553,10240,9728);
+		openfl.gl.GL.texParameteri(3553,10241,9728);
+		openfl.gl.GL.generateMipmap(3553);
 		openfl.gl.GL.bindTexture(3553,null);
 	}
 	,createFragmentShader: function() {
 		var fragmentShader = openfl.gl.GL.createShader(35632);
-		openfl.gl.GL.shaderSource(fragmentShader,"\r\n\t\tvarying vec2 vTexCoord;\r\n        uniform sampler2D uImage0;\r\n                        \r\n        void main(void)\r\n        {\r\n            gl_FragColor = texture2D (uImage0, vTexCoord).gbar;\r\n        }\r\n\t");
+		openfl.gl.GL.shaderSource(fragmentShader,"\r\n\t\tprecision mediump float;\r\n\t\r\n\t\tvarying vec2 vTexCoord;\r\n\t\t\r\n\t\tuniform sampler2D uImage0;\r\n                        \r\n        void main(void)\r\n        {\r\n            gl_FragColor = texture2D(uImage0, vTexCoord);\r\n        }\r\n\t");
 		openfl.gl.GL.compileShader(fragmentShader);
-		if(openfl.gl.GL.getShaderParameter(fragmentShader,35713) == 0) throw "Error compiling fragment shader";
+		if(openfl.gl.GL.getShaderParameter(fragmentShader,35713) == 0) {
+			var message = openfl.gl.GL.getShaderInfoLog(fragmentShader);
+			throw "Error compiling fragment shader : " + message;
+		}
 		return fragmentShader;
 	}
 	,createVertexShader: function() {
 		var vertexShader = openfl.gl.GL.createShader(35633);
 		openfl.gl.GL.shaderSource(vertexShader,"\r\n\t\tattribute vec3 vertexPosition;\r\n\t\tattribute vec4 vertexColor;\r\n\t\t\r\n\t\tattribute vec2 aTexCoord;\r\n        \r\n\t\tvarying vec2 vTexCoord;\r\n\t\t\t\r\n\t\tuniform mat4 modelViewMatrix;\r\n\t\tuniform mat4 projectionMatrix;\r\n\t\t\t\r\n\t\tvoid main(void) {\r\n\t\t\tvTexCoord = aTexCoord;\r\n\t\t\tgl_Position = projectionMatrix * modelViewMatrix * vec4(vertexPosition, 1.0);\r\n\t\t}\r\n\t");
 		openfl.gl.GL.compileShader(vertexShader);
-		if(openfl.gl.GL.getShaderParameter(vertexShader,35713) == 0) throw "Error compiling vertex shader";
+		if(openfl.gl.GL.getShaderParameter(vertexShader,35713) == 0) {
+			var message = openfl.gl.GL.getShaderInfoLog(vertexShader);
+			throw "Error compiling vertex shader : " + message;
+		}
 		return vertexShader;
 	}
 	,initShaders: function() {
@@ -10949,6 +10960,6 @@ openfl.gl.GL.CONTEXT_LOST_WEBGL = 37442;
 openfl.gl.GL.UNPACK_COLORSPACE_CONVERSION_WEBGL = 37443;
 openfl.gl.GL.BROWSER_DEFAULT_WEBGL = 37444;
 src.com.pixodrome.ld28.Renderer.vertexShaderSource = "\r\n\t\tattribute vec3 vertexPosition;\r\n\t\tattribute vec4 vertexColor;\r\n\t\t\r\n\t\tattribute vec2 aTexCoord;\r\n        \r\n\t\tvarying vec2 vTexCoord;\r\n\t\t\t\r\n\t\tuniform mat4 modelViewMatrix;\r\n\t\tuniform mat4 projectionMatrix;\r\n\t\t\t\r\n\t\tvoid main(void) {\r\n\t\t\tvTexCoord = aTexCoord;\r\n\t\t\tgl_Position = projectionMatrix * modelViewMatrix * vec4(vertexPosition, 1.0);\r\n\t\t}\r\n\t";
-src.com.pixodrome.ld28.Renderer.fragmentShaderSource = "\r\n\t\tvarying vec2 vTexCoord;\r\n        uniform sampler2D uImage0;\r\n                        \r\n        void main(void)\r\n        {\r\n            gl_FragColor = texture2D (uImage0, vTexCoord).gbar;\r\n        }\r\n\t";
+src.com.pixodrome.ld28.Renderer.fragmentShaderSource = "\r\n\t\tprecision mediump float;\r\n\t\r\n\t\tvarying vec2 vTexCoord;\r\n\t\t\r\n\t\tuniform sampler2D uImage0;\r\n                        \r\n        void main(void)\r\n        {\r\n            gl_FragColor = texture2D(uImage0, vTexCoord);\r\n        }\r\n\t";
 ApplicationMain.main();
 })();

@@ -38,12 +38,16 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		className.set ("img/avatar.jpg", __ASSET__img_avatar_jpg);
 		type.set ("img/avatar.jpg", Reflect.field (AssetType, "image".toUpperCase ()));
+		className.set ("img/avatar.png", __ASSET__img_avatar_png);
+		type.set ("img/avatar.png", Reflect.field (AssetType, "image".toUpperCase ()));
 		
 		
 		#elseif html5
 		
 		path.set ("img/avatar.jpg", "img/avatar.jpg");
 		type.set ("img/avatar.jpg", Reflect.field (AssetType, "image".toUpperCase ()));
+		path.set ("img/avatar.png", "img/avatar.png");
+		type.set ("img/avatar.png", Reflect.field (AssetType, "image".toUpperCase ()));
 		
 		
 		#else
@@ -486,9 +490,11 @@ class DefaultAssetLibrary extends AssetLibrary {
 #elseif flash
 
 class __ASSET__img_avatar_jpg extends flash.display.BitmapData { public function new () { super (0, 0); } }
+class __ASSET__img_avatar_png extends flash.display.BitmapData { public function new () { super (0, 0); } }
 
 
 #elseif html5
+
 
 
 
