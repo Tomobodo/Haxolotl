@@ -1709,9 +1709,9 @@ com.pixodrome.ld28.Quad = function(width,height,color) {
 	this.set_rotation(0);
 	this.mesh = new com.pixodrome.ld28.meshes.Plane(width,height,color);
 	this.points = new Array();
-	var _g = 0;
-	while(_g < 4) {
-		var i = _g++;
+	var _g1 = 0, _g = this.mesh.vertices.length / 3;
+	while(_g1 < _g) {
+		var i = _g1++;
 		this.points.push(new flash.geom.Point());
 	}
 	this.needUpdate = true;
@@ -1760,9 +1760,9 @@ com.pixodrome.ld28.meshes.Plane = function(width,height,color) {
 	var col = new com.pixodrome.ld28.Color(color);
 	var dWidth = width / 2;
 	var dHeight = height / 2;
-	var vertices = [dWidth,dHeight,0.0,-dWidth,dHeight,0.0,dWidth,-dHeight,0.0,-dWidth,-dHeight,0.0];
-	var texCoords = [0.0,0.0,1.0,0.0,1.0,1.0,0.0,1.0];
-	var colors = [col.r,col.g,col.b,col.a,col.r,col.g,col.b,col.a,col.r,col.g,col.b,col.a,col.r,col.g,col.b,col.a];
+	var vertices = [-dWidth,-dHeight,0.0,dWidth,-dHeight,0.0,dWidth,dHeight,0.0,dWidth,dHeight,0.0,-dWidth,dHeight,0.0,-dWidth,-dHeight,0.0];
+	var texCoords = [0.0,0.0,1.0,0.0,1.0,1.0,1.0,1.0,0.0,1.0,0.0,0.0];
+	var colors = [col.r,col.g,col.b,col.a,col.r,col.g,col.b,col.a,col.r,col.g,col.b,col.a,col.r,col.g,col.b,col.a,col.r,col.g,col.b,col.a,col.r,col.g,col.b,col.a];
 	com.pixodrome.ld28.Mesh.call(this,vertices,texCoords,colors);
 };
 $hxClasses["com.pixodrome.ld28.meshes.Plane"] = com.pixodrome.ld28.meshes.Plane;

@@ -60,7 +60,10 @@ class SpriteBatch extends Mesh
 				quad.points[0].x, quad.points[0].y, 0,
 				quad.points[1].x, quad.points[1].y, 0,
 				quad.points[2].x, quad.points[2].y, 0,
+				
 				quad.points[3].x, quad.points[3].y, 0,
+				quad.points[4].x, quad.points[4].y, 0,
+				quad.points[5].x, quad.points[5].y, 0
 			];
 			
 			vertices = vertices.concat(quadPoints);

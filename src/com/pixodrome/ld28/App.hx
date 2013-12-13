@@ -62,8 +62,6 @@ class App extends Sprite
 		
 		renderer.addMesh(batch);
 		
-		addChild(new FPS(0,0,0xffffff));
-		
 		addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 	}
 	
@@ -81,7 +79,7 @@ class App extends Sprite
 	function updateLogic() 
 	{
 		for (i in 0 ... quads.length)
-			quads[i].rotation+=0.1;
+			quads[i].rotation += 0.1;
 	}
 	
 	function initRenderer():Void 

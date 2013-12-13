@@ -18,9 +18,12 @@ class Plane extends Mesh
 		var dHeight = height / 2;
 		
 		var vertices = [
+			-dWidth, -dHeight, 0.0,
+			dWidth, -dHeight, 0.0,
+			dWidth, dHeight, 0.0,
+			
 			dWidth, dHeight, 0.0,
 			-dWidth, dHeight, 0.0,
-			dWidth, -dHeight, 0.0,
 			-dWidth, -dHeight, 0.0
 		];
 		
@@ -28,11 +31,17 @@ class Plane extends Mesh
 			0.0, 0.0,
 			1.0, 0.0,
 			1.0, 1.0,
-			0.0, 1.0
+			
+			1.0, 1.0,
+			0.0, 1.0,
+			0.0, 0.0
 		];
 		
 		var colors = [
 			col.r, col.g, col.b, col.a,
+			col.r, col.g, col.b, col.a,
+			col.r, col.g, col.b, col.a,
+			
 			col.r, col.g, col.b, col.a,
 			col.r, col.g, col.b, col.a,
 			col.r, col.g, col.b, col.a

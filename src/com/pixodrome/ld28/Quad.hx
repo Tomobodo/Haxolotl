@@ -46,7 +46,7 @@ class Quad
 		
 		points = new Array<Point>();
 		
-		for(i in 0 ... 4)
+		for(i in 0 ... cast(mesh.vertices.length / 3))
 			points.push(new Point());
 		
 		needUpdate = true;
