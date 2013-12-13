@@ -1620,7 +1620,7 @@ com.pixodrome.ld28.App = function() {
 	var batch = new com.pixodrome.ld28.meshes.SpriteBatch();
 	this.quads = new Array();
 	var _g = 0;
-	while(_g < 10) {
+	while(_g < 1000) {
 		var i = _g++;
 		var quad = new com.pixodrome.ld28.Quad(32,32);
 		quad.set_x(Math.random() * 800);
@@ -1774,21 +1774,43 @@ com.pixodrome.ld28.meshes.Plane.prototype = $extend(com.pixodrome.ld28.Mesh.prot
 com.pixodrome.ld28.meshes.SpriteBatch = function() {
 	com.pixodrome.ld28.Mesh.call(this);
 	this.needUpdate = true;
+	this.needGeneration = true;
 	this.quadList = new Array();
 };
 $hxClasses["com.pixodrome.ld28.meshes.SpriteBatch"] = com.pixodrome.ld28.meshes.SpriteBatch;
 com.pixodrome.ld28.meshes.SpriteBatch.__name__ = ["com","pixodrome","ld28","meshes","SpriteBatch"];
 com.pixodrome.ld28.meshes.SpriteBatch.__super__ = com.pixodrome.ld28.Mesh;
 com.pixodrome.ld28.meshes.SpriteBatch.prototype = $extend(com.pixodrome.ld28.Mesh.prototype,{
-	update: function() {
+	generate: function() {
 		this.vertices = new Array();
 		var _g1 = 0, _g = this.quadList.length;
 		while(_g1 < _g) {
 			var i = _g1++;
 			var quad = this.quadList[i];
 			if(quad.needUpdate) quad.update();
-			var quadPoints = [quad.points[0].x,quad.points[0].y,0,quad.points[1].x,quad.points[1].y,0,quad.points[2].x,quad.points[2].y,0,quad.points[3].x,quad.points[3].y,0];
+			var quadPoints = [quad.points[0].x,quad.points[0].y,0,quad.points[1].x,quad.points[1].y,0,quad.points[2].x,quad.points[2].y,0,quad.points[3].x,quad.points[3].y,0,quad.points[4].x,quad.points[4].y,0,quad.points[5].x,quad.points[5].y,0];
 			this.vertices = this.vertices.concat(quadPoints);
+		}
+		this.updateBuffer();
+	}
+	,update: function() {
+		var _g1 = 0, _g = this.quadList.length;
+		while(_g1 < _g) {
+			var i = _g1++;
+			var quad = this.quadList[i];
+			if(quad.needUpdate) quad.update();
+			this.vertices[i * 18] = quad.points[0].x;
+			this.vertices[i * 18 + 1] = quad.points[0].y;
+			this.vertices[i * 18 + 3] = quad.points[1].x;
+			this.vertices[i * 18 + 4] = quad.points[1].y;
+			this.vertices[i * 18 + 6] = quad.points[2].x;
+			this.vertices[i * 18 + 7] = quad.points[2].y;
+			this.vertices[i * 18 + 9] = quad.points[3].x;
+			this.vertices[i * 18 + 10] = quad.points[3].y;
+			this.vertices[i * 18 + 12] = quad.points[4].x;
+			this.vertices[i * 18 + 13] = quad.points[4].y;
+			this.vertices[i * 18 + 15] = quad.points[5].x;
+			this.vertices[i * 18 + 16] = quad.points[5].y;
 		}
 		this.updateBuffer();
 	}
@@ -1798,6 +1820,11 @@ com.pixodrome.ld28.meshes.SpriteBatch.prototype = $extend(com.pixodrome.ld28.Mes
 			var i = _g1++;
 			if(this.quadList[i].needUpdate) this.needUpdate = true;
 		}
+		if(this.needGeneration) {
+			this.generate();
+			this.needGeneration = false;
+			this.needUpdate = false;
+		}
 		if(this.needUpdate) {
 			this.update();
 			this.needUpdate = false;
@@ -1806,7 +1833,7 @@ com.pixodrome.ld28.meshes.SpriteBatch.prototype = $extend(com.pixodrome.ld28.Mes
 	}
 	,add: function(quad) {
 		this.quadList.push(quad);
-		this.needUpdate = true;
+		this.needGeneration = true;
 	}
 	,__class__: com.pixodrome.ld28.meshes.SpriteBatch
 });

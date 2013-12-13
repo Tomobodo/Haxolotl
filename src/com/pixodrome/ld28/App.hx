@@ -48,7 +48,7 @@ class App extends Sprite
 		
 		quads = new Array<Quad>();
 		
-		for (i in 0 ... 10)
+		for (i in 0 ... 1000)
 		{
 			var quad = new Quad(32, 32);
 			
@@ -61,6 +61,10 @@ class App extends Sprite
 		}
 		
 		renderer.addMesh(batch);
+		
+		#if !neko
+		addChild(new FPS(0, 0, 0xffffff));
+		#end
 		
 		addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 	}
