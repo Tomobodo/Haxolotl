@@ -112,7 +112,18 @@ class SpriteBatch extends Mesh
 				quad.points[5].x, quad.points[5].y, 0
 			];
 			
+			var quadCoord : Array<Float> = [
+				0, 0,
+				1, 0,
+				1, 1,
+				
+				1, 1,
+				0, 1,
+				0, 0
+			];
+			
 			vertices = vertices.concat(quadPoints);
+			texCoord = texCoord.concat(quadCoord);
 		}
 		
 		updateBuffer();

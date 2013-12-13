@@ -23,6 +23,9 @@ ApplicationMain.main = function() {
 	ApplicationMain.preloader = new NMEPreloader();
 	flash.Lib.get_current().addChild(ApplicationMain.preloader);
 	ApplicationMain.preloader.onInit();
+	var loader = new flash.display.Loader();
+	ApplicationMain.loaders.set("img/avatar.jpg",loader);
+	ApplicationMain.total++;
 	var resourcePrefix = "__ASSET__:bitmap_";
 	var _g = 0, _g1 = haxe.Resource.listNames();
 	while(_g < _g1.length) {
@@ -40,9 +43,9 @@ ApplicationMain.main = function() {
 		var $it0 = ApplicationMain.loaders.keys();
 		while( $it0.hasNext() ) {
 			var path = $it0.next();
-			var loader = ApplicationMain.loaders.get(path);
-			loader.contentLoaderInfo.addEventListener("complete",ApplicationMain.loader_onComplete);
-			loader.load(new flash.net.URLRequest(path));
+			var loader1 = ApplicationMain.loaders.get(path);
+			loader1.contentLoaderInfo.addEventListener("complete",ApplicationMain.loader_onComplete);
+			loader1.load(new flash.net.URLRequest(path));
 		}
 		var $it1 = ApplicationMain.urlLoaders.keys();
 		while( $it1.hasNext() ) {
@@ -1265,6 +1268,142 @@ DocumentClass.prototype = $extend(com.pixodrome.ld28.Main.prototype,{
 	}
 	,__class__: DocumentClass
 });
+var openfl = {}
+openfl.AssetLibrary = function() {
+};
+$hxClasses["openfl.AssetLibrary"] = openfl.AssetLibrary;
+openfl.AssetLibrary.__name__ = ["openfl","AssetLibrary"];
+openfl.AssetLibrary.prototype = {
+	loadSound: function(id,handler) {
+		handler(this.getSound(id));
+	}
+	,loadMusic: function(id,handler) {
+		handler(this.getMusic(id));
+	}
+	,loadMovieClip: function(id,handler) {
+		handler(this.getMovieClip(id));
+	}
+	,loadFont: function(id,handler) {
+		handler(this.getFont(id));
+	}
+	,loadBytes: function(id,handler) {
+		handler(this.getBytes(id));
+	}
+	,loadBitmapData: function(id,handler) {
+		handler(this.getBitmapData(id));
+	}
+	,load: function(handler) {
+		handler(this);
+	}
+	,isLocal: function(id,type) {
+		return true;
+	}
+	,getSound: function(id) {
+		return null;
+	}
+	,getPath: function(id) {
+		return null;
+	}
+	,getMusic: function(id) {
+		return this.getSound(id);
+	}
+	,getMovieClip: function(id) {
+		return null;
+	}
+	,getFont: function(id) {
+		return null;
+	}
+	,getBytes: function(id) {
+		return null;
+	}
+	,getBitmapData: function(id) {
+		return null;
+	}
+	,exists: function(id,type) {
+		return false;
+	}
+	,__class__: openfl.AssetLibrary
+}
+var DefaultAssetLibrary = function() {
+	openfl.AssetLibrary.call(this);
+	DefaultAssetLibrary.path.set("img/avatar.jpg","img/avatar.jpg");
+	var value = Reflect.field(openfl.AssetType,"image".toUpperCase());
+	DefaultAssetLibrary.type.set("img/avatar.jpg",value);
+};
+$hxClasses["DefaultAssetLibrary"] = DefaultAssetLibrary;
+DefaultAssetLibrary.__name__ = ["DefaultAssetLibrary"];
+DefaultAssetLibrary.__super__ = openfl.AssetLibrary;
+DefaultAssetLibrary.prototype = $extend(openfl.AssetLibrary.prototype,{
+	loadSound: function(id,handler) {
+		handler(this.getSound(id));
+	}
+	,loadMusic: function(id,handler) {
+		handler(this.getMusic(id));
+	}
+	,loadFont: function(id,handler) {
+		handler(this.getFont(id));
+	}
+	,loadBytes: function(id,handler) {
+		if(DefaultAssetLibrary.path.exists(id)) {
+			var loader = new flash.net.URLLoader();
+			loader.addEventListener(flash.events.Event.COMPLETE,function(event) {
+				var bytes = new flash.utils.ByteArray();
+				bytes.writeUTFBytes(event.currentTarget.data);
+				bytes.position = 0;
+				handler(bytes);
+			});
+			loader.load(new flash.net.URLRequest(DefaultAssetLibrary.path.get(id)));
+		} else handler(this.getBytes(id));
+	}
+	,loadBitmapData: function(id,handler) {
+		if(DefaultAssetLibrary.path.exists(id)) {
+			var loader = new flash.display.Loader();
+			loader.contentLoaderInfo.addEventListener(flash.events.Event.COMPLETE,function(event) {
+				handler((js.Boot.__cast(event.currentTarget.content , flash.display.Bitmap)).bitmapData);
+			});
+			loader.load(new flash.net.URLRequest(DefaultAssetLibrary.path.get(id)));
+		} else handler(this.getBitmapData(id));
+	}
+	,isLocal: function(id,type) {
+		return true;
+	}
+	,getSound: function(id) {
+		return new flash.media.Sound(new flash.net.URLRequest(DefaultAssetLibrary.path.get(id)));
+	}
+	,getPath: function(id) {
+		return DefaultAssetLibrary.path.get(id);
+	}
+	,getMusic: function(id) {
+		return new flash.media.Sound(new flash.net.URLRequest(DefaultAssetLibrary.path.get(id)));
+	}
+	,getFont: function(id) {
+		return js.Boot.__cast(Type.createInstance(DefaultAssetLibrary.className.get(id),[]) , flash.text.Font);
+	}
+	,getBytes: function(id) {
+		var bytes = null;
+		var data = ApplicationMain.urlLoaders.get(DefaultAssetLibrary.path.get(id)).data;
+		if(js.Boot.__instanceof(data,String)) {
+			bytes = new flash.utils.ByteArray();
+			bytes.writeUTFBytes(data);
+		} else if(js.Boot.__instanceof(data,flash.utils.ByteArray)) bytes = data; else bytes = null;
+		if(bytes != null) {
+			bytes.position = 0;
+			return bytes;
+		} else return null;
+	}
+	,getBitmapData: function(id) {
+		return (js.Boot.__cast(ApplicationMain.loaders.get(DefaultAssetLibrary.path.get(id)).contentLoaderInfo.content , flash.display.Bitmap)).bitmapData;
+	}
+	,exists: function(id,type) {
+		var assetType = DefaultAssetLibrary.type.get(id);
+		if(assetType != null) {
+			if(assetType == type || (type == openfl.AssetType.SOUND || type == openfl.AssetType.MUSIC) && (assetType == openfl.AssetType.MUSIC || assetType == openfl.AssetType.SOUND)) return true;
+			if(type == openfl.AssetType.BINARY || type == null) return true;
+		}
+		return false;
+	}
+	,__class__: DefaultAssetLibrary
+});
 var EReg = function(r,opt) {
 	opt = opt.split("u").join("");
 	this.r = new RegExp(r,opt);
@@ -1648,8 +1787,6 @@ com.pixodrome.ld28.App.prototype = $extend(flash.display.Sprite.prototype,{
 			var _g2 = this.quads[i];
 			_g2.set_rotation(_g2.get_rotation() + 0.1);
 		}
-		var lastQuad = this.quads.pop();
-		this.batch.remove(lastQuad);
 	}
 	,onEnterFrame: function(e) {
 		this.updateLogic();
@@ -1677,6 +1814,7 @@ com.pixodrome.ld28.Color.prototype = {
 }
 com.pixodrome.ld28.Mesh = function(vertices,texCoord,colors) {
 	this.vertexBuffer = openfl.gl.GL.createBuffer();
+	this.textCoordBuffer = openfl.gl.GL.createBuffer();
 	if(vertices == null) vertices = new Array();
 	this.vertices = vertices;
 	if(texCoord == null) texCoord = new Array();
@@ -1692,6 +1830,12 @@ com.pixodrome.ld28.Mesh.prototype = {
 		openfl.gl.GL.bindBuffer(34962,this.vertexBuffer);
 		openfl.gl.GL.bufferData(34962,new Float32Array(this.vertices),35048);
 		openfl.gl.GL.bindBuffer(34962,null);
+		openfl.gl.GL.bindBuffer(34962,this.textCoordBuffer);
+		openfl.gl.GL.bufferData(34962,new Float32Array(this.texCoord),35044);
+		openfl.gl.GL.bindBuffer(34962,null);
+	}
+	,getTextCoord: function() {
+		return this.textCoordBuffer;
 	}
 	,getBuffer: function() {
 		return this.vertexBuffer;
@@ -8828,6 +8972,15 @@ haxe.ds.StringMap.prototype = {
 		}
 		return HxOverrides.iter(a);
 	}
+	,remove: function(key) {
+		key = "$" + key;
+		if(!this.h.hasOwnProperty(key)) return false;
+		delete(this.h[key]);
+		return true;
+	}
+	,exists: function(key) {
+		return this.h.hasOwnProperty("$" + key);
+	}
 	,get: function(key) {
 		return this.h["$" + key];
 	}
@@ -9019,7 +9172,365 @@ js.Boot.__cast = function(o,t) {
 js.Browser = function() { }
 $hxClasses["js.Browser"] = js.Browser;
 js.Browser.__name__ = ["js","Browser"];
-var openfl = {}
+openfl.AssetCache = function() {
+	this.enabled = true;
+	this.bitmapData = new haxe.ds.StringMap();
+	this.font = new haxe.ds.StringMap();
+	this.sound = new haxe.ds.StringMap();
+};
+$hxClasses["openfl.AssetCache"] = openfl.AssetCache;
+openfl.AssetCache.__name__ = ["openfl","AssetCache"];
+openfl.AssetCache.prototype = {
+	clear: function() {
+		this.bitmapData = new haxe.ds.StringMap();
+		this.font = new haxe.ds.StringMap();
+		this.sound = new haxe.ds.StringMap();
+	}
+	,__class__: openfl.AssetCache
+}
+openfl.Assets = function() { }
+$hxClasses["openfl.Assets"] = openfl.Assets;
+openfl.Assets.__name__ = ["openfl","Assets"];
+openfl.Assets.exists = function(id,type) {
+	openfl.Assets.initialize();
+	if(type == null) type = openfl.AssetType.BINARY;
+	var libraryName = id.substring(0,id.indexOf(":"));
+	var symbolName = HxOverrides.substr(id,id.indexOf(":") + 1,null);
+	var library = openfl.Assets.getLibrary(libraryName);
+	if(library != null) return library.exists(symbolName,type);
+	return false;
+}
+openfl.Assets.getBitmapData = function(id,useCache) {
+	if(useCache == null) useCache = true;
+	openfl.Assets.initialize();
+	if(useCache && openfl.Assets.cache.enabled && openfl.Assets.cache.bitmapData.exists(id)) {
+		var bitmapData = openfl.Assets.cache.bitmapData.get(id);
+		if(openfl.Assets.isValidBitmapData(bitmapData)) return bitmapData;
+	}
+	var libraryName = id.substring(0,id.indexOf(":"));
+	var symbolName = HxOverrides.substr(id,id.indexOf(":") + 1,null);
+	var library = openfl.Assets.getLibrary(libraryName);
+	if(library != null) {
+		if(library.exists(symbolName,openfl.AssetType.IMAGE)) {
+			if(library.isLocal(symbolName,openfl.AssetType.IMAGE)) {
+				var bitmapData = library.getBitmapData(symbolName);
+				if(useCache && openfl.Assets.cache.enabled) openfl.Assets.cache.bitmapData.set(id,bitmapData);
+				return bitmapData;
+			} else console.log("[openfl.Assets] BitmapData asset \"" + id + "\" exists, but only asynchronously");
+		} else console.log("[openfl.Assets] There is no BitmapData asset with an ID of \"" + id + "\"");
+	} else console.log("[openfl.Assets] There is no asset library named \"" + libraryName + "\"");
+	return null;
+}
+openfl.Assets.getBytes = function(id) {
+	openfl.Assets.initialize();
+	var libraryName = id.substring(0,id.indexOf(":"));
+	var symbolName = HxOverrides.substr(id,id.indexOf(":") + 1,null);
+	var library = openfl.Assets.getLibrary(libraryName);
+	if(library != null) {
+		if(library.exists(symbolName,openfl.AssetType.BINARY)) {
+			if(library.isLocal(symbolName,openfl.AssetType.BINARY)) return library.getBytes(symbolName); else console.log("[openfl.Assets] String or ByteArray asset \"" + id + "\" exists, but only asynchronously");
+		} else console.log("[openfl.Assets] There is no String or ByteArray asset with an ID of \"" + id + "\"");
+	} else console.log("[openfl.Assets] There is no asset library named \"" + libraryName + "\"");
+	return null;
+}
+openfl.Assets.getFont = function(id,useCache) {
+	if(useCache == null) useCache = true;
+	openfl.Assets.initialize();
+	if(useCache && openfl.Assets.cache.enabled && openfl.Assets.cache.font.exists(id)) return openfl.Assets.cache.font.get(id);
+	var libraryName = id.substring(0,id.indexOf(":"));
+	var symbolName = HxOverrides.substr(id,id.indexOf(":") + 1,null);
+	var library = openfl.Assets.getLibrary(libraryName);
+	if(library != null) {
+		if(library.exists(symbolName,openfl.AssetType.FONT)) {
+			if(library.isLocal(symbolName,openfl.AssetType.FONT)) {
+				var font = library.getFont(symbolName);
+				if(useCache && openfl.Assets.cache.enabled) openfl.Assets.cache.font.set(id,font);
+				return font;
+			} else console.log("[openfl.Assets] Font asset \"" + id + "\" exists, but only asynchronously");
+		} else console.log("[openfl.Assets] There is no Font asset with an ID of \"" + id + "\"");
+	} else console.log("[openfl.Assets] There is no asset library named \"" + libraryName + "\"");
+	return null;
+}
+openfl.Assets.getLibrary = function(name) {
+	if(name == null || name == "") name = "default";
+	return openfl.Assets.libraries.get(name);
+}
+openfl.Assets.getMovieClip = function(id) {
+	openfl.Assets.initialize();
+	var libraryName = id.substring(0,id.indexOf(":"));
+	var symbolName = HxOverrides.substr(id,id.indexOf(":") + 1,null);
+	var library = openfl.Assets.getLibrary(libraryName);
+	if(library != null) {
+		if(library.exists(symbolName,openfl.AssetType.MOVIE_CLIP)) {
+			if(library.isLocal(symbolName,openfl.AssetType.MOVIE_CLIP)) return library.getMovieClip(symbolName); else console.log("[openfl.Assets] MovieClip asset \"" + id + "\" exists, but only asynchronously");
+		} else console.log("[openfl.Assets] There is no MovieClip asset with an ID of \"" + id + "\"");
+	} else console.log("[openfl.Assets] There is no asset library named \"" + libraryName + "\"");
+	return null;
+}
+openfl.Assets.getMusic = function(id,useCache) {
+	if(useCache == null) useCache = true;
+	openfl.Assets.initialize();
+	if(useCache && openfl.Assets.cache.enabled && openfl.Assets.cache.sound.exists(id)) return openfl.Assets.cache.sound.get(id);
+	var libraryName = id.substring(0,id.indexOf(":"));
+	var symbolName = HxOverrides.substr(id,id.indexOf(":") + 1,null);
+	var library = openfl.Assets.getLibrary(libraryName);
+	if(library != null) {
+		if(library.exists(symbolName,openfl.AssetType.MUSIC)) {
+			if(library.isLocal(symbolName,openfl.AssetType.MUSIC)) {
+				var sound = library.getMusic(symbolName);
+				if(useCache && openfl.Assets.cache.enabled) openfl.Assets.cache.sound.set(id,sound);
+				return sound;
+			} else console.log("[openfl.Assets] Sound asset \"" + id + "\" exists, but only asynchronously");
+		} else console.log("[openfl.Assets] There is no Sound asset with an ID of \"" + id + "\"");
+	} else console.log("[openfl.Assets] There is no asset library named \"" + libraryName + "\"");
+	return null;
+}
+openfl.Assets.getPath = function(id) {
+	openfl.Assets.initialize();
+	var libraryName = id.substring(0,id.indexOf(":"));
+	var symbolName = HxOverrides.substr(id,id.indexOf(":") + 1,null);
+	var library = openfl.Assets.getLibrary(libraryName);
+	if(library != null) {
+		if(library.exists(symbolName,null)) return library.getPath(symbolName); else console.log("[openfl.Assets] There is no asset with an ID of \"" + id + "\"");
+	} else console.log("[openfl.Assets] There is no asset library named \"" + libraryName + "\"");
+	return null;
+}
+openfl.Assets.getSound = function(id,useCache) {
+	if(useCache == null) useCache = true;
+	openfl.Assets.initialize();
+	if(useCache && openfl.Assets.cache.enabled && openfl.Assets.cache.sound.exists(id)) return openfl.Assets.cache.sound.get(id);
+	var libraryName = id.substring(0,id.indexOf(":"));
+	var symbolName = HxOverrides.substr(id,id.indexOf(":") + 1,null);
+	var library = openfl.Assets.getLibrary(libraryName);
+	if(library != null) {
+		if(library.exists(symbolName,openfl.AssetType.SOUND)) {
+			if(library.isLocal(symbolName,openfl.AssetType.SOUND)) {
+				var sound = library.getSound(symbolName);
+				if(useCache && openfl.Assets.cache.enabled) openfl.Assets.cache.sound.set(id,sound);
+				return sound;
+			} else console.log("[openfl.Assets] Sound asset \"" + id + "\" exists, but only asynchronously");
+		} else console.log("[openfl.Assets] There is no Sound asset with an ID of \"" + id + "\"");
+	} else console.log("[openfl.Assets] There is no asset library named \"" + libraryName + "\"");
+	return null;
+}
+openfl.Assets.getText = function(id) {
+	var bytes = openfl.Assets.getBytes(id);
+	if(bytes == null) return null; else return bytes.readUTFBytes(bytes.length);
+}
+openfl.Assets.initialize = function() {
+	if(!openfl.Assets.initialized) {
+		openfl.Assets.registerLibrary("default",new DefaultAssetLibrary());
+		openfl.Assets.initialized = true;
+	}
+}
+openfl.Assets.isLocal = function(id,type,useCache) {
+	if(useCache == null) useCache = true;
+	openfl.Assets.initialize();
+	if(useCache && openfl.Assets.cache.enabled) {
+		if(type == openfl.AssetType.IMAGE || type == null) {
+			if(openfl.Assets.cache.bitmapData.exists(id)) return true;
+		}
+		if(type == openfl.AssetType.FONT || type == null) {
+			if(openfl.Assets.cache.font.exists(id)) return true;
+		}
+		if(type == openfl.AssetType.SOUND || type == openfl.AssetType.MUSIC || type == null) {
+			if(openfl.Assets.cache.sound.exists(id)) return true;
+		}
+	}
+	var libraryName = id.substring(0,id.indexOf(":"));
+	var symbolName = HxOverrides.substr(id,id.indexOf(":") + 1,null);
+	var library = openfl.Assets.getLibrary(libraryName);
+	if(library != null) return library.isLocal(symbolName,type);
+	return false;
+}
+openfl.Assets.isValidBitmapData = function(bitmapData) {
+	return true;
+}
+openfl.Assets.loadBitmapData = function(id,handler,useCache) {
+	if(useCache == null) useCache = true;
+	openfl.Assets.initialize();
+	if(useCache && openfl.Assets.cache.enabled && openfl.Assets.cache.bitmapData.exists(id)) {
+		var bitmapData = openfl.Assets.cache.bitmapData.get(id);
+		if(openfl.Assets.isValidBitmapData(bitmapData)) {
+			handler(bitmapData);
+			return;
+		}
+	}
+	var libraryName = id.substring(0,id.indexOf(":"));
+	var symbolName = HxOverrides.substr(id,id.indexOf(":") + 1,null);
+	var library = openfl.Assets.getLibrary(libraryName);
+	if(library != null) {
+		if(library.exists(symbolName,openfl.AssetType.IMAGE)) {
+			if(useCache && openfl.Assets.cache.enabled) library.loadBitmapData(symbolName,function(bitmapData) {
+				openfl.Assets.cache.bitmapData.set(id,bitmapData);
+				handler(bitmapData);
+			}); else library.loadBitmapData(symbolName,handler);
+			return;
+		} else console.log("[openfl.Assets] There is no BitmapData asset with an ID of \"" + id + "\"");
+	} else console.log("[openfl.Assets] There is no asset library named \"" + libraryName + "\"");
+	handler(null);
+}
+openfl.Assets.loadBytes = function(id,handler) {
+	openfl.Assets.initialize();
+	var libraryName = id.substring(0,id.indexOf(":"));
+	var symbolName = HxOverrides.substr(id,id.indexOf(":") + 1,null);
+	var library = openfl.Assets.getLibrary(libraryName);
+	if(library != null) {
+		if(library.exists(symbolName,openfl.AssetType.BINARY)) {
+			library.loadBytes(symbolName,handler);
+			return;
+		} else console.log("[openfl.Assets] There is no String or ByteArray asset with an ID of \"" + id + "\"");
+	} else console.log("[openfl.Assets] There is no asset library named \"" + libraryName + "\"");
+	handler(null);
+}
+openfl.Assets.loadFont = function(id,handler,useCache) {
+	if(useCache == null) useCache = true;
+	openfl.Assets.initialize();
+	if(useCache && openfl.Assets.cache.enabled && openfl.Assets.cache.font.exists(id)) {
+		handler(openfl.Assets.cache.font.get(id));
+		return;
+	}
+	var libraryName = id.substring(0,id.indexOf(":"));
+	var symbolName = HxOverrides.substr(id,id.indexOf(":") + 1,null);
+	var library = openfl.Assets.getLibrary(libraryName);
+	if(library != null) {
+		if(library.exists(symbolName,openfl.AssetType.FONT)) {
+			if(useCache && openfl.Assets.cache.enabled) library.loadFont(symbolName,function(font) {
+				openfl.Assets.cache.font.set(id,font);
+				handler(font);
+			}); else library.loadFont(symbolName,handler);
+			return;
+		} else console.log("[openfl.Assets] There is no Font asset with an ID of \"" + id + "\"");
+	} else console.log("[openfl.Assets] There is no asset library named \"" + libraryName + "\"");
+	handler(null);
+}
+openfl.Assets.loadLibrary = function(name,handler) {
+	openfl.Assets.initialize();
+	var data = openfl.Assets.getText("libraries/" + name + ".dat");
+	if(data != null && data != "") {
+		var unserializer = new haxe.Unserializer(data);
+		unserializer.setResolver({ resolveEnum : openfl.Assets.resolveEnum, resolveClass : openfl.Assets.resolveClass});
+		var library = unserializer.unserialize();
+		openfl.Assets.libraries.set(name,library);
+		library.load(handler);
+	} else console.log("[openfl.Assets] There is no asset library named \"" + name + "\"");
+}
+openfl.Assets.loadMusic = function(id,handler,useCache) {
+	if(useCache == null) useCache = true;
+	openfl.Assets.initialize();
+	if(useCache && openfl.Assets.cache.enabled && openfl.Assets.cache.sound.exists(id)) {
+		handler(openfl.Assets.cache.sound.get(id));
+		return;
+	}
+	var libraryName = id.substring(0,id.indexOf(":"));
+	var symbolName = HxOverrides.substr(id,id.indexOf(":") + 1,null);
+	var library = openfl.Assets.getLibrary(libraryName);
+	if(library != null) {
+		if(library.exists(symbolName,openfl.AssetType.MUSIC)) {
+			if(useCache && openfl.Assets.cache.enabled) library.loadMusic(symbolName,function(sound) {
+				openfl.Assets.cache.sound.set(id,sound);
+				handler(sound);
+			}); else library.loadMusic(symbolName,handler);
+			return;
+		} else console.log("[openfl.Assets] There is no Sound asset with an ID of \"" + id + "\"");
+	} else console.log("[openfl.Assets] There is no asset library named \"" + libraryName + "\"");
+	handler(null);
+}
+openfl.Assets.loadMovieClip = function(id,handler) {
+	openfl.Assets.initialize();
+	var libraryName = id.substring(0,id.indexOf(":"));
+	var symbolName = HxOverrides.substr(id,id.indexOf(":") + 1,null);
+	var library = openfl.Assets.getLibrary(libraryName);
+	if(library != null) {
+		if(library.exists(symbolName,openfl.AssetType.MOVIE_CLIP)) {
+			library.loadMovieClip(symbolName,handler);
+			return;
+		} else console.log("[openfl.Assets] There is no MovieClip asset with an ID of \"" + id + "\"");
+	} else console.log("[openfl.Assets] There is no asset library named \"" + libraryName + "\"");
+	handler(null);
+}
+openfl.Assets.loadSound = function(id,handler,useCache) {
+	if(useCache == null) useCache = true;
+	openfl.Assets.initialize();
+	if(useCache && openfl.Assets.cache.enabled && openfl.Assets.cache.sound.exists(id)) {
+		handler(openfl.Assets.cache.sound.get(id));
+		return;
+	}
+	var libraryName = id.substring(0,id.indexOf(":"));
+	var symbolName = HxOverrides.substr(id,id.indexOf(":") + 1,null);
+	var library = openfl.Assets.getLibrary(libraryName);
+	if(library != null) {
+		if(library.exists(symbolName,openfl.AssetType.SOUND)) {
+			if(useCache && openfl.Assets.cache.enabled) library.loadSound(symbolName,function(sound) {
+				openfl.Assets.cache.sound.set(id,sound);
+				handler(sound);
+			}); else library.loadSound(symbolName,handler);
+			return;
+		} else console.log("[openfl.Assets] There is no Sound asset with an ID of \"" + id + "\"");
+	} else console.log("[openfl.Assets] There is no asset library named \"" + libraryName + "\"");
+	handler(null);
+}
+openfl.Assets.loadText = function(id,handler) {
+	openfl.Assets.initialize();
+	var callback = function(bytes) {
+		if(bytes == null) handler(null); else handler(bytes.readUTFBytes(bytes.length));
+	};
+	openfl.Assets.loadBytes(id,callback);
+}
+openfl.Assets.registerLibrary = function(name,library) {
+	if(openfl.Assets.libraries.exists(name)) openfl.Assets.unloadLibrary(name);
+	openfl.Assets.libraries.set(name,library);
+}
+openfl.Assets.resolveClass = function(name) {
+	return Type.resolveClass(name);
+}
+openfl.Assets.resolveEnum = function(name) {
+	var value = Type.resolveEnum(name);
+	return value;
+}
+openfl.Assets.unloadLibrary = function(name) {
+	openfl.Assets.initialize();
+	var keys = openfl.Assets.cache.bitmapData.keys();
+	while( keys.hasNext() ) {
+		var key = keys.next();
+		var libraryName = key.substring(0,key.indexOf(":"));
+		var symbolName = HxOverrides.substr(key,key.indexOf(":") + 1,null);
+		if(libraryName == name) openfl.Assets.cache.bitmapData.remove(key);
+	}
+	openfl.Assets.libraries.remove(name);
+}
+openfl.AssetData = function() {
+};
+$hxClasses["openfl.AssetData"] = openfl.AssetData;
+openfl.AssetData.__name__ = ["openfl","AssetData"];
+openfl.AssetData.prototype = {
+	__class__: openfl.AssetData
+}
+openfl.AssetType = $hxClasses["openfl.AssetType"] = { __ename__ : true, __constructs__ : ["BINARY","FONT","IMAGE","MOVIE_CLIP","MUSIC","SOUND","TEMPLATE","TEXT"] }
+openfl.AssetType.BINARY = ["BINARY",0];
+openfl.AssetType.BINARY.toString = $estr;
+openfl.AssetType.BINARY.__enum__ = openfl.AssetType;
+openfl.AssetType.FONT = ["FONT",1];
+openfl.AssetType.FONT.toString = $estr;
+openfl.AssetType.FONT.__enum__ = openfl.AssetType;
+openfl.AssetType.IMAGE = ["IMAGE",2];
+openfl.AssetType.IMAGE.toString = $estr;
+openfl.AssetType.IMAGE.__enum__ = openfl.AssetType;
+openfl.AssetType.MOVIE_CLIP = ["MOVIE_CLIP",3];
+openfl.AssetType.MOVIE_CLIP.toString = $estr;
+openfl.AssetType.MOVIE_CLIP.__enum__ = openfl.AssetType;
+openfl.AssetType.MUSIC = ["MUSIC",4];
+openfl.AssetType.MUSIC.toString = $estr;
+openfl.AssetType.MUSIC.__enum__ = openfl.AssetType;
+openfl.AssetType.SOUND = ["SOUND",5];
+openfl.AssetType.SOUND.toString = $estr;
+openfl.AssetType.SOUND.__enum__ = openfl.AssetType;
+openfl.AssetType.TEMPLATE = ["TEMPLATE",6];
+openfl.AssetType.TEMPLATE.toString = $estr;
+openfl.AssetType.TEMPLATE.__enum__ = openfl.AssetType;
+openfl.AssetType.TEXT = ["TEXT",7];
+openfl.AssetType.TEXT.toString = $estr;
+openfl.AssetType.TEXT.__enum__ = openfl.AssetType;
 openfl.display = {}
 openfl.display.DirectRenderer = function(inType) {
 	if(inType == null) inType = "DirectRenderer";
@@ -9584,7 +10095,9 @@ src.com.pixodrome.ld28.Renderer = function() {
 	this.view = new openfl.display.OpenGLView();
 	this.view.set_render($bind(this,this.render));
 	this.angle = 0;
+	this.bitmapData = openfl.Assets.getBitmapData("img/avatar.jpg");
 	this.initShaders();
+	this.createTexture();
 };
 $hxClasses["src.com.pixodrome.ld28.Renderer"] = src.com.pixodrome.ld28.Renderer;
 src.com.pixodrome.ld28.Renderer.__name__ = ["src","com","pixodrome","ld28","Renderer"];
@@ -9592,14 +10105,19 @@ src.com.pixodrome.ld28.Renderer.prototype = {
 	draw: function(mesh) {
 		openfl.gl.GL.bindBuffer(34962,mesh.getBuffer());
 		openfl.gl.GL.vertexAttribPointer(this.vertexPosAttribute,3,5126,false,0,0);
+		openfl.gl.GL.bindBuffer(34962,mesh.getTextCoord());
+		openfl.gl.GL.vertexAttribPointer(this.texCoordAttribute,2,5126,false,0,0);
 		var projectionMatrix = flash.geom.Matrix3D.createOrtho(0,800,480,0,1000,-1000);
 		var modelViewMatrix = flash.geom.Matrix3D.create2D(0,0,1,this.angle);
 		var projectionMatrixUniform = openfl.gl.GL.getUniformLocation(this.shaderProgram,"projectionMatrix");
 		var modelViewMatrixUniform = openfl.gl.GL.getUniformLocation(this.shaderProgram,"modelViewMatrix");
 		openfl.gl.GL.uniformMatrix3D(projectionMatrixUniform,false,projectionMatrix);
 		openfl.gl.GL.uniformMatrix3D(modelViewMatrixUniform,false,modelViewMatrix);
+		openfl.gl.GL.uniform1i(this.imageUniform,0);
 		openfl.gl.GL.drawArrays(4,0,mesh.vertices.length / 3);
 		openfl.gl.GL.bindBuffer(34962,null);
+		openfl.gl.GL.disable(3553);
+		openfl.gl.GL.bindTexture(3553,null);
 	}
 	,render: function(viewport) {
 		openfl.gl.GL.viewport(viewport.x | 0,viewport.y | 0,viewport.width | 0,viewport.height | 0);
@@ -9607,24 +10125,37 @@ src.com.pixodrome.ld28.Renderer.prototype = {
 		openfl.gl.GL.clear(16640);
 		openfl.gl.GL.useProgram(this.shaderProgram);
 		openfl.gl.GL.enableVertexAttribArray(this.vertexPosAttribute);
+		openfl.gl.GL.enableVertexAttribArray(this.texCoordAttribute);
+		openfl.gl.GL.activeTexture(33984);
+		openfl.gl.GL.bindTexture(3553,this.texture);
+		openfl.gl.GL.enable(3553);
 		var _g1 = 0, _g = this.meshes.length;
 		while(_g1 < _g) {
 			var i = _g1++;
 			this.draw(this.meshes[i]);
 		}
 		openfl.gl.GL.disableVertexAttribArray(this.vertexPosAttribute);
+		openfl.gl.GL.disableVertexAttribArray(this.texCoordAttribute);
 		openfl.gl.GL.useProgram(null);
+	}
+	,createTexture: function() {
+		this.texture = openfl.gl.GL.createTexture();
+		openfl.gl.GL.bindTexture(3553,this.texture);
+		openfl.gl.GL.texImage2D(3553,0,6408,this.bitmapData.get_width(),this.bitmapData.get_height(),0,6408,5121,new Uint8Array(this.bitmapData.getPixels(this.bitmapData.rect)));
+		openfl.gl.GL.texParameteri(3553,10240,9729);
+		openfl.gl.GL.texParameteri(3553,10241,9729);
+		openfl.gl.GL.bindTexture(3553,null);
 	}
 	,createFragmentShader: function() {
 		var fragmentShader = openfl.gl.GL.createShader(35632);
-		openfl.gl.GL.shaderSource(fragmentShader,"\r\n\t\tvoid main(void) {\r\n\t\t\tgl_FragColor = vec4(1.0,0.0,0.0,1.0);\r\n\t\t}\r\n\t");
+		openfl.gl.GL.shaderSource(fragmentShader,"\r\n\t\tvarying vec2 vTexCoord;\r\n        uniform sampler2D uImage0;\r\n                        \r\n        void main(void)\r\n        {\r\n            gl_FragColor = texture2D (uImage0, vTexCoord).gbar;\r\n        }\r\n\t");
 		openfl.gl.GL.compileShader(fragmentShader);
 		if(openfl.gl.GL.getShaderParameter(fragmentShader,35713) == 0) throw "Error compiling fragment shader";
 		return fragmentShader;
 	}
 	,createVertexShader: function() {
 		var vertexShader = openfl.gl.GL.createShader(35633);
-		openfl.gl.GL.shaderSource(vertexShader,"\r\n\t\tattribute vec3 vertexPosition;\r\n\t\tattribute vec4 vertexColor;\r\n\t\t\t\r\n\t\tuniform mat4 modelViewMatrix;\r\n\t\tuniform mat4 projectionMatrix;\r\n\t\t\t\r\n\t\tvoid main(void) {\r\n\t\t\tgl_Position = projectionMatrix * modelViewMatrix * vec4(vertexPosition, 1.0);\r\n\t\t}\r\n\t");
+		openfl.gl.GL.shaderSource(vertexShader,"\r\n\t\tattribute vec3 vertexPosition;\r\n\t\tattribute vec4 vertexColor;\r\n\t\t\r\n\t\tattribute vec2 aTexCoord;\r\n        \r\n\t\tvarying vec2 vTexCoord;\r\n\t\t\t\r\n\t\tuniform mat4 modelViewMatrix;\r\n\t\tuniform mat4 projectionMatrix;\r\n\t\t\t\r\n\t\tvoid main(void) {\r\n\t\t\tvTexCoord = aTexCoord;\r\n\t\t\tgl_Position = projectionMatrix * modelViewMatrix * vec4(vertexPosition, 1.0);\r\n\t\t}\r\n\t");
 		openfl.gl.GL.compileShader(vertexShader);
 		if(openfl.gl.GL.getShaderParameter(vertexShader,35713) == 0) throw "Error compiling vertex shader";
 		return vertexShader;
@@ -9638,6 +10169,8 @@ src.com.pixodrome.ld28.Renderer.prototype = {
 		openfl.gl.GL.linkProgram(this.shaderProgram);
 		if(openfl.gl.GL.getProgramParameter(this.shaderProgram,35714) == 0) throw "Unable to initialize the shader program.";
 		this.vertexPosAttribute = openfl.gl.GL.getAttribLocation(this.shaderProgram,"vertexPosition");
+		this.texCoordAttribute = openfl.gl.GL.getAttribLocation(this.shaderProgram,"aTexCoord");
+		this.imageUniform = openfl.gl.GL.getUniformLocation(this.shaderProgram,"uImage0");
 	}
 	,addMesh: function(mesh) {
 		this.meshes.push(mesh);
@@ -9687,6 +10220,9 @@ flash.display.DisplayObject.TRANSFORM_INVALID = 32;
 flash.display.DisplayObject.BOUNDS_INVALID = 64;
 flash.display.DisplayObject.RENDER_VALIDATE_IN_PROGRESS = 1024;
 flash.display.DisplayObject.ALL_RENDER_FLAGS = 98;
+DefaultAssetLibrary.className = new haxe.ds.StringMap();
+DefaultAssetLibrary.path = new haxe.ds.StringMap();
+DefaultAssetLibrary.type = new haxe.ds.StringMap();
 flash.Lib.HTML_ACCELEROMETER_EVENT_TYPE = "devicemotion";
 flash.Lib.HTML_ORIENTATION_EVENT_TYPE = "orientationchange";
 flash.Lib.DEFAULT_HEIGHT = 500;
@@ -10090,6 +10626,9 @@ haxe.Unserializer.BASE64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz
 haxe.ds.ObjectMap.count = 0;
 js.Browser.window = typeof window != "undefined" ? window : null;
 js.Browser.document = typeof window != "undefined" ? window.document : null;
+openfl.Assets.cache = new openfl.AssetCache();
+openfl.Assets.libraries = new haxe.ds.StringMap();
+openfl.Assets.initialized = false;
 openfl.display.OpenGLView.CONTEXT_LOST = "glcontextlost";
 openfl.display.OpenGLView.CONTEXT_RESTORED = "glcontextrestored";
 openfl.display.Tilesheet.TILE_SCALE = 1;
@@ -10398,7 +10937,7 @@ openfl.gl.GL.UNPACK_PREMULTIPLY_ALPHA_WEBGL = 37441;
 openfl.gl.GL.CONTEXT_LOST_WEBGL = 37442;
 openfl.gl.GL.UNPACK_COLORSPACE_CONVERSION_WEBGL = 37443;
 openfl.gl.GL.BROWSER_DEFAULT_WEBGL = 37444;
-src.com.pixodrome.ld28.Renderer.vertexShaderSource = "\r\n\t\tattribute vec3 vertexPosition;\r\n\t\tattribute vec4 vertexColor;\r\n\t\t\t\r\n\t\tuniform mat4 modelViewMatrix;\r\n\t\tuniform mat4 projectionMatrix;\r\n\t\t\t\r\n\t\tvoid main(void) {\r\n\t\t\tgl_Position = projectionMatrix * modelViewMatrix * vec4(vertexPosition, 1.0);\r\n\t\t}\r\n\t";
-src.com.pixodrome.ld28.Renderer.fragmentShaderSource = "\r\n\t\tvoid main(void) {\r\n\t\t\tgl_FragColor = vec4(1.0,0.0,0.0,1.0);\r\n\t\t}\r\n\t";
+src.com.pixodrome.ld28.Renderer.vertexShaderSource = "\r\n\t\tattribute vec3 vertexPosition;\r\n\t\tattribute vec4 vertexColor;\r\n\t\t\r\n\t\tattribute vec2 aTexCoord;\r\n        \r\n\t\tvarying vec2 vTexCoord;\r\n\t\t\t\r\n\t\tuniform mat4 modelViewMatrix;\r\n\t\tuniform mat4 projectionMatrix;\r\n\t\t\t\r\n\t\tvoid main(void) {\r\n\t\t\tvTexCoord = aTexCoord;\r\n\t\t\tgl_Position = projectionMatrix * modelViewMatrix * vec4(vertexPosition, 1.0);\r\n\t\t}\r\n\t";
+src.com.pixodrome.ld28.Renderer.fragmentShaderSource = "\r\n\t\tvarying vec2 vTexCoord;\r\n        uniform sampler2D uImage0;\r\n                        \r\n        void main(void)\r\n        {\r\n            gl_FragColor = texture2D (uImage0, vTexCoord).gbar;\r\n        }\r\n\t";
 ApplicationMain.main();
 })();

@@ -14,10 +14,12 @@ class Mesh
 	public var colors : Array<Float>;
 	
 	var vertexBuffer : GLBuffer;
+	var textCoordBuffer:GLBuffer;
 
 	public function new(vertices : Array<Float> = null, texCoord : Array<Float> = null, colors : Array<Float> = null) 
 	{
 		vertexBuffer = GL.createBuffer();
+		textCoordBuffer = GL.createBuffer();
 		
 		if (vertices == null)
 			vertices = new Array<Float>();
@@ -39,10 +41,19 @@ class Mesh
 		return this.vertexBuffer;
 	}
 	
+	public function getTextCoord() : GLBuffer
+	{
+		return this.textCoordBuffer;
+	}
+	
 	function updateBuffer() : Void
 	{
 		GL.bindBuffer(GL.ARRAY_BUFFER, vertexBuffer);
 		GL.bufferData(GL.ARRAY_BUFFER, new Float32Array(cast vertices), GL.DYNAMIC_DRAW);
+		GL.bindBuffer(GL.ARRAY_BUFFER, null);
+		
+		GL.bindBuffer(GL.ARRAY_BUFFER, textCoordBuffer);
+		GL.bufferData(GL.ARRAY_BUFFER, new Float32Array(cast texCoord), GL.STATIC_DRAW);
 		GL.bindBuffer(GL.ARRAY_BUFFER, null);
 	}
 }

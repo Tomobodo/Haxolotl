@@ -85,9 +85,6 @@ class App extends Sprite
 	{
 		for (i in 0 ... quads.length)
 			quads[i].rotation += 0.1;
-			
-		var lastQuad : Quad = quads.pop();
-		batch.remove(lastQuad);
 	}
 	
 	function initRenderer():Void 
