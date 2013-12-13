@@ -1935,7 +1935,9 @@ com.pixodrome.ld28.meshes.SpriteBatch.prototype = $extend(com.pixodrome.ld28.Mes
 			var quad = this.quadList[i];
 			if(quad.needUpdate) quad.update();
 			var quadPoints = [quad.points[0].x,quad.points[0].y,0,quad.points[1].x,quad.points[1].y,0,quad.points[2].x,quad.points[2].y,0,quad.points[3].x,quad.points[3].y,0,quad.points[4].x,quad.points[4].y,0,quad.points[5].x,quad.points[5].y,0];
+			var quadCoord = [0,0,1,0,1,1,1,1,0,1,0,0];
 			this.vertices = this.vertices.concat(quadPoints);
+			this.texCoord = this.texCoord.concat(quadCoord);
 		}
 		this.updateBuffer();
 	}
@@ -10092,17 +10094,20 @@ src.com.pixodrome = {}
 src.com.pixodrome.ld28 = {}
 src.com.pixodrome.ld28.Renderer = function() {
 	this.meshes = new Array();
+	this.bitmapData = openfl.Assets.getBitmapData("img/avatar.jpg");
 	this.view = new openfl.display.OpenGLView();
+	this.createTexture();
+	this.initShaders();
 	this.view.set_render($bind(this,this.render));
 	this.angle = 0;
-	this.bitmapData = openfl.Assets.getBitmapData("img/avatar.jpg");
-	this.initShaders();
-	this.createTexture();
 };
 $hxClasses["src.com.pixodrome.ld28.Renderer"] = src.com.pixodrome.ld28.Renderer;
 src.com.pixodrome.ld28.Renderer.__name__ = ["src","com","pixodrome","ld28","Renderer"];
 src.com.pixodrome.ld28.Renderer.prototype = {
 	draw: function(mesh) {
+		openfl.gl.GL.activeTexture(33984);
+		openfl.gl.GL.bindTexture(3553,this.texture);
+		openfl.gl.GL.enable(3553);
 		openfl.gl.GL.bindBuffer(34962,mesh.getBuffer());
 		openfl.gl.GL.vertexAttribPointer(this.vertexPosAttribute,3,5126,false,0,0);
 		openfl.gl.GL.bindBuffer(34962,mesh.getTextCoord());
@@ -10126,9 +10131,6 @@ src.com.pixodrome.ld28.Renderer.prototype = {
 		openfl.gl.GL.useProgram(this.shaderProgram);
 		openfl.gl.GL.enableVertexAttribArray(this.vertexPosAttribute);
 		openfl.gl.GL.enableVertexAttribArray(this.texCoordAttribute);
-		openfl.gl.GL.activeTexture(33984);
-		openfl.gl.GL.bindTexture(3553,this.texture);
-		openfl.gl.GL.enable(3553);
 		var _g1 = 0, _g = this.meshes.length;
 		while(_g1 < _g) {
 			var i = _g1++;
@@ -10141,7 +10143,16 @@ src.com.pixodrome.ld28.Renderer.prototype = {
 	,createTexture: function() {
 		this.texture = openfl.gl.GL.createTexture();
 		openfl.gl.GL.bindTexture(3553,this.texture);
-		openfl.gl.GL.texImage2D(3553,0,6408,this.bitmapData.get_width(),this.bitmapData.get_height(),0,6408,5121,new Uint8Array(this.bitmapData.getPixels(this.bitmapData.rect)));
+		var pixels = this.bitmapData.getPixels(this.bitmapData.rect);
+		pixels.position = 0;
+		var array = new Array();
+		var _g1 = 0, _g = pixels.length;
+		while(_g1 < _g) {
+			var i = _g1++;
+			array.push(pixels.readUnsignedByte());
+		}
+		console.log(array.length);
+		openfl.gl.GL.texImage2D(3553,0,6408,this.bitmapData.get_width(),this.bitmapData.get_height(),0,6408,5121,new Uint8Array(array));
 		openfl.gl.GL.texParameteri(3553,10240,9729);
 		openfl.gl.GL.texParameteri(3553,10241,9729);
 		openfl.gl.GL.bindTexture(3553,null);

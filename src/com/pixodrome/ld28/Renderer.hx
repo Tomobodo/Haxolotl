@@ -5,6 +5,7 @@ import flash.display.BitmapData;
 import flash.geom.Rectangle;
 import flash.geom.Vector3D;
 import flash.Lib;
+import flash.utils.ByteArray;
 import openfl.Assets;
 import openfl.display.OpenGLView;
 import openfl.gl.GL;
@@ -73,16 +74,18 @@ class Renderer
 	public function new() 
 	{
 		meshes = new Array<Mesh>();
+		
+		bitmapData = Assets.getBitmapData("img/avatar.jpg");
 
 		view = new OpenGLView();
+		
+		createTexture();
+		
+		initShaders();
+		
 		view.render = render;
 		
 		angle = 0;
-		
-		bitmapData = Assets.getBitmapData("img/avatar.jpg");
-		
-		initShaders();
-		createTexture();
 	}
 	
 	public function addMesh(mesh : Mesh) : Void
@@ -145,7 +148,24 @@ class Renderer
 	{
 		texture = GL.createTexture();
 		GL.bindTexture(GL.TEXTURE_2D, texture);
-		GL.texImage2D(GL.TEXTURE_2D, 0, GL.RGBA, bitmapData.width, bitmapData.height, 0, GL.RGBA, GL.UNSIGNED_BYTE, new UInt8Array(bitmapData.getPixels(bitmapData.rect)));
+		
+		var pixels : ByteArray = bitmapData.getPixels(bitmapData.rect);
+		
+		pixels.position = 0;
+		
+		var array = new Array<UInt>();
+		
+		//for (i in 0 ... pixels.length)
+			//array.push(pixels.readUnsignedByte());.
+		
+		var max : UInt = 8 * 8 * 4;
+			
+		for (i in 0 ... max)
+			array.push(cast (Math.random() * 0xff));
+		
+		trace(array.length);
+		
+		GL.texImage2D(GL.TEXTURE_2D, 0, GL.RGBA, bitmapData.width, bitmapData.height, 0, GL.RGBA, GL.UNSIGNED_BYTE, new UInt8Array(array));
 		GL.texParameteri (GL.TEXTURE_2D, GL.TEXTURE_MAG_FILTER, GL.LINEAR);
         GL.texParameteri (GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.LINEAR);
         GL.bindTexture (GL.TEXTURE_2D, null);
