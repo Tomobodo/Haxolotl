@@ -12,7 +12,7 @@ class Color
 	public var b : Float;
 	public var a : Float;
 	
-	public function new(color : UInt, alpha : Float) 
+	public function new(color : UInt, alpha : Float = 1) 
 	{
 		var rMask : UInt = (0xff0000 & color) >> 16;
 		var gMask : UInt = (0xff00 & color) >> 8;

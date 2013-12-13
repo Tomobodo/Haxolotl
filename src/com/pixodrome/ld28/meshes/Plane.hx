@@ -1,6 +1,7 @@
 package com.pixodrome.ld28.meshes;
 
 import com.pixodrome.ld28.Mesh;
+import com.pixodrome.ld28.Color;
 
 /**
  * ...
@@ -9,13 +10,18 @@ import com.pixodrome.ld28.Mesh;
 class Plane extends Mesh
 {
 
-	public function new(color : Color) 
+	public function new(width : Float, height : Float, color : UInt = 0xffffff) 
 	{
+		var col : Color = new Color(color);
+		
+		var dWidth = width / 2;
+		var dHeight = height / 2;
+		
 		var vertices = [
-			100.0, 100.0, 0.0,
-			-100.0, 100.0, 0.0,
-			100.0, -100.0, 0.0,
-			-100.0, -100.0, 0.0
+			dWidth, dHeight, 0.0,
+			-dWidth, dHeight, 0.0,
+			dWidth, -dHeight, 0.0,
+			-dWidth, -dHeight, 0.0
 		];
 		
 		var texCoords = [
@@ -26,10 +32,10 @@ class Plane extends Mesh
 		];
 		
 		var colors = [
-			color.r, color.g, color.b, color.a,
-			color.r, color.g, color.b, color.a,
-			color.r, color.g, color.b, color.a,
-			color.r, color.g, color.b, color.a
+			col.r, col.g, col.b, col.a,
+			col.r, col.g, col.b, col.a,
+			col.r, col.g, col.b, col.a,
+			col.r, col.g, col.b, col.a
 		];
 		
 		super(vertices, texCoords, colors);

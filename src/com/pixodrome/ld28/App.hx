@@ -1,5 +1,6 @@
 package com.pixodrome.ld28;
 import com.pixodrome.ld28.meshes.Plane;
+import com.pixodrome.ld28.meshes.SpriteBatch;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.geom.Matrix3D;
@@ -10,6 +11,7 @@ import openfl.gl.GLBuffer;
 import openfl.gl.GLProgram;
 import openfl.gl.GLShader;
 import openfl.utils.Float32Array;
+import src.com.pixodrome.ld28.Renderer;
 
 /**
  * ...
@@ -19,11 +21,15 @@ class App extends Sprite
 {
 	
 	var glRender : OpenGLView;
+	
+	var renderer : Renderer;
+	
 	var shaderProgram:GLProgram;
 	var vertexPosAttribute : Int;
 	
 	var meshes : Array<Mesh>;
 	var vertexBuffer:GLBuffer;
+	var quad:com.pixodrome.ld28.Quad;
 
 	public function new() 
 	{
@@ -36,9 +42,13 @@ class App extends Sprite
 		
 		initRenderer();
 		
-		meshes = new Array<Mesh>();
+		var batch = new SpriteBatch();
 		
-		add(new Plane(new Color(0xff3355,0.2)));
+		quad = new Quad(20, 20, 0xffffff);
+		
+		batch.add(quad);
+		
+		renderer.addMesh(batch);
 		
 		addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 	}
@@ -48,17 +58,7 @@ class App extends Sprite
 		removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		stage.addEventListener(Event.ENTER_FRAME, onEnterFrame);
 	}
-	
-	function add(mesh : Mesh) : Void
-	{
-		meshes.push(mesh);
 		
-		vertexBuffer = GL.createBuffer ();
-		GL.bindBuffer (GL.ARRAY_BUFFER, vertexBuffer);	
-		GL.bufferData (GL.ARRAY_BUFFER, new Float32Array (cast mesh.vertices), GL.STATIC_DRAW);
-		GL.bindBuffer (GL.ARRAY_BUFFER, null);
-	}
-	
 	function onEnterFrame(e:Event):Void 
 	{
 		this.updateLogic();
@@ -66,118 +66,16 @@ class App extends Sprite
 	
 	function updateLogic() 
 	{
-		
-	}
-
-	// auto updated by openfl
-	function render(viewport : Rectangle) : Void
-	{
-		GL.viewport (Std.int (viewport.x), Std.int (viewport.y), Std.int (viewport.width), Std.int (viewport.height));
-		
-		GL.clearColor (8 >> 8, 146 >> 8, 208 >> 8, 1);
-		GL.clear (GL.COLOR_BUFFER_BIT);
-		
-		var positionX = viewport.width / 2;
-		var positionY = viewport.height / 2;
-		
-		var projectionMatrix = Matrix3D.createOrtho (0, viewport.width, viewport.height, 0, 1000, -1000);
-		var modelViewMatrix = Matrix3D.create2D (positionX, positionY, 1, 0);
-		
-		GL.useProgram(shaderProgram);
-		GL.enableVertexAttribArray(vertexPosAttribute);
-	
-		GL.bindBuffer (GL.ARRAY_BUFFER, vertexBuffer);
-		GL.vertexAttribPointer (vertexPosAttribute, 3, GL.FLOAT, false, 0, 0);
-		
-		var projectionMatrixUniform = GL.getUniformLocation (shaderProgram, "projectionMatrix");
-		var modelViewMatrixUniform = GL.getUniformLocation (shaderProgram, "modelViewMatrix");
-		
-		GL.uniformMatrix3D (projectionMatrixUniform, false, projectionMatrix);
-		GL.uniformMatrix3D (modelViewMatrixUniform, false, modelViewMatrix);
-		
-		GL.drawArrays (GL.TRIANGLE_STRIP, 0, 4);
-		
-		GL.bindBuffer (GL.ARRAY_BUFFER, null);
+		quad.x += 0.01;
 	}
 	
 	function initRenderer():Void 
 	{
-		glRender = new OpenGLView();
-		addChild(glRender);
-		glRender.render = render;
-		
-		initShaders();
+		renderer = new Renderer();
+		addChild(renderer.view);
 	}
 	
-	function initShaders()
-	{
-		var vertexShader = createVertexShader();
-		var fragmentShader = createFragmentShader();
-		
-		shaderProgram = GL.createProgram();
-		
-		GL.attachShader(shaderProgram, vertexShader);
-		GL.attachShader(shaderProgram, fragmentShader);
-		GL.linkProgram(shaderProgram);
-		
-		if (GL.getProgramParameter (shaderProgram, GL.LINK_STATUS) == 0)
-			throw "Unable to initialize the shader program.";
-		
-		vertexPosAttribute = GL.getAttribLocation (shaderProgram, "vertexPosition");
-	}
 	
-	/**
-	 * Generate vertex shader
-	 * @TODO try using HXSL for shader 
-	 */
-	function createVertexShader() : GLShader
-	{
-		var vertexShaderSource = "
-			attribute vec3 vertexPosition;
-			attribute vec4 vertexColor;
-			
-			uniform mat4 modelViewMatrix;
-			uniform mat4 projectionMatrix;
-			
-			void main(void) {
-				gl_Position = projectionMatrix * modelViewMatrix * vec4(vertexPosition, 1.0);
-			}
-		";
-		
-		var vertexShader = GL.createShader(GL.VERTEX_SHADER);
-		GL.shaderSource(vertexShader, vertexShaderSource);
-		GL.compileShader (vertexShader);
-		
-		if (GL.getShaderParameter (vertexShader, GL.COMPILE_STATUS) == 0) {
-			throw "Error compiling vertex shader";
-		}
-		
-		return vertexShader;
-		
-	}
-	
-	/**
-	 * Fragment Shader
-	 */
-	function createFragmentShader() : GLShader
-	{
-		var fragmentShaderSource = "
-			void main(void) {
-				gl_FragColor = vec4(1.0,0.0,0.0,1.0);
-			}
-		";
-		
-		var fragmentShader = GL.createShader (GL.FRAGMENT_SHADER);
-		
-		GL.shaderSource (fragmentShader, fragmentShaderSource);
-		GL.compileShader (fragmentShader);
-		
-		if (GL.getShaderParameter (fragmentShader, GL.COMPILE_STATUS) == 0) {
-			throw "Error compiling fragment shader";
-		}
-		
-		return fragmentShader;
-	}
 	
 }
 
