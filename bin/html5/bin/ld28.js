@@ -1617,19 +1617,19 @@ com.pixodrome.ld28.App = function() {
 	new com.pixodrome.ld28.Color(16737877,0.3);
 	if(!openfl.display.OpenGLView.get_isSupported()) throw "fuck, no opengl for ya!";
 	this.initRenderer();
-	var batch = new com.pixodrome.ld28.meshes.SpriteBatch();
+	this.batch = new com.pixodrome.ld28.meshes.SpriteBatch();
 	this.quads = new Array();
 	var _g = 0;
-	while(_g < 1000) {
+	while(_g < 500) {
 		var i = _g++;
 		var quad = new com.pixodrome.ld28.Quad(32,32);
 		quad.set_x(Math.random() * 800);
 		quad.set_y(Math.random() * 480);
 		quad.set_rotation(Math.random() * 360);
 		this.quads.push(quad);
-		batch.add(quad);
+		this.batch.add(quad);
 	}
-	this.renderer.addMesh(batch);
+	this.renderer.addMesh(this.batch);
 	this.addChild(new openfl.display.FPS(0,0,16777215));
 	this.addEventListener(flash.events.Event.ADDED_TO_STAGE,$bind(this,this.onAddedToStage));
 };
@@ -1648,6 +1648,8 @@ com.pixodrome.ld28.App.prototype = $extend(flash.display.Sprite.prototype,{
 			var _g2 = this.quads[i];
 			_g2.set_rotation(_g2.get_rotation() + 0.1);
 		}
+		var lastQuad = this.quads.pop();
+		this.batch.remove(lastQuad);
 	}
 	,onEnterFrame: function(e) {
 		this.updateLogic();
@@ -1830,6 +1832,10 @@ com.pixodrome.ld28.meshes.SpriteBatch.prototype = $extend(com.pixodrome.ld28.Mes
 			this.needUpdate = false;
 		}
 		return com.pixodrome.ld28.Mesh.prototype.getBuffer.call(this);
+	}
+	,remove: function(quad) {
+		HxOverrides.remove(this.quadList,quad);
+		this.needGeneration = true;
 	}
 	,add: function(quad) {
 		this.quadList.push(quad);

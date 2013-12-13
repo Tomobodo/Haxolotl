@@ -32,6 +32,12 @@ class SpriteBatch extends Mesh
 		needGeneration = true;
 	}
 	
+	public function remove(quad : Quad) : Void
+	{
+		quadList.remove(quad);
+		needGeneration = true;
+	}
+	
 	override public function getBuffer() : GLBuffer
 	{
 		for (i in 0 ... quadList.length)

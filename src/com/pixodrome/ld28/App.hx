@@ -32,6 +32,7 @@ class App extends Sprite
 	var vertexBuffer:GLBuffer;
 	
 	var quads : Array<Quad>;
+	var batch:com.pixodrome.ld28.meshes.SpriteBatch;
 
 	public function new() 
 	{
@@ -44,11 +45,11 @@ class App extends Sprite
 		
 		initRenderer();
 		
-		var batch = new SpriteBatch();
+		batch = new SpriteBatch();
 		
 		quads = new Array<Quad>();
 		
-		for (i in 0 ... 1000)
+		for (i in 0 ... 500)
 		{
 			var quad = new Quad(32, 32);
 			
@@ -84,6 +85,9 @@ class App extends Sprite
 	{
 		for (i in 0 ... quads.length)
 			quads[i].rotation += 0.1;
+			
+		var lastQuad : Quad = quads.pop();
+		batch.remove(lastQuad);
 	}
 	
 	function initRenderer():Void 
