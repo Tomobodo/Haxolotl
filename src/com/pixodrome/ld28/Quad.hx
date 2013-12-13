@@ -46,7 +46,7 @@ class Quad
 		
 		points = new Array<Point>();
 		
-		for(i in 0 ... cast(mesh.vertices.length / 3))
+		for(i in 0 ... 4)
 			points.push(new Point());
 		
 		needUpdate = true;
@@ -59,7 +59,7 @@ class Quad
 		transformMatrix.rotate(_rotation);
 		transformMatrix.translate(_x, _y);
 		
-		for (i in 0 ... points.length)
+		for (i in 0 ... 4)
 			points[i] = transformMatrix.transformPoint(new Point(mesh.vertices[i * 3], mesh.vertices[i * 3 + 1]));
 			
 		needUpdate = false;

@@ -1759,15 +1759,14 @@ Type.getEnumConstructs = function(e) {
 }
 com.pixodrome.ld28.App = function() {
 	flash.display.Sprite.call(this);
-	new com.pixodrome.ld28.Color(16737877,0.3);
-	if(!openfl.display.OpenGLView.get_isSupported()) throw "fuck, no opengl for ya!";
+	if(!openfl.display.OpenGLView.get_isSupported()) throw "No opengl context available.";
 	this.initRenderer();
 	this.batch = new com.pixodrome.ld28.meshes.SpriteBatch();
 	this.quads = new Array();
 	var _g = 0;
-	while(_g < 1000) {
+	while(_g < 5000) {
 		var i = _g++;
-		var quad = new com.pixodrome.ld28.Quad(32,32);
+		var quad = new com.pixodrome.ld28.Quad(64,64);
 		quad.set_x(Math.random() * 800);
 		quad.set_y(Math.random() * 480);
 		quad.set_rotation(Math.random() * 360);
@@ -1775,14 +1774,19 @@ com.pixodrome.ld28.App = function() {
 		this.batch.add(quad);
 	}
 	this.renderer.addMesh(this.batch);
-	this.addChild(new openfl.display.FPS(0,0,0));
+	this.initFps();
 	this.addEventListener(flash.events.Event.ADDED_TO_STAGE,$bind(this,this.onAddedToStage));
 };
 $hxClasses["com.pixodrome.ld28.App"] = com.pixodrome.ld28.App;
 com.pixodrome.ld28.App.__name__ = ["com","pixodrome","ld28","App"];
 com.pixodrome.ld28.App.__super__ = flash.display.Sprite;
 com.pixodrome.ld28.App.prototype = $extend(flash.display.Sprite.prototype,{
-	initRenderer: function() {
+	initFps: function() {
+		var fps = new openfl.display.FPS(0,0,39168);
+		fps.set_defaultTextFormat(new flash.text.TextFormat("Arial",24,6750054));
+		this.addChild(fps);
+	}
+	,initRenderer: function() {
 		this.renderer = new src.com.pixodrome.ld28.Renderer();
 		this.addChild(this.renderer.view);
 	}
@@ -1861,9 +1865,9 @@ com.pixodrome.ld28.Quad = function(width,height,color) {
 	this.set_rotation(0);
 	this.mesh = new com.pixodrome.ld28.meshes.Plane(width,height,color);
 	this.points = new Array();
-	var _g1 = 0, _g = this.mesh.vertices.length / 3;
-	while(_g1 < _g) {
-		var i = _g1++;
+	var _g = 0;
+	while(_g < 4) {
+		var i = _g++;
 		this.points.push(new flash.geom.Point());
 	}
 	this.needUpdate = true;
@@ -1896,9 +1900,9 @@ com.pixodrome.ld28.Quad.prototype = {
 		this.transformMatrix.identity();
 		this.transformMatrix.rotate(this._rotation);
 		this.transformMatrix.translate(this._x,this._y);
-		var _g1 = 0, _g = this.points.length;
-		while(_g1 < _g) {
-			var i = _g1++;
+		var _g = 0;
+		while(_g < 4) {
+			var i = _g++;
 			this.points[i] = this.transformMatrix.transformPoint(new flash.geom.Point(this.mesh.vertices[i * 3],this.mesh.vertices[i * 3 + 1]));
 		}
 		this.needUpdate = false;
@@ -1912,9 +1916,9 @@ com.pixodrome.ld28.meshes.Plane = function(width,height,color) {
 	var col = new com.pixodrome.ld28.Color(color);
 	var dWidth = width / 2;
 	var dHeight = height / 2;
-	var vertices = [-dWidth,-dHeight,0.0,dWidth,-dHeight,0.0,dWidth,dHeight,0.0,dWidth,dHeight,0.0,-dWidth,dHeight,0.0,-dWidth,-dHeight,0.0];
-	var texCoords = [0.0,0.0,1.0,0.0,1.0,1.0,1.0,1.0,0.0,1.0,0.0,0.0];
-	var colors = [col.r,col.g,col.b,col.a,col.r,col.g,col.b,col.a,col.r,col.g,col.b,col.a,col.r,col.g,col.b,col.a,col.r,col.g,col.b,col.a,col.r,col.g,col.b,col.a];
+	var vertices = [-dWidth,-dHeight,0.0,dWidth,-dHeight,0.0,dWidth,dHeight,0.0,-dWidth,dHeight,0.0];
+	var texCoords = [0.0,0.0,1.0,0.0,1.0,1.0,0.0,1.0];
+	var colors = [col.r,col.g,col.b,col.a,col.r,col.g,col.b,col.a,col.r,col.g,col.b,col.a,col.r,col.g,col.b,col.a];
 	com.pixodrome.ld28.Mesh.call(this,vertices,texCoords,colors);
 };
 $hxClasses["com.pixodrome.ld28.meshes.Plane"] = com.pixodrome.ld28.meshes.Plane;
@@ -1940,7 +1944,7 @@ com.pixodrome.ld28.meshes.SpriteBatch.prototype = $extend(com.pixodrome.ld28.Mes
 			var i = _g1++;
 			var quad = this.quadList[i];
 			if(quad.needUpdate) quad.update();
-			var quadPoints = [quad.points[0].x,quad.points[0].y,0,quad.points[1].x,quad.points[1].y,0,quad.points[2].x,quad.points[2].y,0,quad.points[3].x,quad.points[3].y,0,quad.points[4].x,quad.points[4].y,0,quad.points[5].x,quad.points[5].y,0];
+			var quadPoints = [quad.points[0].x,quad.points[0].y,0,quad.points[1].x,quad.points[1].y,0,quad.points[2].x,quad.points[2].y,0,quad.points[2].x,quad.points[2].y,0,quad.points[3].x,quad.points[3].y,0,quad.points[0].x,quad.points[0].y,0];
 			var quadCoord = [0,0,1,0,1,1,1,1,0,1,0,0];
 			this.vertices = this.vertices.concat(quadPoints);
 			this.texCoord = this.texCoord.concat(quadCoord);
@@ -1959,12 +1963,12 @@ com.pixodrome.ld28.meshes.SpriteBatch.prototype = $extend(com.pixodrome.ld28.Mes
 			this.vertices[i * 18 + 4] = quad.points[1].y;
 			this.vertices[i * 18 + 6] = quad.points[2].x;
 			this.vertices[i * 18 + 7] = quad.points[2].y;
-			this.vertices[i * 18 + 9] = quad.points[3].x;
-			this.vertices[i * 18 + 10] = quad.points[3].y;
-			this.vertices[i * 18 + 12] = quad.points[4].x;
-			this.vertices[i * 18 + 13] = quad.points[4].y;
-			this.vertices[i * 18 + 15] = quad.points[5].x;
-			this.vertices[i * 18 + 16] = quad.points[5].y;
+			this.vertices[i * 18 + 9] = quad.points[2].x;
+			this.vertices[i * 18 + 10] = quad.points[2].y;
+			this.vertices[i * 18 + 12] = quad.points[3].x;
+			this.vertices[i * 18 + 13] = quad.points[3].y;
+			this.vertices[i * 18 + 15] = quad.points[0].x;
+			this.vertices[i * 18 + 16] = quad.points[0].y;
 		}
 		this.updateBuffer();
 	}
@@ -10117,13 +10121,6 @@ src.com.pixodrome.ld28.Renderer.prototype = {
 		openfl.gl.GL.vertexAttribPointer(this.vertexPosAttribute,3,5126,false,0,0);
 		openfl.gl.GL.bindBuffer(34962,mesh.getTextCoord());
 		openfl.gl.GL.vertexAttribPointer(this.texCoordAttribute,2,5126,false,0,0);
-		var projectionMatrix = flash.geom.Matrix3D.createOrtho(0,800,480,0,1000,-1000);
-		var modelViewMatrix = flash.geom.Matrix3D.create2D(0,0,1,this.angle);
-		var projectionMatrixUniform = openfl.gl.GL.getUniformLocation(this.shaderProgram,"projectionMatrix");
-		var modelViewMatrixUniform = openfl.gl.GL.getUniformLocation(this.shaderProgram,"modelViewMatrix");
-		openfl.gl.GL.uniformMatrix3D(projectionMatrixUniform,false,projectionMatrix);
-		openfl.gl.GL.uniformMatrix3D(modelViewMatrixUniform,false,modelViewMatrix);
-		openfl.gl.GL.uniform1i(this.imageUniform,0);
 		openfl.gl.GL.drawArrays(4,0,mesh.vertices.length / 3);
 		openfl.gl.GL.bindBuffer(34962,null);
 		openfl.gl.GL.bindTexture(3553,null);
@@ -10135,6 +10132,13 @@ src.com.pixodrome.ld28.Renderer.prototype = {
 		openfl.gl.GL.useProgram(this.shaderProgram);
 		openfl.gl.GL.enableVertexAttribArray(this.vertexPosAttribute);
 		openfl.gl.GL.enableVertexAttribArray(this.texCoordAttribute);
+		var projectionMatrix = flash.geom.Matrix3D.createOrtho(0,800,480,0,1000,-1000);
+		var modelViewMatrix = flash.geom.Matrix3D.create2D(0,0,1,this.angle);
+		var projectionMatrixUniform = openfl.gl.GL.getUniformLocation(this.shaderProgram,"projectionMatrix");
+		var modelViewMatrixUniform = openfl.gl.GL.getUniformLocation(this.shaderProgram,"modelViewMatrix");
+		openfl.gl.GL.uniformMatrix3D(projectionMatrixUniform,false,projectionMatrix);
+		openfl.gl.GL.uniformMatrix3D(modelViewMatrixUniform,false,modelViewMatrix);
+		openfl.gl.GL.uniform1i(this.imageUniform,0);
 		var _g1 = 0, _g = this.meshes.length;
 		while(_g1 < _g) {
 			var i = _g1++;

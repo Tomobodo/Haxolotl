@@ -9,7 +9,6 @@ import com.pixodrome.ld28.Color;
  */
 class Plane extends Mesh
 {
-
 	public function new(width : Float, height : Float, color : UInt = 0xffffff) 
 	{
 		var col : Color = new Color(color);
@@ -21,27 +20,18 @@ class Plane extends Mesh
 			-dWidth, -dHeight, 0.0,
 			dWidth, -dHeight, 0.0,
 			dWidth, dHeight, 0.0,
-			
-			dWidth, dHeight, 0.0,
-			-dWidth, dHeight, 0.0,
-			-dWidth, -dHeight, 0.0
+			-dWidth, dHeight, 0.0
 		];
 		
 		var texCoords = [
 			0.0, 0.0,
 			1.0, 0.0,
 			1.0, 1.0,
-			
-			1.0, 1.0,
-			0.0, 1.0,
-			0.0, 0.0
+			0.0, 1.0
 		];
 		
 		var colors = [
 			col.r, col.g, col.b, col.a,
-			col.r, col.g, col.b, col.a,
-			col.r, col.g, col.b, col.a,
-			
 			col.r, col.g, col.b, col.a,
 			col.r, col.g, col.b, col.a,
 			col.r, col.g, col.b, col.a
@@ -49,5 +39,4 @@ class Plane extends Mesh
 		
 		super(vertices, texCoords, colors);
 	}
-	
 }

@@ -186,6 +186,16 @@ class Renderer
 		GL.enableVertexAttribArray(vertexPosAttribute);
 		GL.enableVertexAttribArray(texCoordAttribute);
 		
+		var projectionMatrix = Matrix3D.createOrtho (0, 800, 480, 0, 1000, -1000);
+		var modelViewMatrix = Matrix3D.create2D (0, 0, 1, angle);
+		
+		var projectionMatrixUniform = GL.getUniformLocation (shaderProgram, "projectionMatrix");
+		var modelViewMatrixUniform = GL.getUniformLocation (shaderProgram, "modelViewMatrix");
+			
+		GL.uniformMatrix3D (projectionMatrixUniform, false, projectionMatrix);
+		GL.uniformMatrix3D (modelViewMatrixUniform, false, modelViewMatrix);
+		GL.uniform1i(imageUniform, 0);
+		
 		for (i in 0 ... meshes.length)
 			draw(meshes[i]);
 		
@@ -198,28 +208,16 @@ class Renderer
 	{
 		GL.activeTexture(GL.TEXTURE0);
 		GL.bindTexture(GL.TEXTURE_2D, texture);
-		//GL.enable(GL.TEXTURE);
 		
 		GL.bindBuffer (GL.ARRAY_BUFFER, mesh.getBuffer());
 		GL.vertexAttribPointer (vertexPosAttribute, 3, GL.FLOAT, false, 0, 0);
 		
 		GL.bindBuffer (GL.ARRAY_BUFFER, mesh.getTextCoord());
 		GL.vertexAttribPointer (texCoordAttribute, 2, GL.FLOAT, false, 0, 0);
-		
-		var projectionMatrix = Matrix3D.createOrtho (0, 800, 480, 0, 1000, -1000);
-		var modelViewMatrix = Matrix3D.create2D (0, 0, 1, angle);
-		
-		var projectionMatrixUniform = GL.getUniformLocation (shaderProgram, "projectionMatrix");
-		var modelViewMatrixUniform = GL.getUniformLocation (shaderProgram, "modelViewMatrix");
-			
-		GL.uniformMatrix3D (projectionMatrixUniform, false, projectionMatrix);
-		GL.uniformMatrix3D (modelViewMatrixUniform, false, modelViewMatrix);
-		GL.uniform1i(imageUniform, 0);
 			
 		GL.drawArrays (GL.TRIANGLES, 0, cast(mesh.vertices.length / 3));
 			
 		GL.bindBuffer (GL.ARRAY_BUFFER, null);
-		//GL.disable (GL.TEXTURE);
 		GL.bindTexture(GL.TEXTURE_2D, null);
 	}
 	

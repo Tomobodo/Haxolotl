@@ -78,14 +78,14 @@ class SpriteBatch extends Mesh
 			vertices[i * 18 + 6] = quad.points[2].x;
 			vertices[i * 18 + 7] = quad.points[2].y;
 			
-			vertices[i * 18 + 9] = quad.points[3].x;
-			vertices[i * 18 + 10] = quad.points[3].y;
+			vertices[i * 18 + 9] = quad.points[2].x;
+			vertices[i * 18 + 10] = quad.points[2].y;
 			
-			vertices[i * 18 + 12] = quad.points[4].x;
-			vertices[i * 18 + 13] = quad.points[4].y;
+			vertices[i * 18 + 12] = quad.points[3].x;
+			vertices[i * 18 + 13] = quad.points[3].y;
 			
-			vertices[i * 18 + 15] = quad.points[5].x;
-			vertices[i * 18 + 16] = quad.points[5].y;
+			vertices[i * 18 + 15] = quad.points[0].x;
+			vertices[i * 18 + 16] = quad.points[0].y;
 		}
 		
 		updateBuffer();
@@ -107,9 +107,9 @@ class SpriteBatch extends Mesh
 				quad.points[1].x, quad.points[1].y, 0,
 				quad.points[2].x, quad.points[2].y, 0,
 				
+				quad.points[2].x, quad.points[2].y, 0,
 				quad.points[3].x, quad.points[3].y, 0,
-				quad.points[4].x, quad.points[4].y, 0,
-				quad.points[5].x, quad.points[5].y, 0
+				quad.points[0].x, quad.points[0].y, 0
 			];
 			
 			var quadCoord : Array<Float> = [

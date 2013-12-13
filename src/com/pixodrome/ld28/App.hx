@@ -5,6 +5,7 @@ import flash.display.Sprite;
 import flash.events.Event;
 import flash.geom.Matrix3D;
 import flash.geom.Rectangle;
+import flash.text.TextFormat;
 import openfl.display.FPS;
 import openfl.display.OpenGLView;
 import openfl.gl.GL;
@@ -38,10 +39,8 @@ class App extends Sprite
 	{
 		super();
 		
-		new Color(0xff6655, 0.3);
-		
 		if (!OpenGLView.isSupported)
-			throw "fuck, no opengl for ya!";
+			throw "No opengl context available.";
 		
 		initRenderer();
 		
@@ -49,9 +48,9 @@ class App extends Sprite
 		
 		quads = new Array<Quad>();
 		
-		for (i in 0 ... 1000)
+		for (i in 0 ... 5000)
 		{
-			var quad = new Quad(32, 32);
+			var quad = new Quad(64, 64);
 			
 			quad.x = Math.random() * 800;
 			quad.y = Math.random() * 480;
@@ -64,7 +63,7 @@ class App extends Sprite
 		renderer.addMesh(batch);
 		
 		#if !neko
-		addChild(new FPS(0, 0, 0x0));
+		initFps();
 		#end
 		
 		addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
@@ -91,6 +90,13 @@ class App extends Sprite
 	{
 		renderer = new Renderer();
 		addChild(renderer.view);
+	}
+	
+	function initFps():Void 
+	{
+		var fps = new FPS(0, 0, 0x009900);
+		fps.defaultTextFormat = new TextFormat("Arial", 24, 0x66ff66);
+		addChild(fps);
 	}
 	
 }
