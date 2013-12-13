@@ -5,6 +5,7 @@ import flash.display.Sprite;
 import flash.events.Event;
 import flash.geom.Matrix3D;
 import flash.geom.Rectangle;
+import openfl.display.FPS;
 import openfl.display.OpenGLView;
 import openfl.gl.GL;
 import openfl.gl.GLBuffer;
@@ -29,7 +30,8 @@ class App extends Sprite
 	
 	var meshes : Array<Mesh>;
 	var vertexBuffer:GLBuffer;
-	var quad:com.pixodrome.ld28.Quad;
+	
+	var quads : Array<Quad>;
 
 	public function new() 
 	{
@@ -44,11 +46,23 @@ class App extends Sprite
 		
 		var batch = new SpriteBatch();
 		
-		quad = new Quad(20, 20, 0xffffff);
+		quads = new Array<Quad>();
 		
-		batch.add(quad);
+		for (i in 0 ... 10)
+		{
+			var quad = new Quad(32, 32);
+			
+			quad.x = Math.random() * 800;
+			quad.y = Math.random() * 480;
+			quad.rotation = Math.random() * 360;
+			
+			quads.push(quad);
+			batch.add(quad);
+		}
 		
 		renderer.addMesh(batch);
+		
+		addChild(new FPS(0,0,0xffffff));
 		
 		addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 	}
@@ -66,7 +80,8 @@ class App extends Sprite
 	
 	function updateLogic() 
 	{
-		quad.x += 0.01;
+		for (i in 0 ... quads.length)
+			quads[i].rotation+=0.1;
 	}
 	
 	function initRenderer():Void 
@@ -74,8 +89,6 @@ class App extends Sprite
 		renderer = new Renderer();
 		addChild(renderer.view);
 	}
-	
-	
 	
 }
 

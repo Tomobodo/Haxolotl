@@ -1,4 +1,5 @@
 package com.pixodrome.ld28;
+import com.pixodrome.ld28.meshes.Plane;
 import flash.geom.Matrix;
 import flash.geom.Point;
 
@@ -25,6 +26,8 @@ class Quad
 	var _y : Float;
 	var _rotation : Float;
 	
+	var mesh : Mesh;
+	
 	var transformMatrix : Matrix;
 
 	public function new(width : Float = 10, height : Float = 10 , color : UInt = 0xffffff) 
@@ -39,12 +42,12 @@ class Quad
 		this.y = 0;
 		this.rotation = 0;
 		
+		this.mesh = new Plane(width, height, color);
+		
 		points = new Array<Point>();
 		
-		points.push(new Point(0,0));
-		points.push(new Point(width,0));
-		points.push(new Point(width,height));
-		points.push(new Point(0,height));
+		for(i in 0 ... 4)
+			points.push(new Point());
 		
 		needUpdate = true;
 	}
@@ -57,7 +60,7 @@ class Quad
 		transformMatrix.translate(_x, _y);
 		
 		for (i in 0 ... points.length)
-			points[i] = transformMatrix.transformPoint(points[i]);
+			points[i] = transformMatrix.transformPoint(new Point(mesh.vertices[i * 3], mesh.vertices[i * 3 + 1]));
 			
 		needUpdate = false;
 	}
