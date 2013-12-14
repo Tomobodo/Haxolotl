@@ -1,7 +1,10 @@
 package com.pixodrome.ld28;
+
 import com.pixodrome.ld28.meshes.Plane;
-import flash.geom.Matrix;
-import flash.geom.Point;
+import lime.utils.Vector.Vector;
+
+import lime.geometry.Vector3D;
+import lime.geometry.Matrix3D;
 
 /**
  * ...
@@ -18,7 +21,7 @@ class Quad
 	public var y(get_y, set_y):Float;
 	public var rotation(get_rotation, set_rotation):Float;
 	
-	public var points : Array<Point>;
+	public var points : Vector<Float>;
 	
 	public var needUpdate : Bool;
 
@@ -28,15 +31,15 @@ class Quad
 	
 	var mesh : Mesh;
 	
-	var transformMatrix : Matrix;
+	var transformMatrix : Matrix3D;
 
-	public function new(width : Float = 10, height : Float = 10 , color : UInt = 0xffffff) 
+	public function new(width : Float = 10, height : Float = 10 , color : Int = 0xffffff) 
 	{
 		this.width = width;
 		this.height = height;
 		this.color = color;
 		
-		this.transformMatrix = new Matrix();
+		this.transformMatrix = new Matrix3D();
 		
 		this.x = 0;
 		this.y = 0;
@@ -44,10 +47,7 @@ class Quad
 		
 		this.mesh = new Plane(width, height, color);
 		
-		points = new Array<Point>();
-		
-		for(i in 0 ... 4)
-			points.push(new Point());
+		points = new Vector<Float>();
 		
 		needUpdate = true;
 	}
@@ -56,11 +56,13 @@ class Quad
 	{
 		transformMatrix.identity();
 		
-		transformMatrix.rotate(_rotation);
-		transformMatrix.translate(_x, _y);
+		transformMatrix.appendRotation(_rotation, Vector3D.Z_AXIS);
+		transformMatrix.appendTranslation(_x, _y, 0);
 		
-		for (i in 0 ... 4)
-			points[i] = transformMatrix.transformPoint(new Point(mesh.vertices[i * 3], mesh.vertices[i * 3 + 1]));
+		var input = new Vector<Float>();
+		input = input.concat(mesh.vertices);
+		
+		transformMatrix.transformVectors(input, points);
 			
 		needUpdate = false;
 	}

@@ -3,6 +3,8 @@ package com.pixodrome.ld28;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.Lib;
+import openfl.display.OpenGLView;
+import com.pixodrome.ld28.App;
 
 /**
  * ...
@@ -11,21 +13,15 @@ import flash.Lib;
 
 class Main extends Sprite 
 {
-	var inited:Bool;
+	var app : App;
 	
-	function resize(e) 
+	public static function main() 
 	{
-		if (!inited) init();
+		Lib.current.stage.align = flash.display.StageAlign.TOP_LEFT;
+		Lib.current.stage.scaleMode = flash.display.StageScaleMode.NO_SCALE;
+		Lib.current.addChild(new Main());
 	}
 	
-	function init() 
-	{
-		if (inited) return;
-		inited = true;
-		
-		addChild(new App());
-	}
-
 	public function new() 
 	{
 		super();	
@@ -35,19 +31,17 @@ class Main extends Sprite
 	function added(e) 
 	{
 		removeEventListener(Event.ADDED_TO_STAGE, added);
-		stage.addEventListener(Event.RESIZE, resize);
 		
-		#if ios
-		haxe.Timer.delay(init, 100); // iOS 6
-		#else
-		init();
-		#end
+		addChild(new OpenGLView());
+		
+		app = new App();
+		
+		stage.addEventListener(Event.ENTER_FRAME, onEnterframe);
 	}
 	
-	public static function main() 
+	private function onEnterframe(e:Event):Void 
 	{
-		Lib.current.stage.align = flash.display.StageAlign.TOP_LEFT;
-		Lib.current.stage.scaleMode = flash.display.StageScaleMode.NO_SCALE;
-		Lib.current.addChild(new Main());
+		app.update();
+		app.render();
 	}
 }

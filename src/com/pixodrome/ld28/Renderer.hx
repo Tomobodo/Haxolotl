@@ -1,24 +1,22 @@
-package src.com.pixodrome.ld28;
+package com.pixodrome.ld28;
 
 import com.pixodrome.ld28.Mesh;
 import flash.display.BitmapData;
-import flash.geom.Rectangle;
-import flash.geom.Vector3D;
-import flash.Lib;
-import flash.utils.ByteArray;
-import openfl.Assets;
-import openfl.display.OpenGLView;
-import openfl.gl.GL;
-import openfl.gl.GLBuffer;
-import openfl.gl.GLProgram;
-import openfl.gl.GLShader;
-import openfl.gl.GLTexture;
-import openfl.gl.GLUniformLocation;
-import openfl.utils.UInt8Array;
-
-import openfl.utils.Float32Array;
-
 import flash.geom.Matrix3D;
+import flash.geom.Rectangle;
+import flash.utils.ByteArray;
+
+import openfl.Assets;
+import openfl.gl.GL;
+
+import lime.gl.GLBuffer;
+import lime.gl.GLProgram;
+import lime.gl.GLShader;
+import lime.gl.GLTexture;
+import lime.gl.GLUniformLocation;
+import lime.utils.UInt8Array;
+
+
 
 /**
  * ...
@@ -26,8 +24,6 @@ import flash.geom.Matrix3D;
  */
 class Renderer
 {
-	public var view : OpenGLView;
-	
 	var shaderProgram : GLProgram;
 	
 	var vertexPosAttribute:Int;
@@ -79,14 +75,8 @@ class Renderer
 		meshes = new Array<Mesh>();
 		
 		bitmapData = Assets.getBitmapData("img/avatar.png");
-
-		view = new OpenGLView();
-		
 		createTexture();
-		
 		initShaders();
-		
-		view.render = render;
 		
 		angle = 0;
 	}
@@ -175,7 +165,7 @@ class Renderer
         GL.bindTexture(GL.TEXTURE_2D, null);
 	}
 	
-	function render(viewport : Rectangle) : Void
+	public function render(viewport : Rectangle) : Void
 	{
 		GL.viewport (Std.int (viewport.x), Std.int (viewport.y), Std.int (viewport.width), Std.int (viewport.height));
 		

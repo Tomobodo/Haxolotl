@@ -1,6 +1,7 @@
 package com.pixodrome.ld28.meshes;
 
-import openfl.gl.GLBuffer;
+import lime.gl.GLBuffer;
+
 import com.pixodrome.ld28.Mesh;
 import com.pixodrome.ld28.Quad;
 
@@ -68,24 +69,17 @@ class SpriteBatch extends Mesh
 
 			if (quad.needUpdate)
 				quad.update();
-			
-			vertices[i * 18 + 0] = quad.points[0].x;
-			vertices[i * 18 + 1] = quad.points[0].y;
-			
-			vertices[i * 18 + 3] = quad.points[1].x;
-			vertices[i * 18 + 4] = quad.points[1].y;
-			
-			vertices[i * 18 + 6] = quad.points[2].x;
-			vertices[i * 18 + 7] = quad.points[2].y;
-			
-			vertices[i * 18 + 9] = quad.points[2].x;
-			vertices[i * 18 + 10] = quad.points[2].y;
-			
-			vertices[i * 18 + 12] = quad.points[3].x;
-			vertices[i * 18 + 13] = quad.points[3].y;
-			
-			vertices[i * 18 + 15] = quad.points[0].x;
-			vertices[i * 18 + 16] = quad.points[0].y;
+				
+			var index = [0, 1, 2, 2, 3, 0];
+				
+			for (j in 0 ... 6)
+			{
+				var a = i * 18 + j * 3;
+				var b = index[j] * 3;
+				
+				for (k in 0 ... 3)
+					vertices[a + k] = quad.points[b + k];
+			}
 		}
 		
 		updateBuffer();
@@ -102,15 +96,15 @@ class SpriteBatch extends Mesh
 			if (quad.needUpdate)
 				quad.update();
 			
-			var quadPoints : Array<Float> = [
-				quad.points[0].x, quad.points[0].y, 0,
-				quad.points[1].x, quad.points[1].y, 0,
-				quad.points[2].x, quad.points[2].y, 0,
-				
-				quad.points[2].x, quad.points[2].y, 0,
-				quad.points[3].x, quad.points[3].y, 0,
-				quad.points[0].x, quad.points[0].y, 0
-			];
+			var index = [0, 1, 2, 2, 3, 0];
+			
+			for (i in 0 ... index.length)
+			{
+				var k = index[i];
+				vertices.push(quad.points[k * 3 + 0]);
+				vertices.push(quad.points[k * 3 + 1]);
+				vertices.push(quad.points[k * 3 + 2]);
+			}
 			
 			var quadCoord : Array<Float> = [
 				0, 0,
@@ -122,7 +116,6 @@ class SpriteBatch extends Mesh
 				0, 0
 			];
 			
-			vertices = vertices.concat(quadPoints);
 			texCoord = texCoord.concat(quadCoord);
 		}
 		
