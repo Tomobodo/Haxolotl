@@ -32,11 +32,11 @@ class Renderer
 	
 	var angle : Float;
 	
-	var texture:GLTexture;
-	
 	var bitmapData : BitmapData;
 	
 	var currentShader : Program;
+
+	var texture: Texture;
 	
 	public var projectionMatrix : Matrix3D;
 	public var modelViewMatrix : Matrix3D;
@@ -75,8 +75,8 @@ class Renderer
 	{
 		meshes = new Array<Mesh>();
 		
-		bitmapData = Assets.getBitmapData("img/avatar.png");
-		createTexture();
+		texture = new Texture("img/avatar.png");
+	
 		initShaders();
 		
 		projectionMatrix = Matrix3D.createOrtho (0, 800, 480, 0, 1000, -1000);
@@ -147,28 +147,6 @@ class Renderer
 		return fragmentShader;
 	}
 	
-	function createTexture() : Void
-	{
-		texture = GL.createTexture();
-		GL.bindTexture(GL.TEXTURE_2D, texture);
-		
-		var pixels : ByteArray = bitmapData.getPixels(bitmapData.rect);
-		
-		var array = new Array<UInt>();
-		
-		pixels.position = 0;
-		
-		for (i in 0 ... pixels.length)
-			array.push(pixels.readUnsignedByte());	
-		
-		GL.pixelStorei(GL.UNPACK_FLIP_Y_WEBGL, 1);
-		GL.texImage2D(GL.TEXTURE_2D, 0, GL.RGBA, bitmapData.width, bitmapData.height, 0, GL.RGBA, GL.UNSIGNED_BYTE, new UInt8Array(array));
-		GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MAG_FILTER, GL.NEAREST);
-        GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.NEAREST);
-		GL.generateMipmap(GL.TEXTURE_2D);
-        GL.bindTexture(GL.TEXTURE_2D, null);
-	}
-	
 	public function render(viewport : Rectangle) : Void
 	{
 		GL.viewport (Std.int (viewport.x), Std.int (viewport.y), Std.int (viewport.width), Std.int (viewport.height));
@@ -198,7 +176,7 @@ class Renderer
 	function draw(mesh : Mesh) : Void
 	{
 		GL.activeTexture(GL.TEXTURE0);
-		GL.bindTexture(GL.TEXTURE_2D, texture);
+		GL.bindTexture(GL.TEXTURE_2D, texture.texture);
 		
 		GL.bindBuffer (GL.ARRAY_BUFFER, mesh.getBuffer());
 		GL.vertexAttribPointer (vertexPosAttribute, 3, GL.FLOAT, false, 0, 0);

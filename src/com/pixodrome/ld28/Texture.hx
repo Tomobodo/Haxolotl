@@ -1,8 +1,10 @@
 package com.pixodrome.ld28;
 import flash.display.BitmapData;
 import flash.utils.ByteArray;
-import lime.gl.GLTexture;
+import openfl.gl.GLTexture;
 import openfl.gl.GL;
+import openfl.Assets;
+import openfl.utils.UInt8Array;
 
 /**
  * ...
@@ -23,7 +25,6 @@ class Texture
 		
 		#if html5
 		var array = new Array<Int>();
-
 		pixels.position = 0;
 		for (i in 0 ... pixels.length)
 			array.push(pixels.readUnsignedByte());
@@ -31,9 +32,16 @@ class Texture
 		GL.texImage2D(GL.TEXTURE_2D, 0, GL.RGBA, bitmapData.width, bitmapData.height, 0, GL.RGBA, GL.UNSIGNED_BYTE, new UInt8Array(array));
 		#else
 		GL.texImage2D(GL.TEXTURE_2D, 0, GL.RGBA, bitmapData.width, bitmapData.height, 0, GL.RGBA, GL.UNSIGNED_BYTE, new UInt8Array(pixels));
+		#end
+		
 		GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MAG_FILTER, GL.NEAREST);
         GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.NEAREST);
 		GL.generateMipmap(GL.TEXTURE_2D);
         GL.bindTexture(GL.TEXTURE_2D, null);
+	}
+	
+	public function dispose()
+	{
+		GL.deleteTexture(texture);
 	}
 }
