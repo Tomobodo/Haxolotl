@@ -9,7 +9,7 @@ import openfl.gl.GLShader;
  * ...
  * @author Thomas BAUDON
  */
-class Shader
+class Program
 {
 	public var program : GLProgram;
 	

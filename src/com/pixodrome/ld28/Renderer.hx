@@ -36,7 +36,10 @@ class Renderer
 	
 	var bitmapData : BitmapData;
 	
-	var currentShader : Shader;
+	var currentShader : Program;
+	
+	public var projectionMatrix : Matrix3D;
+	public var modelViewMatrix : Matrix3D;
 	
 	static inline var vertexShaderSource = "
 		attribute vec3 vertexPosition;
@@ -75,6 +78,9 @@ class Renderer
 		bitmapData = Assets.getBitmapData("img/avatar.png");
 		createTexture();
 		initShaders();
+		
+		projectionMatrix = Matrix3D.createOrtho (0, 800, 480, 0, 1000, -1000);
+		modelViewMatrix = Matrix3D.create2D (0, 0, 1, angle);
 		
 		angle = 0;
 	}
@@ -173,9 +179,6 @@ class Renderer
 		GL.useProgram(shaderProgram);
 		GL.enableVertexAttribArray(vertexPosAttribute);
 		GL.enableVertexAttribArray(texCoordAttribute);
-		
-		var projectionMatrix = Matrix3D.createOrtho (0, 800, 480, 0, 1000, -1000);
-		var modelViewMatrix = Matrix3D.create2D (0, 0, 1, angle);
 		
 		var projectionMatrixUniform = GL.getUniformLocation (shaderProgram, "projectionMatrix");
 		var modelViewMatrixUniform = GL.getUniformLocation (shaderProgram, "modelViewMatrix");
