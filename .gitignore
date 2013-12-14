@@ -1,3 +1,22 @@
 bin
 html5
 windows
+/bin
+/bin/html5
+bin
+bin
+/bin/html5/bin
+/bin/html5/bin/ld28.js
+/bin/html5/bin/index.html
+/bin/html5/bin/webgl-debug.js
+/bin/html5/bin/you only get one.js
+/bin/html5/bin/img
+/bin/html5/bin/assets
+/bin/html5/haxe
+/bin/html5/haxe/debug.hxml
+/bin/html5/haxe/NMEPreloader.hx
+/bin/html5/haxe/release.hxml
+/bin/html5/haxe/DefaultAssetLibrary.hx
+/bin/html5/haxe/limePreloader.hx
+/bin/html5/haxe/lime
+/bin/html5/haxe/ApplicationMain.hx
