@@ -32,10 +32,11 @@ class Main extends Sprite
 	{
 		removeEventListener(Event.ADDED_TO_STAGE, added);
 		
-		app = new App();
-		
 		var glView = new OpenGLView();
+
+		app = new App();
 		glView.render = app.render;
+		
 		addChild(glView);
 		
 		stage.addEventListener(Event.ENTER_FRAME, onEnterframe);

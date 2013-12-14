@@ -1,15 +1,12 @@
 package com.pixodrome.ld28;
 
 import com.pixodrome.ld28.Mesh;
-
 import flash.display.BitmapData;
 import flash.geom.Matrix3D;
 import flash.geom.Rectangle;
 import flash.utils.ByteArray;
-
 import openfl.Assets;
 import openfl.gl.GL;
-
 import openfl.gl.GLBuffer;
 import openfl.gl.GLProgram;
 import openfl.gl.GLShader;
