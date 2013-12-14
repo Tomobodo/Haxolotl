@@ -50,9 +50,9 @@ class App
 			quads[i].rotation ++;
 	}
 	
-	public function render() 
+	public function render(viewport : Rectangle) 
 	{
-		this.renderer.render(new Rectangle(0, 0, 800, 480));
+		this.renderer.render(viewport);
 	}
 }
 

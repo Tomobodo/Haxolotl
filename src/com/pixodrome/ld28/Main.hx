@@ -32,9 +32,11 @@ class Main extends Sprite
 	{
 		removeEventListener(Event.ADDED_TO_STAGE, added);
 		
-		addChild(new OpenGLView());
-		
 		app = new App();
+		
+		var glView = new OpenGLView();
+		glView.render = app.render;
+		addChild(glView);
 		
 		stage.addEventListener(Event.ENTER_FRAME, onEnterframe);
 	}
@@ -42,6 +44,5 @@ class Main extends Sprite
 	private function onEnterframe(e:Event):Void 
 	{
 		app.update();
-		app.render();
 	}
 }
