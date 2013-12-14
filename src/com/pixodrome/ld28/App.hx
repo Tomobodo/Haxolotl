@@ -21,7 +21,6 @@ import src.com.pixodrome.ld28.Renderer;
  */
 class App extends Sprite
 {
-	
 	var glRender : OpenGLView;
 	
 	var renderer : Renderer;

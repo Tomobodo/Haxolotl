@@ -938,6 +938,7 @@ flash.display.DisplayObjectContainer.prototype = $extend(flash.display.Interacti
 		HxOverrides.remove(this.__children,child);
 		child.__removeFromStage();
 		child.set_parent(null);
+		if(this.getChildIndex(child) >= 0) throw "Not removed properly";
 		return child;
 	}
 	,__invalidateMatrix: function(local) {
@@ -1102,6 +1103,7 @@ flash.display.DisplayObjectContainer.prototype = $extend(flash.display.Interacti
 				HxOverrides.remove($this.__children,child);
 				child.__removeFromStage();
 				child.set_parent(null);
+				if($this.getChildIndex(child) >= 0) throw "Not removed properly";
 				$r = child;
 				return $r;
 			}(this));
@@ -1159,6 +1161,12 @@ flash.display.DisplayObjectContainer.prototype = $extend(flash.display.Interacti
 		if(object.parent == this) {
 			this.setChildIndex(object,this.__children.length - 1);
 			return object;
+		}
+		var _g = 0, _g1 = this.__children;
+		while(_g < _g1.length) {
+			var child = _g1[_g];
+			++_g;
+			if(child == object) throw "Internal error: child already existed at index " + this.getChildIndex(object);
 		}
 		object.set_parent(this);
 		if(this.__isOnStage()) object.__addToStage(this);
@@ -6641,6 +6649,7 @@ flash.media.Sound.prototype = $extend(flash.events.EventDispatcher.prototype,{
 	}
 	,__onSoundLoadError: function(evt) {
 		this.__removeEventListeners();
+		console.log("Error loading sound '" + this.__streamUrl + "'");
 		var evt1 = new flash.events.IOErrorEvent(flash.events.IOErrorEvent.IO_ERROR);
 		this.dispatchEvent(evt1);
 	}
@@ -6650,12 +6659,19 @@ flash.media.Sound.prototype = $extend(flash.events.EventDispatcher.prototype,{
 	}
 	,__load: function(stream,context,mime) {
 		if(mime == null) mime = "";
+		if(mime == null) {
+			var url = stream.url.split("?");
+			var extension = HxOverrides.substr(url[0],url[0].lastIndexOf(".") + 1,null);
+			mime = flash.media.Sound.__mimeForExtension(extension);
+		}
+		if(mime == null || !flash.media.Sound.__canPlayMime(mime)) console.log("Warning: '" + stream.url + "' with type '" + mime + "' may not play on this browser.");
 		this.__streamUrl = stream.url;
 		try {
 			this.__soundCache = new flash.net.URLLoader();
 			this.__addEventListeners();
 			this.__soundCache.load(stream);
 		} catch( e ) {
+			console.log("Warning: Could not preload '" + stream.url + "'");
 		}
 	}
 	,__addEventListeners: function() {
@@ -6729,6 +6745,7 @@ flash.media.SoundChannel.prototype = $extend(flash.events.EventDispatcher.protot
 		return this.soundTransform = v;
 	}
 	,__onStalled: function(evt) {
+		console.log("sound stalled");
 		if(this.__audio != null) this.__audio.load();
 	}
 	,__onSoundSeeked: function(evt) {
@@ -6754,6 +6771,7 @@ flash.media.SoundChannel.prototype = $extend(flash.events.EventDispatcher.protot
 		}
 	}
 	,__onProgress: function(evt) {
+		console.log("sound progress: " + Std.string(evt));
 	}
 	,stop: function() {
 		if(this.__audio != null) {
@@ -9553,6 +9571,7 @@ openfl.display.DirectRenderer = function(inType) {
 	if(inType == "OpenGLView" && this.__graphics != null) {
 		this.__context = this.__graphics.__surface.getContext("webgl");
 		if(this.__context == null) this.__context = this.__graphics.__surface.getContext("experimental-webgl");
+		this.__context = WebGLDebugUtils.makeDebugContext(this.__context);
 	}
 };
 $hxClasses["openfl.display.DirectRenderer"] = openfl.display.DirectRenderer;
@@ -10967,3 +10986,5 @@ src.com.pixodrome.ld28.Renderer.vertexShaderSource = "\r\n\t\tattribute vec3 ver
 src.com.pixodrome.ld28.Renderer.fragmentShaderSource = "\r\n\t\tprecision mediump float;\r\n\t\r\n\t\tvarying vec2 vTexCoord;\r\n\t\t\r\n\t\tuniform sampler2D uImage0;\r\n                        \r\n        void main(void)\r\n        {\r\n            gl_FragColor = texture2D(uImage0, vTexCoord);\r\n        }\r\n\t";
 ApplicationMain.main();
 })();
+
+//@ sourceMappingURL=ld28.js.map
