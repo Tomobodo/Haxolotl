@@ -1,10 +1,10 @@
 package com.pixodrome.ld28;
 
+import com.pixodrome.ld28.App;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.Lib;
 import openfl.display.OpenGLView;
-import com.pixodrome.ld28.App;
 
 /**
  * ...

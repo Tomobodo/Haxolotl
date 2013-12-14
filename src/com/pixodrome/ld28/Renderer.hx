@@ -1,6 +1,7 @@
 package com.pixodrome.ld28;
 
 import com.pixodrome.ld28.Mesh;
+
 import flash.display.BitmapData;
 import flash.geom.Matrix3D;
 import flash.geom.Rectangle;
@@ -9,14 +10,12 @@ import flash.utils.ByteArray;
 import openfl.Assets;
 import openfl.gl.GL;
 
-import lime.gl.GLBuffer;
-import lime.gl.GLProgram;
-import lime.gl.GLShader;
-import lime.gl.GLTexture;
-import lime.gl.GLUniformLocation;
+import openfl.gl.GLBuffer;
+import openfl.gl.GLProgram;
+import openfl.gl.GLShader;
+import openfl.gl.GLTexture;
+import openfl.gl.GLUniformLocation;
 import lime.utils.UInt8Array;
-
-
 
 /**
  * ...
@@ -39,6 +38,8 @@ class Renderer
 	var texture:GLTexture;
 	
 	var bitmapData : BitmapData;
+	
+	var currentShader : Shader;
 	
 	static inline var vertexShaderSource = "
 		attribute vec3 vertexPosition;

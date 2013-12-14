@@ -1,4 +1,6 @@
 package com.pixodrome.ld28;
+
+import openfl.Assets;
 import openfl.gl.GL;
 import openfl.gl.GLProgram;
 import openfl.gl.GLShader;
@@ -9,7 +11,6 @@ import openfl.gl.GLShader;
  */
 class Shader
 {
-	
 	var program : GLProgram;
 	
 	var vertexShaderSource : String;
@@ -17,11 +18,20 @@ class Shader
 	
 	var vertexShader : GLShader;
 	var fragmentShader : GLShader;
-
-	public function new(vertexShaderSource : String, fragmentShaderSource : String) 
+	
+	var compiled : Bool;
+	
+	var name : String;
+	
+	public function new(name : String) 
 	{
-		this.vertexShaderSource = vertexShaderSource;
-		this.fragmentShaderSource = fragmentShaderSource;
+		var vertexShaderPath = "shaders/" + name + "/" + name + ".vert";
+		var fragmentShaderPath = "shaders/" + name + "/" + name + ".frag";
+		
+		this.vertexShaderSource = Assets.getText(vertexShaderPath);
+		this.fragmentShaderSource = Assets.getText(fragmentShaderPath);
+		
+		compiled = false;
 		
 		compile();
 	}
@@ -38,12 +48,14 @@ class Shader
 	{
 		vertexShader = GL.createShader(GL.VERTEX_SHADER);
 		GL.shaderSource(vertexShader, vertexShaderSource);
-		GL.compileShader (vertexShader);
+		GL.compileShader(vertexShader);
 		
 		if (GL.getShaderParameter (vertexShader, GL.COMPILE_STATUS) == 0)
 		{
 			var error = GL.getShaderInfoLog(vertexShader);
-			throw "Vertex shader error : " + error;
+			throw "Error compiling " + name + " vertex shader : " + error;
+		}else {
+			compiled = true;
 		}
 	}
 	
@@ -51,13 +63,24 @@ class Shader
 	{
 		fragmentShader = GL.createShader(GL.FRAGMENT_SHADER);
 		GL.shaderSource(fragmentShader, fragmentShaderSource);
-		GL.compileShader (shaderSource);
+		GL.compileShader(fragmentShader);
 		
 		if (GL.getShaderParameter (fragmentShader, GL.COMPILE_STATUS) == 0)
 		{
 			var error = GL.getShaderInfoLog(vertexShader);
-			throw "Fragment shader error : " + error;
+			throw "Error compiling " + name + " fragment shader : " + error;
 		}
+	}
+	
+	public function dispose() : Void
+	{
+		GL.deleteProgram(program);
+	}
+	
+	public function use() : Void
+	{
+		if (compiled)
+			GL.useProgram(program);
 	}
 	
 }

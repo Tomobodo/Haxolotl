@@ -3,6 +3,7 @@ package com.pixodrome.ld28;
 import com.pixodrome.ld28.meshes.SpriteBatch;
 import com.pixodrome.ld28.Renderer;
 import flash.geom.Rectangle;
+import openfl.Assets;
 
 /**
  * ...

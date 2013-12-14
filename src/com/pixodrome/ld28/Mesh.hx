@@ -1,6 +1,7 @@
 package com.pixodrome.ld28;
-import openfl.gl.GLBuffer;
+
 import openfl.gl.GL;
+import openfl.gl.GLBuffer;
 import openfl.utils.Float32Array;
 
 /**
