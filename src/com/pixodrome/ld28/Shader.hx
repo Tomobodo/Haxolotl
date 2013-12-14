@@ -11,7 +11,7 @@ import openfl.gl.GLShader;
  */
 class Shader
 {
-	var program : GLProgram;
+	public var program : GLProgram;
 	
 	var vertexShaderSource : String;
 	var fragmentShaderSource : String;
@@ -75,12 +75,6 @@ class Shader
 	public function dispose() : Void
 	{
 		GL.deleteProgram(program);
-	}
-	
-	public function use() : Void
-	{
-		if (compiled)
-			GL.useProgram(program);
 	}
 	
 }

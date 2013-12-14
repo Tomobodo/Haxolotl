@@ -1,6 +1,6 @@
 package com.pixodrome.ld28.meshes;
 
-import lime.gl.GLBuffer;
+import openfl.gl.GLBuffer;
 
 import com.pixodrome.ld28.Mesh;
 import com.pixodrome.ld28.Quad;

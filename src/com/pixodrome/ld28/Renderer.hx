@@ -15,7 +15,7 @@ import openfl.gl.GLProgram;
 import openfl.gl.GLShader;
 import openfl.gl.GLTexture;
 import openfl.gl.GLUniformLocation;
-import lime.utils.UInt8Array;
+import openfl.utils.UInt8Array;
 
 /**
  * ...
