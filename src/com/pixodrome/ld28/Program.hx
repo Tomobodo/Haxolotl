@@ -42,6 +42,10 @@ class Program
 		createFragmentShader();
 		
 		program = GL.createProgram();
+		
+		GL.attachShader(program, vertexShader);
+		GL.attachShader(program, fragmentShader);
+		GL.linkProgram(program);
 	}
 	
 	function createVertexShader() 

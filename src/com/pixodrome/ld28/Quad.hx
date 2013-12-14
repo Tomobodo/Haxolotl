@@ -15,7 +15,6 @@ class Quad
 	
 	public var width : Float;
 	public var height : Float;
-	public var color : Float;
 	
 	public var x(get_x, set_x):Float;
 	public var y(get_y, set_y):Float;
@@ -33,11 +32,10 @@ class Quad
 	
 	var transformMatrix : Matrix3D;
 
-	public function new(width : Float = 10, height : Float = 10 , color : Int = 0xffffff) 
+	public function new(width : Float = 10, height : Float = 10) 
 	{
 		this.width = width;
 		this.height = height;
-		this.color = color;
 		
 		this.transformMatrix = new Matrix3D();
 		
@@ -45,7 +43,7 @@ class Quad
 		this.y = 0;
 		this.rotation = 0;
 		
-		this.mesh = new Plane(width, height, color);
+		this.mesh = new Plane(width, height);
 		
 		points = new Vector<Float>();
 		

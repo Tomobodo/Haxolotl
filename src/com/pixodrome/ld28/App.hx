@@ -1,8 +1,11 @@
 package com.pixodrome.ld28;
 
+import com.pixodrome.ld28.meshes.Plane2;
 import com.pixodrome.ld28.meshes.SpriteBatch;
 import com.pixodrome.ld28.Renderer;
 import flash.geom.Rectangle;
+import flash.geom.Vector3D;
+import flash.Lib;
 import openfl.Assets;
 
 /**
@@ -15,6 +18,8 @@ class App
 	
 	var quads : Array<Quad>;
 	var batch : SpriteBatch;
+	
+	var model : Model;
 
 	public function new() 
 	{
@@ -37,6 +42,10 @@ class App
 		}
 		
 		renderer.addMesh(batch);
+		
+		model = new Model(new Plane2(64,64), new Texture("img/avatar.png"));
+		model.position.x = 100;
+		model.position.y = 100;
 	}
 	
 	function initRenderer():Void 
@@ -48,11 +57,13 @@ class App
 	{
 		for (i in 0 ... quads.length)
 			quads[i].rotation ++;
+		model.rotation.z = Math.sin(Lib.getTimer()/100) * 10;
 	}
 	
 	public function render(viewport : Rectangle) 
 	{
-		this.renderer.render(viewport);
+		//this.renderer.render(viewport);
+		model.draw(renderer);
 	}
 }
 

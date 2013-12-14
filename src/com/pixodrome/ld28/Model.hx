@@ -1,6 +1,7 @@
 package com.pixodrome.ld28;
 import flash.geom.Matrix3D;
-import lime.gl.GLUniformLocation;
+import flash.geom.Vector3D;
+import openfl.gl.GLUniformLocation;
 import openfl.gl.GL;
 
 /**
@@ -9,12 +10,15 @@ import openfl.gl.GL;
  */
 class Model
 {
-	
-	public var transform : Matrix3D;
 	public var program : Program;
+	
+	public var position : Vector3D;
+	public var rotation : Vector3D;
+	public var scale : Vector3D;
 	
 	var mesh : Mesh;
 	var texture : Texture;
+	var transform : Matrix3D;
 	
 	var vtxPosAttr : Int;
 	var texCoordAttr : Int;
@@ -27,11 +31,17 @@ class Model
 		texture = _texture;
 		transform = new Matrix3D();
 		
+		position = new Vector3D();
+		rotation = new Vector3D();
+		scale = new Vector3D(1, 1, 1);
+		
 		if (_program == null)
 			program = new Program("basic");
 		
+		GL.useProgram(program.program);
 		initAttributes();
 		initUniforms();
+		GL.useProgram(null);
 	}
 	
 	function initAttributes() 
@@ -47,19 +57,21 @@ class Model
 	
 	public function draw(renderer : Renderer)
 	{
-		GL.useProgram(program);
+		updateMatrix();
+		
+		GL.useProgram(program.program);
 		GL.enableVertexAttribArray(vtxPosAttr);
 		GL.enableVertexAttribArray(texCoordAttr);
 		
 		var projectionMatrixUniform = GL.getUniformLocation(program.program, "projectionMatrix");
 		var modelViewMatrixUniform = GL.getUniformLocation(program.program, "modelViewMatrix");
 	
-		GL.uniformMatrix3D(projectionMatrixUniform, renderer.projectionMatrix);
-		GL.uniformMatrix3D(modelViewMatrixUniform, transform);
+		GL.uniformMatrix3D(projectionMatrixUniform, false, renderer.projectionMatrix);
+		GL.uniformMatrix3D(modelViewMatrixUniform, false, transform);
 		GL.uniform1i(imageUniform, 0);
 		
 		GL.activeTexture(GL.TEXTURE0);
-		GL.bindTexture(GL.TEXTURE_2D, texture);
+		GL.bindTexture(GL.TEXTURE_2D, texture.texture);
 		
 		GL.bindBuffer (GL.ARRAY_BUFFER, mesh.getBuffer());
 		GL.vertexAttribPointer (vtxPosAttr, 3, GL.FLOAT, false, 0, 0);
@@ -75,6 +87,15 @@ class Model
 		GL.disableVertexAttribArray(vtxPosAttr);
 		GL.disableVertexAttribArray(texCoordAttr);
 		GL.useProgram(null);
+	}
+	
+	function updateMatrix() 
+	{
+		transform.identity();
+		
+		transform.prependRotation(rotation.z, Vector3D.Z_AXIS);
+		//transform.
+		transform.position = position;
 	}
 	
 }

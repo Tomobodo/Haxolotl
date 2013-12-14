@@ -12,28 +12,23 @@ class Mesh
 {
 	public var vertices : Array<Float>;
 	public var texCoord : Array<Float>;
-	public var colors : Array<Float>;
 	
 	var vertexBuffer : GLBuffer;
 	var textCoordBuffer:GLBuffer;
 
-	public function new(vertices : Array<Float> = null, texCoord : Array<Float> = null, colors : Array<Float> = null) 
+	public function new(_vertices : Array<Float> = null, _texCoord : Array<Float> = null) 
 	{
 		vertexBuffer = GL.createBuffer();
 		textCoordBuffer = GL.createBuffer();
 		
-		if (vertices == null)
-			vertices = new Array<Float>();
-		this.vertices = vertices;
+		if (_vertices == null)
+			_vertices = new Array<Float>();
+		vertices = _vertices;
 		
-		if (texCoord == null)
-			texCoord = new Array<Float>();
-		this.texCoord = texCoord;
-		
-		if (colors == null)
-			colors = new Array<Float>();
-		this.colors = colors;
-		
+		if (_texCoord == null)
+			_texCoord = new Array<Float>();
+		texCoord = _texCoord;
+				
 		updateBuffer();
 	}
 	
