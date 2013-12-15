@@ -62,7 +62,6 @@ class TestIndex extends Model
 		GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, indexBuffer);
 		
 		GL.drawElements(GL.TRIANGLES, 6, GL.UNSIGNED_SHORT, 0);		
-		//GL.drawArrays (GL.TRIANGLES, 0, cast(mesh.vertices.length / 3));
 			
 		GL.bindBuffer (GL.ARRAY_BUFFER, null);
 		GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, null);

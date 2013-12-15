@@ -4,6 +4,7 @@ import flash.Lib;
 import openfl.gl.GL;
 import openfl.gl.GLBuffer;
 import openfl.utils.Float32Array;
+import openfl.utils.Int16Array;
 
 import com.pixodrome.ld28.Mesh;
 import com.pixodrome.ld28.Quad;
@@ -61,7 +62,7 @@ class SpriteBatch extends Mesh
 			needUpdate = false;
 		}
 		
-		genMode = GL.STREAM_DRAW;
+		vertexDrawMode = GL.STREAM_DRAW;
 			
 		return super.getBuffer();
 	}
@@ -76,16 +77,11 @@ class SpriteBatch extends Mesh
 			if (quad.needUpdate)
 				quad.update();
 				
-			var index = [0, 1, 2, 2, 3, 0];
-				
-			for (j in 0 ... 6)
-			{
-				var a = i * 18 + j * 3;
-				var b = index[j] * 3;
-				
-				for (k in 0 ... 3)
-					vertices[a + k] = quad.points[b + k];
-			}
+			var nb = quad.points.length;
+			var a = i * nb;
+			
+			for (j in 0 ... nb)
+				vertices[a + j] = quad.points[j];
 		}
 		
 		updateVertexBuffer();
@@ -95,6 +91,7 @@ class SpriteBatch extends Mesh
 	{
 		var tempsVert = new Array<Float>();
 		var tempCoord = new Array<Float>();
+		var tempIndex = new Array<Int>();
 		
 		for (i in 0 ... quadList.length)
 		{
@@ -103,24 +100,26 @@ class SpriteBatch extends Mesh
 			if (quad.needUpdate)
 				quad.update();
 			
-			var index = [0, 1, 2, 2, 3, 0];
+			var index = [
+				0 + i * 4, 
+				1 + i * 4, 
+				2 + i * 4, 
+				2 + i * 4, 
+				3 + i * 4, 
+				0 + i * 4
+			];
 			
-			for (i in 0 ... index.length)
-			{
-				var k = index[i];
-				tempsVert.push(quad.points[k * 3 + 0]);
-				tempsVert.push(quad.points[k * 3 + 1]);
-				tempsVert.push(quad.points[k * 3 + 2]);
-			}
+			tempIndex = tempIndex.concat(index);
+			
+			for (j in 0 ... quad.points.length)
+				tempsVert.push(quad.points[j]);
+			
 			
 			var quadCoord : Array<Float> = [
 				0, 0,
 				1, 0,
 				1, 1,
-				
-				1, 1,
-				0, 1,
-				0, 0
+				0, 1
 			];
 			
 			tempCoord = tempCoord.concat(quadCoord);
@@ -128,8 +127,10 @@ class SpriteBatch extends Mesh
 		
 		vertices = new Float32Array(tempsVert);
 		texCoord = new Float32Array(tempCoord);
+		indexes = new Int16Array(tempIndex);
 		
 		genVertexBuffer();
-		genTexCoordBuff();
+		genTexCoordBuffer();
+		genIndexBuffer();
 	}
 }

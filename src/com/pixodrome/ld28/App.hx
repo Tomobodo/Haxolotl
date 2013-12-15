@@ -1,5 +1,6 @@
 package com.pixodrome.ld28;
 
+import com.pixodrome.ld28.meshes.Plane;
 import com.pixodrome.ld28.meshes.Plane2;
 import com.pixodrome.ld28.meshes.SpriteBatch;
 import com.pixodrome.ld28.Renderer;
@@ -20,17 +21,16 @@ class App
 	var batch : SpriteBatch;
 	
 	var model : Model;
-	var a:com.pixodrome.ld28.TestIndex;
 
 	public function new() 
 	{
 		initRenderer();
-		/*
+		
 		batch = new SpriteBatch();
 		
 		quads = new Array<Quad>();
 		
-		for (i in 0 ... 1000)
+		for (i in 0 ... 5000)
 		{
 			var quad = new Quad(64, 64);
 			
@@ -42,13 +42,12 @@ class App
 			batch.add(quad);
 		}
 		
-		renderer.addMesh(batch);*/
-		
-		//model = new Model(new Plane2(64,64), new Texture("img/avatar.png"));
+		//renderer.addMesh(batch);
+		model = new Model(batch, new Texture("img/avatar.png"));
+	
+		//model = new Model(new Plane(64, 64), new Texture("img/avatar.png"));
 		//model.position.x = 100;
 		//model.position.y = 100;
-		
-		a = new TestIndex();
 	}
 	
 	function initRenderer():Void 
@@ -57,7 +56,7 @@ class App
 	}
 		
 	public function update() 
-	{/*
+	{
 		for (i in 0 ... quads.length)
 		{
 			quads[i].x += 3;
@@ -67,14 +66,13 @@ class App
 				quads[i].x = 0;
 				quads[i].y = Math.random() * 480;
 			}
-		}*/
+		}
 	}
 	
 	public function render(viewport : Rectangle) 
 	{
-		//this.renderer.render(viewport);
-		//model.draw(renderer);
-		a.draw(renderer);
+		this.renderer.render(viewport);
+		model.draw(renderer);
 	}
 }
 

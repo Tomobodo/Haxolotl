@@ -27,6 +27,8 @@ class Plane extends Mesh
 			0.0, 0.0
 		];
 		
-		super(vertices, texCoords);
+		var indexes = [0, 1, 2, 2, 3, 0];
+		
+		super(vertices, texCoords, indexes);
 	}
 }

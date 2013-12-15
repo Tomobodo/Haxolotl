@@ -82,9 +82,13 @@ class Model
 		GL.bindBuffer (GL.ARRAY_BUFFER, mesh.getTextCoord());
 		GL.vertexAttribPointer (texCoordAttr, 2, GL.FLOAT, false, 0, 0);
 			
-		GL.drawArrays (GL.TRIANGLES, 0, cast(mesh.vertices.length / 3));
-			
+		GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, mesh.getIndexBuffer());
+		
+		GL.drawElements(GL.TRIANGLES, mesh.indexes.length, GL.UNSIGNED_SHORT, 0);
+		
 		GL.bindBuffer (GL.ARRAY_BUFFER, null);
+		GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, null);
+
 		GL.bindTexture(GL.TEXTURE_2D, null);
 		
 		GL.disableVertexAttribArray(vtxPosAttr);

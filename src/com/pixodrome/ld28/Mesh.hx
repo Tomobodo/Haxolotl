@@ -3,7 +3,7 @@ package com.pixodrome.ld28;
 import openfl.gl.GL;
 import openfl.gl.GLBuffer;
 import openfl.utils.Float32Array;
-import openfl.utils.UInt8Array;
+import openfl.utils.Int16Array;
 
 /**
  * ...
@@ -13,16 +13,19 @@ class Mesh
 {
 	public var vertices : Float32Array;
 	public var texCoord : Float32Array;
+	public var indexes  : Int16Array;
 	
+	public var vertexDrawMode : Int;
+
 	var vertexBuffer : GLBuffer;
 	var textCoordBuffer:GLBuffer;
-	
-	var genMode : Int;
+	var indexBuffer : GLBuffer;
 
-	public function new(_vertices : Array<Float> = null, _texCoord : Array<Float> = null) 
+	public function new(_vertices : Array<Float> = null, _texCoord : Array<Float> = null, _indexes : Array<Int> = null) 
 	{
 		vertexBuffer = GL.createBuffer();
 		textCoordBuffer = GL.createBuffer();
+		indexBuffer = GL.createBuffer();
 		
 		if (_vertices == null)
 			_vertices = new Array<Float>();
@@ -32,11 +35,17 @@ class Mesh
 			_texCoord = new Array<Float>();
 		texCoord = new Float32Array(_texCoord);
 		
-		genMode = GL.STATIC_DRAW;
+		if (_indexes == null)
+			_indexes = new Array<Int>();
+		indexes = new Int16Array(_indexes);
+		
+		vertexDrawMode = GL.STATIC_DRAW;
 				
 		genVertexBuffer();
-		genTexCoordBuff();
+		genTexCoordBuffer();
+		genIndexBuffer();
 	}
+	
 	
 	public function getBuffer() : GLBuffer
 	{
@@ -48,10 +57,15 @@ class Mesh
 		return this.textCoordBuffer;
 	}
 	
+	public function getIndexBuffer() : GLBuffer
+	{
+		return this.indexBuffer;
+	}
+	
 	function genVertexBuffer() : Void
 	{
 		GL.bindBuffer(GL.ARRAY_BUFFER, vertexBuffer);
-		GL.bufferData(GL.ARRAY_BUFFER, vertices, genMode);
+		GL.bufferData(GL.ARRAY_BUFFER, vertices, vertexDrawMode);
 		GL.bindBuffer(GL.ARRAY_BUFFER, null);
 	}
 	
@@ -62,7 +76,7 @@ class Mesh
 		GL.bindBuffer(GL.ARRAY_BUFFER, null);
 	}
 	
-	function genTexCoordBuff() : Void
+	function genTexCoordBuffer() : Void
 	{
 		GL.bindBuffer(GL.ARRAY_BUFFER, textCoordBuffer);
 		GL.bufferData(GL.ARRAY_BUFFER, texCoord, GL.STATIC_DRAW);
@@ -74,5 +88,19 @@ class Mesh
 		GL.bindBuffer(GL.ARRAY_BUFFER, textCoordBuffer);
 		GL.bufferSubData(GL.ARRAY_BUFFER, 0, texCoord);
 		GL.bindBuffer(GL.ARRAY_BUFFER, null);
+	}
+	
+	function genIndexBuffer() 
+	{
+		GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, indexBuffer);
+		GL.bufferData(GL.ELEMENT_ARRAY_BUFFER, indexes, GL.STATIC_DRAW);
+		GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, null);
+	}
+	
+	function updateIndexBuffer() 
+	{
+		GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, indexBuffer);
+		GL.bufferSubData(GL.ELEMENT_ARRAY_BUFFER, 0, indexes);
+		GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, null);
 	}
 }
