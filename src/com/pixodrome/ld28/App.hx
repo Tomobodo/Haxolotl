@@ -29,7 +29,7 @@ class App
 		
 		quads = new Array<Quad>();
 		
-		for (i in 0 ... 15000)
+		for (i in 0 ... 150)
 		{
 			var quad = new Quad(64, 64);
 			
