@@ -44,7 +44,6 @@ class Model
 		GL.useProgram(program.program);
 		initAttributes();
 		initUniforms();
-		GL.useProgram(null);
 	}
 	
 	function initAttributes() 
@@ -85,15 +84,6 @@ class Model
 		GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, mesh.getIndexBuffer());
 		
 		GL.drawElements(GL.TRIANGLES, mesh.indexes.length, GL.UNSIGNED_SHORT, 0);
-		
-		GL.bindBuffer (GL.ARRAY_BUFFER, null);
-		GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, null);
-
-		GL.bindTexture(GL.TEXTURE_2D, null);
-		
-		GL.disableVertexAttribArray(vtxPosAttr);
-		GL.disableVertexAttribArray(texCoordAttr);
-		GL.useProgram(null);
 	}
 	
 	function updateMatrix() 

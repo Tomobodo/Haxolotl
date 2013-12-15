@@ -23,131 +23,29 @@ import openfl.utils.UInt8Array;
  */
 class Renderer
 {
-	var shaderProgram : GLProgram;
+	var models : Array<Model>;
 	
-	var vertexPosAttribute:Int;
-	var texCoordAttribute:Int;
-
-	var imageUniform:GLUniformLocation;
-	
-	var meshes : Array<Mesh>;
-	var vertexBuffer : GLBuffer;
-	
-	var angle : Float;
-	
-	var bitmapData : BitmapData;
-	
-	var currentShader : Program;
-
-	var texture: Texture;
+	var numChildren : Int;
 	
 	public var projectionMatrix : Matrix3D;
-	public var modelViewMatrix : Matrix3D;
 	
-	static inline var vertexShaderSource = "
-		attribute vec3 vertexPosition;
-		attribute vec4 vertexColor;
-		
-		attribute vec2 aTexCoord;
-        
-		varying vec2 vTexCoord;
-			
-		uniform mat4 modelViewMatrix;
-		uniform mat4 projectionMatrix;
-			
-		void main(void) {
-			vTexCoord = aTexCoord;
-			gl_Position = projectionMatrix * modelViewMatrix * vec4(vertexPosition, 1.0);
-		}
-	";
-	
-	static inline var fragmentShaderSource = "
-		precision mediump float;
-	
-		varying vec2 vTexCoord;
-		
-		uniform sampler2D uImage0;
-                        
-        void main(void)
-        {
-            gl_FragColor = texture2D(uImage0, vTexCoord);
-        }
-	";
-
 	public function new() 
 	{
-		meshes = new Array<Mesh>();
-		
-		texture = new Texture("img/avatar.png");
-	
-		initShaders();
+		models = new Array<Model>();
 		
 		projectionMatrix = Matrix3D.createOrtho(0, 800, 480, 0, 1000, -1000);
-		modelViewMatrix = Matrix3D.create2D(0, 0, 1, angle);
-		
-		angle = 0;
 	}
 	
-	public function addMesh(mesh : Mesh) : Void
+	public function add(_model : Model) : Void
 	{
-		meshes.push(mesh);
+		models.push(_model);
+		numChildren = models.length;
 	}
 	
-	function initShaders()
+	public function remove(_model : Model) : Void
 	{
-		var vertexShader = createVertexShader();
-		var fragmentShader = createFragmentShader();
-		
-		shaderProgram = GL.createProgram();
-		
-		GL.attachShader(shaderProgram, vertexShader);
-		GL.attachShader(shaderProgram, fragmentShader);
-		GL.linkProgram(shaderProgram);
-		
-		if (GL.getProgramParameter (shaderProgram, GL.LINK_STATUS) == 0)
-			throw "Unable to initialize the shader program.";
-		
-		vertexPosAttribute = GL.getAttribLocation (shaderProgram, "vertexPosition");
-		texCoordAttribute = GL.getAttribLocation (shaderProgram, "aTexCoord");
-		imageUniform = GL.getUniformLocation (shaderProgram, "uImage0");
-	}
-	
-	/**
-	 * Generate vertex shader
-	 * @TODO try using HXSL for shader 
-	 */
-	function createVertexShader() : GLShader
-	{
-		var vertexShader = GL.createShader(GL.VERTEX_SHADER);
-		GL.shaderSource(vertexShader, vertexShaderSource);
-		GL.compileShader (vertexShader);
-		
-		if (GL.getShaderParameter (vertexShader, GL.COMPILE_STATUS) == 0)
-		{
-			var message = GL.getShaderInfoLog(vertexShader);
-			throw "Error compiling vertex shader : " + message;
-		}
-			
-		return vertexShader;
-	}
-	
-	/**
-	 * Fragment Shader
-	 */
-	function createFragmentShader() : GLShader
-	{
-		var fragmentShader = GL.createShader (GL.FRAGMENT_SHADER);
-		
-		GL.shaderSource (fragmentShader, fragmentShaderSource);
-		GL.compileShader (fragmentShader);
-		
-		if (GL.getShaderParameter (fragmentShader, GL.COMPILE_STATUS) == 0)
-		{
-			var message = GL.getShaderInfoLog(fragmentShader);
-			throw "Error compiling fragment shader : " + message;
-		}
-		
-		return fragmentShader;
+		models.remove(_model);
+		numChildren = models.length;
 	}
 	
 	public function render(viewport : Rectangle) : Void
@@ -158,40 +56,8 @@ class Renderer
 		GL.clearColor (0.0, 0.0, 0.0, 1.0);
 		GL.clear (GL.COLOR_BUFFER_BIT | GL.DEPTH_BUFFER_BIT);
 		
-		GL.useProgram(shaderProgram);
-		GL.enableVertexAttribArray(vertexPosAttribute);
-		GL.enableVertexAttribArray(texCoordAttribute);
-		
-		var projectionMatrixUniform = GL.getUniformLocation (shaderProgram, "projectionMatrix");
-		var modelViewMatrixUniform = GL.getUniformLocation (shaderProgram, "modelViewMatrix");
-			
-		GL.uniformMatrix3D (projectionMatrixUniform, false, projectionMatrix);
-		GL.uniformMatrix3D (modelViewMatrixUniform, false, modelViewMatrix);
-		GL.uniform1i(imageUniform, 0);
-		
-		for (i in 0 ... meshes.length)
-			draw(meshes[i]);
-		
-		GL.disableVertexAttribArray(vertexPosAttribute);
-		GL.disableVertexAttribArray(texCoordAttribute);
-		GL.useProgram(null);
-	}
-	
-	function draw(mesh : Mesh) : Void
-	{
-		GL.activeTexture(GL.TEXTURE0);
-		GL.bindTexture(GL.TEXTURE_2D, texture.texture);
-		
-		GL.bindBuffer (GL.ARRAY_BUFFER, mesh.getBuffer());
-		GL.vertexAttribPointer (vertexPosAttribute, 3, GL.FLOAT, false, 0, 0);
-		
-		GL.bindBuffer (GL.ARRAY_BUFFER, mesh.getTextCoord());
-		GL.vertexAttribPointer (texCoordAttribute, 2, GL.FLOAT, false, 0, 0);
-			
-		GL.drawArrays (GL.TRIANGLES, 0, cast(mesh.vertices.length / 3));
-			
-		GL.bindBuffer (GL.ARRAY_BUFFER, null);
-		GL.bindTexture(GL.TEXTURE_2D, null);
+		for (i in 0 ... numChildren)
+			models[i].draw(this);
 	}
 	
 }

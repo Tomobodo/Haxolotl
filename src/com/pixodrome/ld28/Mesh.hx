@@ -66,41 +66,35 @@ class Mesh
 	{
 		GL.bindBuffer(GL.ARRAY_BUFFER, vertexBuffer);
 		GL.bufferData(GL.ARRAY_BUFFER, vertices, vertexDrawMode);
-		GL.bindBuffer(GL.ARRAY_BUFFER, null);
 	}
 	
 	function updateVertexBuffer() : Void
 	{
 		GL.bindBuffer(GL.ARRAY_BUFFER, vertexBuffer);
 		GL.bufferSubData(GL.ARRAY_BUFFER, 0, vertices);
-		GL.bindBuffer(GL.ARRAY_BUFFER, null);
 	}
 	
 	function genTexCoordBuffer() : Void
 	{
 		GL.bindBuffer(GL.ARRAY_BUFFER, textCoordBuffer);
 		GL.bufferData(GL.ARRAY_BUFFER, texCoord, GL.STATIC_DRAW);
-		GL.bindBuffer(GL.ARRAY_BUFFER, null);
 	}
 	
 	function updateTexCoordBuffer() : Void
 	{
 		GL.bindBuffer(GL.ARRAY_BUFFER, textCoordBuffer);
 		GL.bufferSubData(GL.ARRAY_BUFFER, 0, texCoord);
-		GL.bindBuffer(GL.ARRAY_BUFFER, null);
 	}
 	
 	function genIndexBuffer() 
 	{
 		GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, indexBuffer);
 		GL.bufferData(GL.ELEMENT_ARRAY_BUFFER, indexes, GL.STATIC_DRAW);
-		GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, null);
 	}
 	
 	function updateIndexBuffer() 
 	{
 		GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, indexBuffer);
 		GL.bufferSubData(GL.ELEMENT_ARRAY_BUFFER, 0, indexes);
-		GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, null);
 	}
 }
