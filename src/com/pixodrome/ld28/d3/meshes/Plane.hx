@@ -1,4 +1,4 @@
-package com.pixodrome.ld28.meshes;
+package com.pixodrome.ld28.d3.meshes;
 
 import com.pixodrome.ld28.Mesh;
 

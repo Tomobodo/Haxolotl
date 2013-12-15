@@ -1,7 +1,7 @@
 package com.pixodrome.ld28;
 
-import com.pixodrome.ld28.meshes.Plane;
-import com.pixodrome.ld28.meshes.SpriteBatch;
+import com.pixodrome.ld28.d3.meshes.Plane;
+import com.pixodrome.ld28.d3.meshes.SpriteBatch;
 import com.pixodrome.ld28.Renderer;
 import flash.geom.Rectangle;
 import flash.geom.Vector3D;
@@ -29,7 +29,7 @@ class App
 		
 		quads = new Array<Quad>();
 		
-		for (i in 0 ... 15000)
+		for (i in 0 ... 100)
 		{
 			var quad = new Quad(64, 64);
 			

@@ -1,6 +1,6 @@
 package com.pixodrome.ld28;
 
-import com.pixodrome.ld28.meshes.Plane;
+import com.pixodrome.ld28.d3.meshes.Plane;
 import flash.Vector;
 import flash.geom.Vector3D;
 import flash.geom.Matrix3D;
