@@ -38,7 +38,8 @@ class Model
 		scale = new Vector3D(1, 1, 1);
 		
 		if (_program == null)
-			program = new Program("basic");
+			_program = new Program("basic");
+		program = _program;
 		
 		GL.useProgram(program.program);
 		initAttributes();

@@ -20,6 +20,7 @@ class App
 	var batch : SpriteBatch;
 	
 	var model : Model;
+	var a:com.pixodrome.ld28.TestIndex;
 
 	public function new() 
 	{
@@ -29,7 +30,7 @@ class App
 		
 		quads = new Array<Quad>();
 		
-		for (i in 0 ... 150)
+		for (i in 0 ... 15000)
 		{
 			var quad = new Quad(64, 64);
 			
@@ -46,6 +47,8 @@ class App
 		model = new Model(new Plane2(64,64), new Texture("img/avatar.png"));
 		model.position.x = 100;
 		model.position.y = 100;
+		
+		a = new TestIndex();
 	}
 	
 	function initRenderer():Void 
@@ -68,6 +71,7 @@ class App
 	{
 		this.renderer.render(viewport);
 		//model.draw(renderer);
+		//a.draw(renderer);
 	}
 }
 

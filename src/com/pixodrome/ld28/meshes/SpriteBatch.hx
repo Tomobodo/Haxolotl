@@ -126,7 +126,7 @@ class SpriteBatch extends Mesh
 		vertices = new Float32Array(tempsVert);
 		texCoord = new Float32Array(tempCoord);
 		
-		updateVertexBuffer();
-		updateTexCoordBuffer();
+		genVertexBuffer();
+		genTexCoordBuff();
 	}
 }

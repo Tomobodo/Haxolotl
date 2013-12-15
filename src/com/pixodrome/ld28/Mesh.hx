@@ -3,6 +3,7 @@ package com.pixodrome.ld28;
 import openfl.gl.GL;
 import openfl.gl.GLBuffer;
 import openfl.utils.Float32Array;
+import openfl.utils.UInt8Array;
 
 /**
  * ...
@@ -43,17 +44,31 @@ class Mesh
 		return this.textCoordBuffer;
 	}
 	
-	function updateVertexBuffer() : Void
+	function genVertexBuffer() : Void
 	{
 		GL.bindBuffer(GL.ARRAY_BUFFER, vertexBuffer);
 		GL.bufferData(GL.ARRAY_BUFFER, vertices, GL.DYNAMIC_DRAW);
 		GL.bindBuffer(GL.ARRAY_BUFFER, null);
 	}
 	
-	function updateTexCoordBuffer() : Void
+	function updateVertexBuffer() : Void
+	{
+		GL.bindBuffer(GL.ARRAY_BUFFER, vertexBuffer);
+		GL.bufferSubData(GL.ARRAY_BUFFER, 0, vertices);
+		GL.bindBuffer(GL.ARRAY_BUFFER, null);
+	}
+	
+	function genTexCoordBuff() : Void
 	{
 		GL.bindBuffer(GL.ARRAY_BUFFER, textCoordBuffer);
 		GL.bufferData(GL.ARRAY_BUFFER, texCoord, GL.STATIC_DRAW);
+		GL.bindBuffer(GL.ARRAY_BUFFER, null);
+	}
+	
+	function updateTexCoordBuffer() : Void
+	{
+		GL.bindBuffer(GL.ARRAY_BUFFER, textCoordBuffer);
+		GL.bufferSubData(GL.ARRAY_BUFFER, 0, texCoord);
 		GL.bindBuffer(GL.ARRAY_BUFFER, null);
 	}
 }
