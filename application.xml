@@ -15,8 +15,6 @@
 	<!-- classpath, haxe libs -->
 	<source path="src" />
 	<haxelib name="openfl" />
-	<haxelib name="lime" />
-	
 	
 	<!-- assets -->
 	<icon path="assets/openfl.svg" />

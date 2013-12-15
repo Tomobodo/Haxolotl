@@ -65,7 +65,6 @@ class SpriteBatch extends Mesh
 	
 	public function update() : Void
 	{
-		
 		var startTime = Lib.getTimer();
 		for (i in 0 ... quadList.length)
 		{
@@ -85,7 +84,6 @@ class SpriteBatch extends Mesh
 					vertices[a + k] = quad.points[b + k];
 			}
 		}
-		trace(Lib.getTimer() - startTime);
 		
 		updateVertexBuffer();
 	}

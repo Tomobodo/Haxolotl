@@ -49,7 +49,7 @@ class Main extends Sprite
 		
 		var fpsBackground = new Shape();
 		fpsBackground.graphics.beginFill(0x000033);
-		fpsBackground.graphics.drawRect(0, 0, fps.width, fps.height);
+		fpsBackground.graphics.drawRect(0, 0, 50, fps.height);
 		fpsBackground.graphics.endFill();
 		
 		addChild(fpsBackground);
