@@ -9,7 +9,7 @@ import openfl.gl.GL;
  * ...
  * @author Thomas BAUDON
  */
-class Model
+class Model implements IDrawable
 {
 	public var program : Program;
 	

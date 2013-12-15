@@ -1,5 +1,6 @@
 package com.pixodrome.ld28;
 
+import com.pixodrome.ld28.d2.DisplayObject;
 import com.pixodrome.ld28.d3.meshes.Plane;
 import com.pixodrome.ld28.d3.meshes.SpriteBatch;
 import com.pixodrome.ld28.Renderer;
@@ -44,6 +45,8 @@ class App
 		model = new Model(batch, new Texture("img/avatar.png"));
 		
 		renderer.add(model);
+		
+		var a = new DisplayObject(64,64,new Texture("img/avatar.png"));
 	}
 	
 	function initRenderer():Void 

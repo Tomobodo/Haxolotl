@@ -7,24 +7,24 @@ import com.pixodrome.ld28.Mesh;
  */
 class Plane2D extends Mesh
 {
-	public function new(_w : Int, _h : Int) 
+	public function new(_w : Float, _h : Float) 
 	{
-		vertices = [
-			0, 0,
-			_w, 0,
+		var _vertices = [
+			0.0, 0.0,
+			_w, 0.0,
 			_w, _h,
-			0, _h
+			0.0, _h
 		];
 		
-		texCoord = [
-			0, 1,
-			1, 1,
-			1, 0,
-			0, 0
+		var _texCoord = [
+			0.0, 1.0,
+			1.0, 1.0,
+			1.0, 0.0,
+			0.0, 0.0
 		];
 		
-		indexes = [0, 1, 2, 2, 3, 0];
+		var _indexes = [0, 1, 2, 2, 3, 0];
 		
-		super(vertices, texCoord, indexes);
+		super(_vertices, _texCoord, _indexes);
 	}
 }
