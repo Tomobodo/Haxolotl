@@ -1,6 +1,7 @@
 package com.pixodrome.ld28;
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
+import flash.Lib;
 import openfl.gl.GLUniformLocation;
 import openfl.gl.GL;
 
@@ -33,6 +34,7 @@ class Model
 		
 		position = new Vector3D();
 		rotation = new Vector3D();
+		
 		scale = new Vector3D(1, 1, 1);
 		
 		if (_program == null)
@@ -93,8 +95,7 @@ class Model
 	{
 		transform.identity();
 		
-		transform.prependRotation(rotation.z, Vector3D.Z_AXIS);
-		//transform.
+		transform.appendRotation(rotation.w, rotation);
 		transform.position = position;
 	}
 	

@@ -1,9 +1,13 @@
 package com.pixodrome.ld28;
 
 import com.pixodrome.ld28.App;
+import flash.display.Shape;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.Lib;
+import flash.text.TextFieldAutoSize;
+import flash.text.TextFormat;
+import openfl.display.FPS;
 import openfl.display.OpenGLView;
 
 /**
@@ -38,6 +42,19 @@ class Main extends Sprite
 		glView.render = app.render;
 		
 		addChild(glView);
+		
+		var fps = new FPS(0, 0, 0xffffff);
+		fps.defaultTextFormat = new TextFormat("arial", 14, 0xffffff, true);
+		fps.autoSize = TextFieldAutoSize.LEFT;
+		
+		var fpsBackground = new Shape();
+		fpsBackground.graphics.beginFill(0x000033);
+		fpsBackground.graphics.drawRect(0, 0, fps.width, fps.height);
+		fpsBackground.graphics.endFill();
+		
+		addChild(fpsBackground);
+		
+		addChild(fps);
 		
 		stage.addEventListener(Event.ENTER_FRAME, onEnterframe);
 	}

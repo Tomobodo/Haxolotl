@@ -1,10 +1,13 @@
 package com.pixodrome.ld28;
 
 import com.pixodrome.ld28.Mesh;
+import flash.display.Bitmap;
 import flash.display.BitmapData;
 import flash.geom.Matrix3D;
 import flash.geom.Rectangle;
+import flash.geom.PerspectiveProjection;
 import flash.utils.ByteArray;
+import flash.geom.Point;
 import openfl.Assets;
 import openfl.gl.GL;
 import openfl.gl.GLBuffer;
@@ -79,8 +82,8 @@ class Renderer
 	
 		initShaders();
 		
-		projectionMatrix = Matrix3D.createOrtho (0, 800, 480, 0, 1000, -1000);
-		modelViewMatrix = Matrix3D.create2D (0, 0, 1, angle);
+		projectionMatrix = Matrix3D.createOrtho(0, 800, 480, 0, 1000, -1000);
+		modelViewMatrix = Matrix3D.create2D(0, 0, 1, angle);
 		
 		angle = 0;
 	}

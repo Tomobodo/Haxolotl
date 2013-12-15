@@ -29,7 +29,7 @@ class App
 		
 		quads = new Array<Quad>();
 		
-		for (i in 0 ... 5)
+		for (i in 0 ... 15000)
 		{
 			var quad = new Quad(64, 64);
 			
@@ -57,13 +57,12 @@ class App
 	{
 		for (i in 0 ... quads.length)
 			quads[i].rotation ++;
-		model.rotation.z = Math.sin(Lib.getTimer()/100) * 10;
 	}
 	
 	public function render(viewport : Rectangle) 
 	{
-		//this.renderer.render(viewport);
-		model.draw(renderer);
+		this.renderer.render(viewport);
+		//model.draw(renderer);
 	}
 }
 
