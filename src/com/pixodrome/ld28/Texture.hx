@@ -36,7 +36,7 @@ class Texture
 		
 		GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MAG_FILTER, GL.NEAREST);
         GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.NEAREST);
-		GL.generateMipmap(GL.TEXTURE_2D);
+		//GL.generateMipmap(GL.TEXTURE_2D);
         GL.bindTexture(GL.TEXTURE_2D, null);
 	}
 	

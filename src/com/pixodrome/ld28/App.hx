@@ -29,7 +29,7 @@ class App
 		
 		quads = new Array<Quad>();
 		
-		for (i in 0 ... 15000)
+		for (i in 0 ... 20000)
 		{
 			var quad = new Quad(64, 64);
 			
@@ -56,7 +56,12 @@ class App
 	public function update() 
 	{
 		for (i in 0 ... quads.length)
+		{
+			quads[i].x += 3;
 			quads[i].rotation ++;
+			if (quads[i].x > 800)
+				quads[i].x = 0;
+		}
 	}
 	
 	public function render(viewport : Rectangle) 

@@ -2,7 +2,6 @@ package com.pixodrome.ld28;
 
 import com.pixodrome.ld28.meshes.Plane;
 import lime.utils.Vector.Vector;
-
 import lime.geometry.Vector3D;
 import lime.geometry.Matrix3D;
 
@@ -24,8 +23,7 @@ class Quad
 	
 	public var needUpdate : Bool;
 
-	var _x : Float;
-	var _y : Float;
+	var _position : Vector3D;
 	var _rotation : Float;
 	
 	var mesh : Mesh;
@@ -38,6 +36,8 @@ class Quad
 		this.height = height;
 		
 		this.transformMatrix = new Matrix3D();
+		
+		this._position = new Vector3D();
 		
 		this.x = 0;
 		this.y = 0;
@@ -53,12 +53,13 @@ class Quad
 	public function update() : Void
 	{
 		transformMatrix.identity();
-		
 		transformMatrix.appendRotation(_rotation, Vector3D.Z_AXIS);
-		transformMatrix.appendTranslation(_x, _y, 0);
+		transformMatrix.position = _position;
 		
 		var input = new Vector<Float>();
-		input = input.concat(mesh.vertices);
+		var nbVertex = mesh.vertices.length;
+		for(i in 0 ... nbVertex)
+			input[i] = mesh.vertices[i];
 		
 		transformMatrix.transformVectors(input, points);
 			
@@ -67,24 +68,24 @@ class Quad
 	
 	function get_x():Float 
 	{
-		return _x;
+		return _position.x;
 	}
 	
 	function set_x(value:Float):Float 
 	{
 		needUpdate = true;
-		return _x = value;
+		return _position.x = value;
 	}
 	
 	function get_y():Float 
 	{
-		return _y;
+		return _position.y;
 	}
 	
 	function set_y(value:Float):Float 
 	{
 		needUpdate = true;
-		return _y = value;
+		return _position.y = value;
 	}
 	function get_rotation():Float 
 	{

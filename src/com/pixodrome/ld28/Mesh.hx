@@ -10,8 +10,8 @@ import openfl.utils.Float32Array;
  */
 class Mesh
 {
-	public var vertices : Array<Float>;
-	public var texCoord : Array<Float>;
+	public var vertices : Float32Array;
+	public var texCoord : Float32Array;
 	
 	var vertexBuffer : GLBuffer;
 	var textCoordBuffer:GLBuffer;
@@ -23,13 +23,14 @@ class Mesh
 		
 		if (_vertices == null)
 			_vertices = new Array<Float>();
-		vertices = _vertices;
+		vertices = new Float32Array(_vertices);
 		
 		if (_texCoord == null)
 			_texCoord = new Array<Float>();
-		texCoord = _texCoord;
+		texCoord = new Float32Array(_texCoord);
 				
-		updateBuffer();
+		updateVertexBuffer();
+		updateTexCoordBuffer();
 	}
 	
 	public function getBuffer() : GLBuffer
@@ -42,14 +43,17 @@ class Mesh
 		return this.textCoordBuffer;
 	}
 	
-	function updateBuffer() : Void
+	function updateVertexBuffer() : Void
 	{
 		GL.bindBuffer(GL.ARRAY_BUFFER, vertexBuffer);
-		GL.bufferData(GL.ARRAY_BUFFER, new Float32Array(cast vertices), GL.DYNAMIC_DRAW);
+		GL.bufferData(GL.ARRAY_BUFFER, vertices, GL.DYNAMIC_DRAW);
 		GL.bindBuffer(GL.ARRAY_BUFFER, null);
-		
+	}
+	
+	function updateTexCoordBuffer() : Void
+	{
 		GL.bindBuffer(GL.ARRAY_BUFFER, textCoordBuffer);
-		GL.bufferData(GL.ARRAY_BUFFER, new Float32Array(cast texCoord), GL.STATIC_DRAW);
+		GL.bufferData(GL.ARRAY_BUFFER, texCoord, GL.STATIC_DRAW);
 		GL.bindBuffer(GL.ARRAY_BUFFER, null);
 	}
 }

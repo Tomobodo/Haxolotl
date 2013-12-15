@@ -1,6 +1,8 @@
 package com.pixodrome.ld28.meshes;
 
+import flash.Lib;
 import openfl.gl.GLBuffer;
+import openfl.utils.Float32Array;
 
 import com.pixodrome.ld28.Mesh;
 import com.pixodrome.ld28.Quad;
@@ -63,6 +65,8 @@ class SpriteBatch extends Mesh
 	
 	public function update() : Void
 	{
+		
+		var startTime = Lib.getTimer();
 		for (i in 0 ... quadList.length)
 		{
 			var quad : Quad = quadList[i];
@@ -81,13 +85,15 @@ class SpriteBatch extends Mesh
 					vertices[a + k] = quad.points[b + k];
 			}
 		}
+		trace(Lib.getTimer() - startTime);
 		
-		updateBuffer();
+		updateVertexBuffer();
 	}
 	
 	public function generate() : Void
 	{
-		vertices = new Array<Float>();
+		var tempsVert = new Array<Float>();
+		var tempCoord = new Array<Float>();
 		
 		for (i in 0 ... quadList.length)
 		{
@@ -101,9 +107,9 @@ class SpriteBatch extends Mesh
 			for (i in 0 ... index.length)
 			{
 				var k = index[i];
-				vertices.push(quad.points[k * 3 + 0]);
-				vertices.push(quad.points[k * 3 + 1]);
-				vertices.push(quad.points[k * 3 + 2]);
+				tempsVert.push(quad.points[k * 3 + 0]);
+				tempsVert.push(quad.points[k * 3 + 1]);
+				tempsVert.push(quad.points[k * 3 + 2]);
 			}
 			
 			var quadCoord : Array<Float> = [
@@ -116,9 +122,13 @@ class SpriteBatch extends Mesh
 				0, 0
 			];
 			
-			texCoord = texCoord.concat(quadCoord);
+			tempCoord = tempCoord.concat(quadCoord);
 		}
 		
-		updateBuffer();
+		vertices = new Float32Array(tempsVert);
+		texCoord = new Float32Array(tempCoord);
+		
+		updateVertexBuffer();
+		updateTexCoordBuffer();
 	}
 }
