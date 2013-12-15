@@ -1,8 +1,4 @@
 precision mediump float;
-	
-varying vec2 vTexCoord;
-		
-uniform sampler2D uImage0;
                         
 void main(void)
 {

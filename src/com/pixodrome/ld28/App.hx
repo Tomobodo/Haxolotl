@@ -25,12 +25,12 @@ class App
 	public function new() 
 	{
 		initRenderer();
-		
+		/*
 		batch = new SpriteBatch();
 		
 		quads = new Array<Quad>();
 		
-		for (i in 0 ... 15000)
+		for (i in 0 ... 1000)
 		{
 			var quad = new Quad(64, 64);
 			
@@ -42,11 +42,11 @@ class App
 			batch.add(quad);
 		}
 		
-		renderer.addMesh(batch);
+		renderer.addMesh(batch);*/
 		
-		model = new Model(new Plane2(64,64), new Texture("img/avatar.png"));
-		model.position.x = 100;
-		model.position.y = 100;
+		//model = new Model(new Plane2(64,64), new Texture("img/avatar.png"));
+		//model.position.x = 100;
+		//model.position.y = 100;
 		
 		a = new TestIndex();
 	}
@@ -57,21 +57,24 @@ class App
 	}
 		
 	public function update() 
-	{
+	{/*
 		for (i in 0 ... quads.length)
 		{
 			quads[i].x += 3;
 			quads[i].rotation ++;
 			if (quads[i].x > 800)
+			{
 				quads[i].x = 0;
-		}
+				quads[i].y = Math.random() * 480;
+			}
+		}*/
 	}
 	
 	public function render(viewport : Rectangle) 
 	{
-		this.renderer.render(viewport);
+		//this.renderer.render(viewport);
 		//model.draw(renderer);
-		//a.draw(renderer);
+		a.draw(renderer);
 	}
 }
 

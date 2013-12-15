@@ -16,6 +16,8 @@ class Mesh
 	
 	var vertexBuffer : GLBuffer;
 	var textCoordBuffer:GLBuffer;
+	
+	var genMode : Int;
 
 	public function new(_vertices : Array<Float> = null, _texCoord : Array<Float> = null) 
 	{
@@ -29,9 +31,11 @@ class Mesh
 		if (_texCoord == null)
 			_texCoord = new Array<Float>();
 		texCoord = new Float32Array(_texCoord);
+		
+		genMode = GL.STATIC_DRAW;
 				
-		updateVertexBuffer();
-		updateTexCoordBuffer();
+		genVertexBuffer();
+		genTexCoordBuff();
 	}
 	
 	public function getBuffer() : GLBuffer
@@ -47,7 +51,7 @@ class Mesh
 	function genVertexBuffer() : Void
 	{
 		GL.bindBuffer(GL.ARRAY_BUFFER, vertexBuffer);
-		GL.bufferData(GL.ARRAY_BUFFER, vertices, GL.DYNAMIC_DRAW);
+		GL.bufferData(GL.ARRAY_BUFFER, vertices, genMode);
 		GL.bindBuffer(GL.ARRAY_BUFFER, null);
 	}
 	

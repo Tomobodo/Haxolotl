@@ -1,6 +1,7 @@
 package com.pixodrome.ld28.meshes;
 
 import flash.Lib;
+import openfl.gl.GL;
 import openfl.gl.GLBuffer;
 import openfl.utils.Float32Array;
 
@@ -59,6 +60,8 @@ class SpriteBatch extends Mesh
 			update();
 			needUpdate = false;
 		}
+		
+		genMode = GL.STREAM_DRAW;
 			
 		return super.getBuffer();
 	}

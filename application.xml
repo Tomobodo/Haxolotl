@@ -19,7 +19,7 @@
 	<haxelib name="openfl" />
 	
 	<!-- assets -->
-	<icon path="assets/openfl.svg" />
+	<icon path="assets/img/avatar.png" />
 	<assets path="assets/img" rename="img" />
 	<assets path="assets/shaders" rename="shaders" />
 	
