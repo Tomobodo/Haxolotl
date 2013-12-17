@@ -10,14 +10,11 @@ class Plane extends Mesh
 {
 	public function new(width : Float, height : Float) 
 	{
-		var dWidth = width / 2;
-		var dHeight = height / 2;
-		
 		var vertices = [
-			-dWidth, -dHeight, 0.0,
-			dWidth, -dHeight, 0.0,
-			dWidth, dHeight, 0.0,
-			-dWidth, dHeight, 0.0
+			0,0, 0.0,
+			width, 0, 0.0,
+			width, height, 0.0,
+			0, height, 0.0
 		];
 		
 		var texCoords = [

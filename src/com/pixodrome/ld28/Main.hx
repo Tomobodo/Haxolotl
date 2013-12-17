@@ -24,14 +24,14 @@ class Main extends Sprite
 	var touchDevice : Bool;
 	var forEvent:Sprite;
 	
+	public static var screenWidth : Int;
+	public static var screenHeigth : Int;
+	
 	public static function main() 
 	{
 		Lib.current.stage.align = flash.display.StageAlign.TOP_LEFT;
 		Lib.current.stage.scaleMode = flash.display.StageScaleMode.NO_SCALE;
 		Lib.current.addChild(new Main());
-		
-		
-		
 	}
 	
 	public function new() 
@@ -93,7 +93,6 @@ class Main extends Sprite
 	
 	private function onMouseMove(e:MouseEvent):Void 
 	{
-		trace(stage.stageHeight);
 		if (!touchDevice)
 			app.onTouchMove(cast e.stageX, cast e.stageY);
 	}
@@ -140,6 +139,7 @@ class Main extends Sprite
 			touchDevice = true;
 			stage.removeEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
 			stage.removeEventListener(MouseEvent.MOUSE_UP, onMouseUp);
+			stage.removeEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
 		}
 	
 	}
@@ -149,5 +149,8 @@ class Main extends Sprite
 		forEvent.graphics.beginFill(0x000000, 0);
 		forEvent.graphics.drawRect(0, 0, stage.stageWidth, stage.stageHeight);
 		forEvent.graphics.endFill();
+		
+		screenWidth = stage.stageWidth;
+		screenHeigth = stage.stageHeight;
 	}
 }

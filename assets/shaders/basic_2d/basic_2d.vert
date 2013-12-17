@@ -4,8 +4,8 @@ attribute vec2 aTexCoord;
 
 varying vec2 vTexCoord;
 	
-uniform mat2 modelViewMatrix;
-uniform mat4 projectionMatrix;
+uniform mat3 modelViewMatrix;
+uniform mat3 projectionMatrix;
 	
 void main(void) {
 	vTexCoord = aTexCoord;

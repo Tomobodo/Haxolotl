@@ -14,7 +14,9 @@ class Texture
 {
 	public var texture : GLTexture;
 	
-	public function new(_path : String, _mipMap : Bool = false) 
+	private static var cache = new  Map<String, Texture>();
+	
+	function new(_path : String, _mipMap : Bool = false) 
 	{
 		var bitmapData = Assets.getBitmapData(_path);
 		
@@ -34,6 +36,13 @@ class Texture
 		if(_mipMap)
 			GL.generateMipmap(GL.TEXTURE_2D);
         GL.bindTexture(GL.TEXTURE_2D, null);
+	}
+	
+	public static function get(name : String) : Texture
+	{
+		if (cache[name] == null)
+			cache[name] = new Texture(name);
+		return cache[name];
 	}
 	
 	public function dispose()

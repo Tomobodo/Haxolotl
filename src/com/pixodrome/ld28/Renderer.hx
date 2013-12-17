@@ -51,7 +51,7 @@ class Renderer
 	public function render(viewport : Rectangle) : Void
 	{
 		GL.viewport (Std.int (viewport.x), Std.int (viewport.y), Std.int (viewport.width), Std.int (viewport.height));
-		projectionMatrix = Matrix3D.createOrtho(0, viewport.width, viewport.height, 0, 1000, -1000);
+		projectionMatrix = Matrix3D.createOrtho(0, 480, 768, 0, 1000, -1000);
 		
 		GL.clearColor (0.0, 0.0, 0.0, 1.0);
 		GL.clear (GL.COLOR_BUFFER_BIT | GL.DEPTH_BUFFER_BIT);

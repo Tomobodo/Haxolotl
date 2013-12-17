@@ -23,7 +23,16 @@ class Program
 	
 	var name : String;
 	
-	public function new(name : String) 
+	static var cache : Map<String, Program> = new Map<String, Program>();
+	
+	public static function get(name : String) : Program
+	{
+		if (cache[name] == null)
+			cache[name] = new Program(name);
+		return cache[name];
+	}
+	
+	function new(name : String) 
 	{
 		var vertexShaderPath = "shaders/" + name + "/" + name + ".vert";
 		var fragmentShaderPath = "shaders/" + name + "/" + name + ".frag";

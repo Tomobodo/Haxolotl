@@ -30,7 +30,7 @@ class DisplayObject implements IDrawable
 		mesh = new Plane2D(_w, _h);
 		texture = _texture;
 		transform = new Matrix();
-		program = new Program("basic_2d");
+		program = Program.get("basic_2d");
 	}
 	
 	public function draw(renderer : Renderer) 

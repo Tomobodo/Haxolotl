@@ -9,9 +9,9 @@
 	<app main="com.pixodrome.ld28.Main" file="ld28" path="bin" />
 	
 	<window background="#000000" fps="60" />
-	<window width="800" height="480" unless="mobile"/>
+	<window width="480" height="768" unless="mobile"/>
 	<window width="0" height="0" if="html5" />
-	<window orientation="landscape" vsync="false" antialiasing="0" if="cpp" fullscreen = "true"/>
+	<window orientation="portrait" vsync="false" antialiasing="0" if="cpp" fullscreen = "true"/>
 	
 	<!-- Templates 
 	<template path="template/index.html" rename="index.html" />-->
@@ -19,9 +19,11 @@
 	<!-- classpath, haxe libs -->
 	<source path="src" />
 	<haxelib name="openfl" />
+	<haxelib name="actuate" />
 	
 	<!-- assets -->
 	<icon path="assets/img/avatar.png" />
+	
 	<assets path="assets/img" rename="img" />
 	<assets path="assets/shaders" rename="shaders" />
 	

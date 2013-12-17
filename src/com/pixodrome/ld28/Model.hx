@@ -17,8 +17,11 @@ class Model implements IDrawable
 	public var rotation : Vector3D;
 	public var scale : Vector3D;
 	
+	public var pivotPoint : Vector3D;
+	
 	var mesh : Mesh;
 	var texture : Texture;
+	
 	var transform : Matrix3D;
 	
 	var vtxPosAttr : Int;
@@ -34,11 +37,12 @@ class Model implements IDrawable
 		
 		position = new Vector3D();
 		rotation = new Vector3D();
+		pivotPoint = new Vector3D();
 		
 		scale = new Vector3D(1, 1, 1);
 		
 		if (_program == null)
-			_program = new Program("basic");
+			_program = Program.get("basic");
 		program = _program;
 		
 		GL.useProgram(program.program);
@@ -89,9 +93,11 @@ class Model implements IDrawable
 	function updateMatrix() 
 	{
 		transform.identity();
-		
+		transform.appendTranslation( -pivotPoint.x, -pivotPoint.y, -pivotPoint.z);
 		transform.appendRotation(rotation.w, rotation);
-		transform.position = position;
+		transform.appendScale(scale.x, scale.y, scale.z);
+		transform.appendTranslation(position.x, position.y, position.z);
+		transform.appendTranslation( pivotPoint.x, pivotPoint.y, pivotPoint.z);
 	}
 	
 }
