@@ -25,6 +25,8 @@ class Program
 	
 	static var cache : Map<String, Program> = new Map<String, Program>();
 	
+	static var inUse : Program;
+	
 	public static function get(name : String) : Program
 	{
 		if (cache[name] == null)
@@ -34,6 +36,7 @@ class Program
 	
 	function new(name : String) 
 	{
+		inUse = null;
 		var vertexShaderPath = "shaders/" + name + "/" + name + ".vert";
 		var fragmentShaderPath = "shaders/" + name + "/" + name + ".frag";
 		
@@ -88,6 +91,13 @@ class Program
 	public function dispose() : Void
 	{
 		GL.deleteProgram(program);
+	}
+	
+	public function use() : Void
+	{
+		GL.useProgram(program);
+		if (inUse != this)
+			inUse = this;
 	}
 	
 }

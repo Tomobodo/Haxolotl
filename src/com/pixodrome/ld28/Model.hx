@@ -65,7 +65,8 @@ class Model implements IDrawable
 	{
 		updateMatrix();
 		
-		GL.useProgram(program.program);
+		program.use();
+		
 		GL.enableVertexAttribArray(vtxPosAttr);
 		GL.enableVertexAttribArray(texCoordAttr);
 		
