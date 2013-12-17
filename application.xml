@@ -22,7 +22,7 @@
 	<haxelib name="actuate" />
 	
 	<!-- assets -->
-	<icon path="assets/img/avatar.png" />
+	<icon path="assets/img/pawn3.png" />
 	
 	<assets path="assets/img" rename="img" />
 	<assets path="assets/shaders" rename="shaders" />
