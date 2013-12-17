@@ -17,60 +17,47 @@ class App
 {
 	var renderer : Renderer;
 	
-	var quads : Array<Quad>;
-	var batch : SpriteBatch;
-	
 	var model : Model;
 
 	public function new() 
 	{
 		initRenderer();
 		
-		batch = new SpriteBatch();
-		
-		quads = new Array<Quad>();
-		
-		for (i in 0 ... 100)
-		{
-			var quad = new Quad(64, 64);
-			
-			quad.x = Math.random() * 800;
-			quad.y = Math.random() * 480;
-			quad.rotation = Math.random() * 360;
-			
-			quads.push(quad);
-			batch.add(quad);
-		}
-		
-		model = new Model(batch, new Texture("img/avatar.png"));
+		model = new Model(new Plane(64, 64), new Texture("img/avatar.png"));
 		
 		renderer.add(model);
-		
-		var a = new DisplayObject(64,64,new Texture("img/avatar.png"));
 	}
 	
 	function initRenderer():Void 
 	{
 		renderer = new Renderer();
 	}
-		
+			
 	public function update() 
 	{
-		for (i in 0 ... quads.length)
-		{
-			quads[i].x += 3;
-			quads[i].rotation ++;
-			if (quads[i].x > 800)
-			{
-				quads[i].x = 0;
-				quads[i].y = Math.random() * 480;
-			}
-		}
 	}
 	
 	public function render(viewport : Rectangle) 
 	{
 		this.renderer.render(viewport);
+	}
+	
+	public function onTouchDown(x : Int, y : Int) : Void
+	{
+		model.position.x = x;
+		model.position.y = y;
+	}
+	
+	public function onTouchUp(x : Int, y : Int) : Void
+	{
+		//model.position.x = x;
+		//model.position.y = y;
+	}
+	
+	public function onTouchMove(x : Int, y : Int) : Void
+	{
+		model.position.x = x;
+		model.position.y = y;
 	}
 }
 

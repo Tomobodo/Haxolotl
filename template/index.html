@@ -7,7 +7,6 @@
 </head>
 <body style="padding: 0; margin: 0; background-color: #FFFFFF;">
 	
-	<!-- <div id="haxe:trace" style="position: absolute; z-index: 2147483647; display: none;"></div> -->
 	
 	<div id="haxe:openfl" style=
 		"background-color: #000000; 
@@ -21,7 +20,20 @@
 	<script>function winParameters () { return {}; }</script>
 	<script id="haxe:openfl:script" type="text/javascript" src="./ld28.js"></script>
 	
+	<script type="text/javascript">
+		
+		var root = document.getElementById("Root_MovieClip");
 	
+		window.onresize = function(event)
+		{
+			console.log(event.target.innerHeight);
+			root.height = event.target.innerHeight;
+		}
+	
+		
+		
+		console.log(root);
+	</script>
 	
 </body>
 </html>
