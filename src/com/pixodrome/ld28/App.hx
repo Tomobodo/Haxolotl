@@ -1,21 +1,9 @@
 package com.pixodrome.ld28;
 
-import com.pixodrome.ld28.d2.DisplayObject;
-import com.pixodrome.ld28.d2.Plane2D;
-import com.pixodrome.ld28.d3.meshes.Plane;
-import com.pixodrome.ld28.d3.meshes.SpriteBatch;
 import com.pixodrome.ld28.Renderer;
-import flash.geom.Point;
 import flash.geom.Rectangle;
-import flash.geom.Vector3D;
-import flash.Lib;
-import js.Browser;
-import js.html.Document;
-import js.html.Element;
 import motion.Actuate;
 import motion.easing.Bounce;
-import motion.easing.Cubic;
-import openfl.Assets;
 
 /**
  * ...
