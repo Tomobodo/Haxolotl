@@ -6,5 +6,7 @@
     "version" : "0.0.1",
 	"releasenote" : "",
 	"contributors" : ["Thomas BAUDON"],
-    "dependencies" : { "openfl" : "" }
+    "dependencies" : { 
+		"openfl" : ""
+	}
 }
