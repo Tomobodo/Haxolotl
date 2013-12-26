@@ -1,7 +1,7 @@
 {
 	"name" : "ld28",
 	"url" : "https://github.com/TBaudon/ld28",
-	"license" : "BSD",
+	"license" : "MIT",
     "description" : "A opengl game engine for haxe",
     "version" : "0.0.1",
 	"releasenote" : "",

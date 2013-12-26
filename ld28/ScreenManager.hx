@@ -1,5 +1,6 @@
 package ld28;
 import flash.display.Stage;
+import flash.geom.Rectangle;
 
 /**
  * ...
@@ -47,4 +48,9 @@ class ScreenManager
 			currentScreen.play();
 	}
 	
+	public function render(viewport : Rectangle)
+	{
+		for (screen in screenList)
+			screen.render(viewport);
+	}
 }

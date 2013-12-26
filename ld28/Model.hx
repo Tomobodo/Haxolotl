@@ -61,7 +61,7 @@ class Model implements IDrawable
 		imageUniform = GL.getUniformLocation(program.program, "uImage0");
 	}
 	
-	public function draw(renderer : Renderer)
+	public function draw(scene : Scene)
 	{
 		updateMatrix();
 		
@@ -73,7 +73,7 @@ class Model implements IDrawable
 		var projectionMatrixUniform = GL.getUniformLocation(program.program, "projectionMatrix");
 		var modelViewMatrixUniform = GL.getUniformLocation(program.program, "modelViewMatrix");
 	
-		GL.uniformMatrix3D(projectionMatrixUniform, false, renderer.projectionMatrix);
+		GL.uniformMatrix3D(projectionMatrixUniform, false, scene.projectionMatrix);
 		GL.uniformMatrix3D(modelViewMatrixUniform, false, transform);
 		GL.uniform1i(imageUniform, 0);
 		

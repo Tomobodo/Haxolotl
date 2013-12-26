@@ -18,27 +18,26 @@ class Application extends Sprite
 	
 	var glView : OpenGLView;
 	
-	var renderer : Renderer;
-	
 	var screens : ScreenManager;
-	var firstScreen : Screen;
 	
-	public function new(initialScreen : Screen) 
+	public function new() 
 	{
 		super();
 		
 		current = this;
 		touchDevice = false;
-		firstScreen = initialScreen;
-		
-		renderer = new Renderer();
 		
 		glView = new OpenGLView();
+		screens = new ScreenManager(stage);
+		glView.render = screens.render;
 		addChild(glView);
 		
-		glView.render = renderer.render;
-		
 		addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+	}
+	
+	public function start(_firstScreen : Screen)
+	{
+		screens.gotoScreen(_firstScreen);
 	}
 	
 	function onAddedToStage(e:Event):Void 
@@ -48,9 +47,6 @@ class Application extends Sprite
 		stage.addEventListener(Event.RESIZE, onResize);
 		
 		initEventCatcher();
-
-		screens = new ScreenManager(stage);
-		screens.gotoScreen(firstScreen);
 	}
 	
 	function onResize(e:Event):Void 

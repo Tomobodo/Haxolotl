@@ -6,5 +6,5 @@ package ld28;
  */
 interface IDrawable
 {
-	public function draw(renderer : Renderer) : Void;
+	public function draw(scene : Scene) : Void;
 }
