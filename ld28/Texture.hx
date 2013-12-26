@@ -29,7 +29,6 @@ class Texture
 		pixels.position = 0;
 		for (i in 0 ... pixels.length)
 			array.push(pixels.readUnsignedByte());
-		GL.pixelStorei(GL.UNPACK_FLIP_Y_WEBGL, 1);
 		GL.texImage2D(GL.TEXTURE_2D, 0, GL.RGBA, bitmapData.width, bitmapData.height, 0, GL.RGBA, GL.UNSIGNED_BYTE, new UInt8Array(array));
 		GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MAG_FILTER, GL.NEAREST);
         GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.NEAREST);
