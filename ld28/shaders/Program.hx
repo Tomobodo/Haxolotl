@@ -1,4 +1,4 @@
-package ld28;
+package ld28.shaders;
 
 import openfl.Assets;
 import openfl.gl.GL;
@@ -23,28 +23,9 @@ class Program
 	
 	var name : String;
 	
-	static var cache : Map<String, Program> = new Map<String, Program>();
-	
-	static var inUse : Program;
-	
-	public static function get(name : String) : Program
+	function new() 
 	{
-		if (cache[name] == null)
-			cache[name] = new Program(name);
-		return cache[name];
-	}
-	
-	function new(name : String) 
-	{
-		inUse = null;
-		var vertexShaderPath = "shaders/" + name + "/" + name + ".vert";
-		var fragmentShaderPath = "shaders/" + name + "/" + name + ".frag";
-		
-		this.vertexShaderSource = Assets.getText(vertexShaderPath);
-		this.fragmentShaderSource = Assets.getText(fragmentShaderPath);
-		
 		compiled = false;
-		
 		compile();
 	}
 	
@@ -52,6 +33,8 @@ class Program
 	{
 		createVertexShader();
 		createFragmentShader();
+		
+		name = Type.getClassName(Type.getClass(this));
 		
 		program = GL.createProgram();
 		
@@ -96,8 +79,6 @@ class Program
 	public function use() : Void
 	{
 		GL.useProgram(program);
-		if (inUse != this)
-			inUse = this;
 	}
 	
 }

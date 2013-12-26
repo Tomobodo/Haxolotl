@@ -26,12 +26,6 @@ class Application extends Sprite
 		
 		current = this;
 		touchDevice = false;
-		
-		glView = new OpenGLView();
-		screens = new ScreenManager(stage);
-		glView.render = screens.render;
-		addChild(glView);
-		
 		addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 	}
 	
@@ -45,6 +39,11 @@ class Application extends Sprite
 		removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		
 		stage.addEventListener(Event.RESIZE, onResize);
+		
+		glView = new OpenGLView();
+		screens = new ScreenManager(stage);
+		glView.render = screens.render;
+		addChild(glView);
 		
 		initEventCatcher();
 	}

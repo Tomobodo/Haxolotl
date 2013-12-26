@@ -1,9 +1,10 @@
 package ld28;
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
-import flash.Lib;
-import openfl.gl.GLUniformLocation;
+import ld28.shaders.BasicShader;
+import ld28.shaders.Program;
 import openfl.gl.GL;
+import openfl.gl.GLUniformLocation;
 
 /**
  * ...
@@ -42,7 +43,7 @@ class Model implements IDrawable
 		scale = new Vector3D(1, 1, 1);
 		
 		if (_program == null)
-			_program = Program.get("basic");
+			_program = ShaderManager.get().program(BasicShader);
 		program = _program;
 		
 		GL.useProgram(program.program);
