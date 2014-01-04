@@ -1,5 +1,6 @@
 package ld28;
 import flash.geom.Matrix3D;
+import openfl.gl.GL;
 
 /**
  * ...
@@ -16,8 +17,8 @@ class Scene
 	{
 		models = new List<Model>();
 		
-		projectionMatrix = Matrix3D.createOrtho(0, 480, 800, 0, 1000, -1000);
-		
+		projectionMatrix = Matrix3D.createOrtho(0, 800, 480, 0, 1000, -1000);
+		GL.enable(GL.DEPTH_TEST);
 	}
 	
 	public function draw():Void 
