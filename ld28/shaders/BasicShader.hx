@@ -17,13 +17,17 @@ class BasicShader extends Program
 		attribute vec2 aTexCoord;
 
 		varying vec2 vTexCoord;
+		uniform mat3 texCoordMatrix;
 	
 		uniform mat4 modelViewMatrix;
 		uniform mat4 projectionMatrix;
 	
 		void main(void) {
-			vTexCoord = aTexCoord;
+			
+			vec3 tmp = vec3(aTexCoord, 1) * texCoordMatrix;
+			vTexCoord = vec2(tmp.x, tmp.y);
 			gl_Position = projectionMatrix * modelViewMatrix * vec4(vertexPosition, 1.0);
+			
 		}";
 		
 		fragmentShaderSource = "

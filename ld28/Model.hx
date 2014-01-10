@@ -1,10 +1,13 @@
 package ld28;
+import flash.geom.Matrix;
 import flash.geom.Matrix3D;
+import flash.geom.Rectangle;
 import flash.geom.Vector3D;
 import ld28.shaders.BasicShader;
 import ld28.shaders.Program;
 import openfl.gl.GL;
 import openfl.gl.GLUniformLocation;
+import openfl.utils.Float32Array;
 
 /**
  * ...
@@ -24,13 +27,20 @@ class Model implements IDrawable
 	var texture : Texture;
 	
 	var transform : Matrix3D;
+	var texCoordtransform : Float32Array;
 	
 	var vtxPosAttr : Int;
 	var texCoordAttr : Int;
 	
+	var projectionMatrixUniform : GLUniformLocation;
+	var modelViewMatrixUniform : GLUniformLocation;
+	
 	var imageUniform : GLUniformLocation;
+	var texCoordMatrixUniform : GLUniformLocation;
 
-	public function new(_mesh : Mesh, _texture : Texture, _program : Program = null) 
+	var textureRegion : Rectangle;
+
+	public function new(_mesh : Mesh, _texture : Texture, _textuRegion : Rectangle = null, _program : Program = null) 
 	{
 		mesh = _mesh;
 		texture = _texture;
@@ -49,6 +59,14 @@ class Model implements IDrawable
 		GL.useProgram(program.program);
 		initAttributes();
 		initUniforms();
+		
+		if (_textuRegion == null)
+			_textuRegion = new Rectangle(0, 0, texture.width, texture.height);
+		textureRegion = _textuRegion;
+		
+		texCoordtransform = new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1]);
+		
+		setTextureRegion(textureRegion);
 	}
 	
 	function initAttributes() 
@@ -59,7 +77,36 @@ class Model implements IDrawable
 	
 	function initUniforms() 
 	{
+		projectionMatrixUniform = GL.getUniformLocation(program.program, "projectionMatrix");
+		modelViewMatrixUniform = GL.getUniformLocation(program.program, "modelViewMatrix");
+
 		imageUniform = GL.getUniformLocation(program.program, "uImage0");
+		texCoordMatrixUniform = GL.getUniformLocation(program.program, "texCoordMatrix");
+	}
+	
+	public function getModelMatrix() : Matrix3D
+	{
+		return transform;
+	}
+	
+	public function getTexCoordTransform() : Float32Array
+	{
+		return texCoordtransform;
+	}
+	
+	public function getMesh() : Mesh
+	{
+		return mesh;
+	}
+	
+	public function setTextureRegion(region : Rectangle) 
+	{
+		textureRegion = region;
+		
+		texCoordtransform[0] = textureRegion.width / texture.width;
+		texCoordtransform[2] = textureRegion.x / texture.width;
+		texCoordtransform[4] = textureRegion.height / texture.height;
+		texCoordtransform[5] = textureRegion.y / texture.height;
 	}
 	
 	public function draw(scene : Scene)
@@ -71,12 +118,10 @@ class Model implements IDrawable
 		GL.enableVertexAttribArray(vtxPosAttr);
 		GL.enableVertexAttribArray(texCoordAttr);
 		
-		var projectionMatrixUniform = GL.getUniformLocation(program.program, "projectionMatrix");
-		var modelViewMatrixUniform = GL.getUniformLocation(program.program, "modelViewMatrix");
-	
 		GL.uniformMatrix3D(projectionMatrixUniform, false, scene.projectionMatrix);
 		GL.uniformMatrix3D(modelViewMatrixUniform, false, transform);
 		GL.uniform1i(imageUniform, 0);
+		GL.uniformMatrix3fv(texCoordMatrixUniform, false, texCoordtransform);
 		
 		GL.activeTexture(GL.TEXTURE0);
 		GL.bindTexture(GL.TEXTURE_2D, texture.texture);
@@ -92,7 +137,7 @@ class Model implements IDrawable
 		GL.drawElements(GL.TRIANGLES, mesh.indexes.length, GL.UNSIGNED_SHORT, 0);
 	}
 	
-	function updateMatrix() 
+	public function updateMatrix() 
 	{
 		transform.identity();
 		transform.appendTranslation( -pivotPoint.x, -pivotPoint.y, -pivotPoint.z);

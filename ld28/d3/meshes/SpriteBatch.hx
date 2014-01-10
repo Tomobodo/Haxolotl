@@ -8,7 +8,6 @@ import openfl.gl.GLBuffer;
 import openfl.utils.Float32Array;
 import openfl.utils.Int16Array;
 
-
 /**
  * ...
  * @author Thomas B

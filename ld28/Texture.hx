@@ -14,6 +14,9 @@ class Texture
 {
 	public var texture : GLTexture;
 	
+	public var width (get, null) : Int ;
+	public var height (get, null) : Int;
+	
 	private static var cache = new  Map<String, Texture>();
 	
 	function new(_path : String, _mipMap : Bool = false) 
@@ -24,6 +27,9 @@ class Texture
 		GL.bindTexture(GL.TEXTURE_2D, texture);
 		
 		var pixels : ByteArray = bitmapData.getPixels(bitmapData.rect);
+		
+		width = bitmapData.width;
+		height = bitmapData.height;
 		
 		var array = new Array<Int>();
 		pixels.position = 0;
@@ -47,5 +53,15 @@ class Texture
 	public function dispose()
 	{
 		GL.deleteTexture(texture);
+	}
+	
+	function get_width():Int 
+	{
+		return width;
+	}
+	
+	function get_height():Int 
+	{
+		return height;
 	}
 }
