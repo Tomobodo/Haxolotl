@@ -1,4 +1,4 @@
-package ld28.d2;
+package ld28.mesh;
 import ld28.Mesh;
 
 /**
