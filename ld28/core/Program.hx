@@ -1,4 +1,4 @@
-package ld28.shaders;
+package ld28.core;
 
 import openfl.Assets;
 import openfl.gl.GL;

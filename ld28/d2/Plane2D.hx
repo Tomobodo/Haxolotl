@@ -10,10 +10,10 @@ class Plane2D extends Mesh
 	public function new(_w : Float, _h : Float) 
 	{
 		var _vertices = [
-			0.0, 0.0,
-			_w, 0.0,
+			0.0, _h,
 			_w, _h,
-			0.0, _h
+			_w, 0,
+			0.0, 0
 		];
 		
 		var _texCoord = [

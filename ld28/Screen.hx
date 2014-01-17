@@ -12,9 +12,13 @@ class Screen
 	var screenManager : ScreenManager;
 	var stage : Stage;
 	var scenes : List<Scene>;
+	var backgroundColor : Color;
 	
-	public function new() 
+	public function new(_backgroundColor : Color = null) 
 	{
+		if (_backgroundColor == null)
+			_backgroundColor = new Color(0xffffff);
+		backgroundColor = _backgroundColor;
 		scenes = new List<Scene>();
 	}
 	
@@ -42,7 +46,7 @@ class Screen
 	public function render(viewport : Rectangle)
 	{
 		GL.viewport (Std.int (viewport.x), Std.int (viewport.y), Std.int (viewport.width), Std.int (viewport.height));
-		GL.clearColor (0.0, 0.0, 0.0, 1.0);
+		GL.clearColor (backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
 		GL.clear (GL.COLOR_BUFFER_BIT | GL.DEPTH_BUFFER_BIT);
 		
 		for (scene in scenes)

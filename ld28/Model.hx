@@ -4,10 +4,13 @@ import flash.geom.Matrix3D;
 import flash.geom.Rectangle;
 import flash.geom.Vector3D;
 import ld28.shaders.BasicShader;
-import ld28.shaders.Program;
+import ld28.core.Program;
 import openfl.gl.GL;
 import openfl.gl.GLUniformLocation;
 import openfl.utils.Float32Array;
+import ld28.core.IDrawable;
+import ld28.core.Texture;
+
 
 /**
  * ...

@@ -1,6 +1,6 @@
 package ld28;
 
-import ld28.shaders.Program;
+import ld28.core.Program;
 
 /**
  * ...

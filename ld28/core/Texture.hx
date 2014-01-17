@@ -1,4 +1,4 @@
-package ld28;
+package ld28.core;
 import flash.display.BitmapData;
 import flash.utils.ByteArray;
 import openfl.gl.GLTexture;
@@ -19,7 +19,7 @@ class Texture
 	
 	private static var cache = new  Map<String, Texture>();
 	
-	function new(_path : String, _mipMap : Bool = false) 
+	function new(_path : String) 
 	{
 		var bitmapData = Assets.getBitmapData(_path);
 		
@@ -35,11 +35,22 @@ class Texture
 		pixels.position = 0;
 		for (i in 0 ... pixels.length)
 			array.push(pixels.readUnsignedByte());
+			
 		GL.texImage2D(GL.TEXTURE_2D, 0, GL.RGBA, bitmapData.width, bitmapData.height, 0, GL.RGBA, GL.UNSIGNED_BYTE, new UInt8Array(array));
-		GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MAG_FILTER, GL.NEAREST);
-        GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.NEAREST);
-		if(_mipMap)
+		
+		if (checkPOT())
+		{
+			GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MAG_FILTER, GL.LINEAR);
+			GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.LINEAR_MIPMAP_NEAREST);
 			GL.generateMipmap(GL.TEXTURE_2D);
+		}
+		else
+		{
+			GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.LINEAR);
+			GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_S, GL.CLAMP_TO_EDGE);
+			GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_T, GL.CLAMP_TO_EDGE);
+		}
+		
         GL.bindTexture(GL.TEXTURE_2D, null);
 	}
 	
@@ -63,5 +74,13 @@ class Texture
 	function get_height():Int 
 	{
 		return height;
+	}
+	
+	function checkPOT() : Bool
+	{
+		var widthPOT : Bool = width != 0 && width & (width - 1) == 0;
+		var heightPOT : Bool = height != 0 && height & (height - 1) == 0;
+		
+		return widthPOT && heightPOT;
 	}
 }
