@@ -3,9 +3,11 @@ import flash.geom.Matrix;
 import flash.geom.Matrix3D;
 import flash.geom.Rectangle;
 import flash.geom.Vector3D;
+import ld28.Color;
 import ld28.core.IDrawable;
 import ld28.core.Texture;
-import ld28.shaders.BasicShader;
+import ld28.Scene;
+import ld28.shaders.Basic2DShader;
 import ld28.core.Program;
 import ld28.shaders.SpriteBatch2DShader;
 import openfl.gl.GL;
@@ -18,90 +20,83 @@ import openfl.utils.Float32Array;
  */
 class DisplayObject implements IDrawable
 {
-	var program : Program;
-	
 	public var x : Float;
 	public var y : Float;
 	
-	//public var rotation : Float;
+	public var rotation : Float;
 	
 	public var scaleX : Float;
 	public var scaleY : Float;
 	
-	public var position : Vector3D;
-	public var rotation : Vector3D;
-	public var scale : Vector3D;
+	public var pivotX : Float;
+	public var pivotY : Float;
 	
-	public var pivotPoint : Vector3D;
+	public var width : Int;
+	public var height : Int;
+	
+	public var color : Color;
+	
+	public var alpha : Float;
+	
+	public var parent : DisplayObjectContainer;
 	
 	var mesh : Mesh;
-	var texture : Texture;
+	var program : Program;
 	
-	var transform : Matrix3D;
-	var texCoordtransform : Float32Array;
+	var transform : Matrix;
+	var matrixArray : Float32Array;
 	
 	var vtxPosAttr : Int;
-	var texCoordAttr : Int;
 	
 	var projectionMatrixUniform : GLUniformLocation;
 	var modelViewMatrixUniform : GLUniformLocation;
-	
-	var imageUniform : GLUniformLocation;
-	var texCoordMatrixUniform : GLUniformLocation;
+	var colorUniform : GLUniformLocation;
 
-	var textureRegion : Rectangle;
-
-	public function new(_mesh : Mesh, _texture : Texture, _textuRegion : Rectangle = null, _program : Program = null) 
+	public function new(_mesh : Mesh, _program : Program = null) 
 	{
 		mesh = _mesh;
-		texture = _texture;
-		transform = new Matrix3D();
 		
-		position = new Vector3D();
-		rotation = new Vector3D();
-		pivotPoint = new Vector3D();
+		x = 0;
+		y = 0;
 		
-		scale = new Vector3D(1, 1, 1);
+		rotation = 0;
+		
+		scaleX = 1;
+		scaleY = 1;
+		
+		pivotX = 0;
+		pivotY = 0;
+		
+		alpha = 1;
+		
+		color = new Color(0xffffff);
+		transform = new Matrix();
+		matrixArray = new Float32Array([transform.a, transform.b, transform.tx, transform.c, transform.d, transform.ty,0,0,1]);
 		
 		if (_program == null)
-			_program = ShaderManager.get().program(SpriteBatch2DShader);
+			_program = ShaderManager.get().program(Basic2DShader);
 		program = _program;
 		
 		GL.useProgram(program.program);
 		initAttributes();
 		initUniforms();
-		
-		if (_textuRegion == null)
-			_textuRegion = new Rectangle(0, 0, texture.width, texture.height);
-		textureRegion = _textuRegion;
-		
-		texCoordtransform = new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1]);
-		
-		setTextureRegion(textureRegion);
 	}
 	
 	function initAttributes() 
 	{
 		vtxPosAttr = GL.getAttribLocation(program.program, "vertexPosition");
-		texCoordAttr = GL.getAttribLocation(program.program, "aTexCoord");
 	}
 	
 	function initUniforms() 
 	{
 		projectionMatrixUniform = GL.getUniformLocation(program.program, "projectionMatrix");
-
-		imageUniform = GL.getUniformLocation(program.program, "uImage0");
-		texCoordMatrixUniform = GL.getUniformLocation(program.program, "texCoordMatrix");
+		modelViewMatrixUniform = GL.getUniformLocation(program.program, "modelViewMatrix");
+		colorUniform = GL.getUniformLocation(program.program, "vertexColor");
 	}
 	
-	public function getModelMatrix() : Matrix3D
+	public function getTransform() : Matrix
 	{
 		return transform;
-	}
-	
-	public function getTexCoordTransform() : Float32Array
-	{
-		return texCoordtransform;
 	}
 	
 	public function getMesh() : Mesh
@@ -109,17 +104,41 @@ class DisplayObject implements IDrawable
 		return mesh;
 	}
 	
-	public function setTextureRegion(region : Rectangle) 
+	public function draw(scene : Scene)
 	{
-		textureRegion = region;
+		initRender(scene);
 		
-		texCoordtransform[0] = textureRegion.width / texture.width;
-		texCoordtransform[2] = textureRegion.x / texture.width;
-		texCoordtransform[4] = textureRegion.height / texture.height;
-		texCoordtransform[5] = textureRegion.y / texture.height;
+		GL.bindBuffer (GL.ARRAY_BUFFER, mesh.getBuffer());
+		GL.vertexAttribPointer (vtxPosAttr, 2, GL.FLOAT, false, 0, 0);
+			
+		GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, mesh.getIndexBuffer());
+		
+		GL.drawElements(GL.TRIANGLES, mesh.indexes.length, GL.UNSIGNED_SHORT, 0);
+		
+		GL.disable(GL.BLEND);
 	}
 	
-	public function draw(scene : Scene)
+	private function updateMatrix() 
+	{
+		transform.identity();
+		
+		transform.translate( -pivotX, -pivotY);
+		transform.rotate(rotation);
+		transform.scale(scaleX, scaleY);
+		transform.translate(x + pivotX, y + pivotY);
+		
+		if (parent != null)
+			transform.concat(parent.getTransform());
+		
+		matrixArray[0] = transform.a;
+		matrixArray[1] = transform.b;
+		matrixArray[2] = transform.tx;
+		matrixArray[3] = transform.c;
+		matrixArray[4] = transform.d;
+		matrixArray[5] = transform.ty;
+	}
+	
+	private function initRender(scene : Scene)
 	{
 		updateMatrix();
 		
@@ -130,36 +149,10 @@ class DisplayObject implements IDrawable
 		GL.disable(GL.DEPTH_TEST);
 		
 		GL.enableVertexAttribArray(vtxPosAttr);
-		GL.enableVertexAttribArray(texCoordAttr);
 		
 		GL.uniformMatrix3D(projectionMatrixUniform, false, scene.projectionMatrix);
-		GL.uniform1i(imageUniform, 0);
-		GL.uniformMatrix3fv(texCoordMatrixUniform, false, texCoordtransform);
-		
-		GL.activeTexture(GL.TEXTURE0);
-		GL.bindTexture(GL.TEXTURE_2D, texture.texture);
-		
-		GL.bindBuffer (GL.ARRAY_BUFFER, mesh.getBuffer());
-		GL.vertexAttribPointer (vtxPosAttr, 2, GL.FLOAT, false, 0, 0);
-		
-		GL.bindBuffer (GL.ARRAY_BUFFER, mesh.getTextCoord());
-		GL.vertexAttribPointer (texCoordAttr, 2, GL.FLOAT, false, 0, 0);
-			
-		GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, mesh.getIndexBuffer());
-		
-		GL.drawElements(GL.TRIANGLES, mesh.indexes.length, GL.UNSIGNED_SHORT, 0);
-		
-		GL.disable(GL.BLEND);
-	}
-	
-	public function updateMatrix() 
-	{
-		transform.identity();
-		transform.appendTranslation( -pivotPoint.x, -pivotPoint.y, -pivotPoint.z);
-		transform.appendRotation(rotation.w, rotation);
-		transform.appendScale(scale.x, scale.y, scale.z);
-		transform.appendTranslation(position.x, position.y, position.z);
-		transform.appendTranslation( pivotPoint.x, pivotPoint.y, pivotPoint.z);
+		GL.uniformMatrix3fv(modelViewMatrixUniform, false, matrixArray);
+		GL.uniform4f(colorUniform, color.r, color.g, color.b, color.a);
 	}
 	
 }

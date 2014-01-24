@@ -1,4 +1,5 @@
 package ld28;
+import openfl.utils.Float32Array;
 
 /**
  * ...
@@ -12,6 +13,8 @@ class Color
 	public var b : Float;
 	public var a : Float;
 	
+	public var array : Float32Array;
+	
 	public function new(color : UInt, alpha : Float = 1) 
 	{
 		var rMask : UInt = (0xff0000 & color) >> 16;
@@ -22,6 +25,7 @@ class Color
 		g = cast(gMask) / 255.0;
 		b = cast(bMask) / 255.0;
 		a = alpha;
+		
+		array = new Float32Array([r, g, b, a]);
 	}
-	
 }
