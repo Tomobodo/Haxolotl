@@ -7,6 +7,7 @@ import ld28.Mesh;
 import ld28.Scene;
 import ld28.ShaderManager;
 import ld28.core.Program;
+import ld28.shaders.Basic2DTextureShader;
 import ld28.shaders.SpriteBatch2DShader;
 import ld28.core.Texture;
 
@@ -42,7 +43,7 @@ class Image extends DisplayObject
 		texCoordtransform = new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1]);
 		setTextureRegion(textureRegion);
 		
-		super(new Plane2D(region.width, region.height), ShaderManager.get().program(SpriteBatch2DShader));
+		super(new Plane2D(region.width, region.height), ShaderManager.get().program(Basic2DTextureShader));
 	}
 	
 	public function setTextureRegion(region : Rectangle) : Void
@@ -80,14 +81,27 @@ class Image extends DisplayObject
 		
 		GL.enableVertexAttribArray(texCoordAttr);
 		
-		GL.uniform1i(imageUniform, 0);
 		GL.uniformMatrix3fv(texCoordMatrixUniform, false, texCoordtransform);
+		GL.uniform1i(imageUniform, 0);
+		
+		#if desktop
+		GL.enable(GL.TEXTURE_2D);
+		#end
 		
 		GL.activeTexture(GL.TEXTURE0);
 		GL.bindTexture(GL.TEXTURE_2D, texture.texture);
 		
 		GL.bindBuffer (GL.ARRAY_BUFFER, mesh.getTextCoord());
 		GL.vertexAttribPointer (texCoordAttr, 2, GL.FLOAT, false, 0, 0);
+	}
+	
+	override function endDraw() : Void
+	{
+		super.endDraw();
+		
+		#if desktop
+		GL.disable(GL.TEXTURE_2D);
+		#end
 	}
 	
 }

@@ -51,6 +51,8 @@ class Screen
 		
 		for (scene in scenes)
 			scene.draw();
+			
+		trace(GL.getError());
 	}
 	
 	private function addScene(_scene : Scene) 

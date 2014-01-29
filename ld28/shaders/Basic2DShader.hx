@@ -25,9 +25,10 @@ class Basic2DShader extends Program
 		precision mediump float;
 		uniform vec4 vertexColor;
 		
+		
 		void main(void)
 		{
-			gl_FragColor = vertexColor;
+			gl_FragColor = vec4(vertexColor);
 		}";
 		
 		super();

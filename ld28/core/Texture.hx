@@ -23,21 +23,18 @@ class Texture
 	{
 		var bitmapData = Assets.getBitmapData(_path);
 		
-		texture = GL.createTexture();
-		GL.bindTexture(GL.TEXTURE_2D, texture);
-		
-		var pixels : ByteArray = bitmapData.getPixels(bitmapData.rect);
+		#if html5
+		var pixels = bitmapData.getPixels(bitmapData.rect).byteView;
+		#else
+		var pixels = new UInt8Array(bitmapData.getPixels(bitmapData.rect));
+		#end
 		
 		width = bitmapData.width;
 		height = bitmapData.height;
-		
-		var array = new Array<Int>();
-		pixels.position = 0;
-		for (i in 0 ... pixels.length)
-			array.push(pixels.readUnsignedByte());
 			
-		GL.texImage2D(GL.TEXTURE_2D, 0, GL.RGBA, bitmapData.width, bitmapData.height, 0, GL.RGBA, GL.UNSIGNED_BYTE, new UInt8Array(array));
-		
+		texture = GL.createTexture();
+		GL.bindTexture(GL.TEXTURE_2D, texture);
+		GL.texImage2D(GL.TEXTURE_2D, 0, GL.RGBA, bitmapData.width, bitmapData.height, 0, GL.RGBA, GL.UNSIGNED_BYTE, pixels);
 		if (checkPOT())
 		{
 			GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MAG_FILTER, GL.LINEAR);
@@ -50,8 +47,7 @@ class Texture
 			GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_S, GL.CLAMP_TO_EDGE);
 			GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_T, GL.CLAMP_TO_EDGE);
 		}
-		
-        GL.bindTexture(GL.TEXTURE_2D, null);
+		GL.bindTexture(GL.TEXTURE_2D, null);
 	}
 	
 	public static function get(name : String) : Texture

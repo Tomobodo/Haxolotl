@@ -37,9 +37,9 @@ class SpriteBatch2DShader extends Program
 		{
 			vec4 textureColor = texture2D(uImage0, vTexCoord);"
 			#if html5
-			+"gl_FragColor = vec4(textureColor.rgb, textureColor.a);"+
+			+"gl_FragColor = vec4(textureColor);"+
 			#else
-			+"gl_FragColor = texture2D(uImage0, vTexCoord).gbar;"+
+			+"gl_FragColor = vec4(textureColor).gbar;"+
 			#end
 		"}";
 		

@@ -20,7 +20,6 @@ class Scene
 		models = new List<IDrawable>();
 		
 		projectionMatrix = Matrix3D.createOrtho(0, 800, 480, 0, 1000, -1000);
-		GL.enable(GL.DEPTH_TEST);
 	}
 	
 	public function draw():Void 

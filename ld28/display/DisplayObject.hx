@@ -77,9 +77,10 @@ class DisplayObject implements IDrawable
 			_program = ShaderManager.get().program(Basic2DShader);
 		program = _program;
 		
-		GL.useProgram(program.program);
+		program.use();
 		initAttributes();
 		initUniforms();
+		program.release();
 	}
 	
 	function initAttributes() 
@@ -115,30 +116,30 @@ class DisplayObject implements IDrawable
 		
 		GL.drawElements(GL.TRIANGLES, mesh.indexes.length, GL.UNSIGNED_SHORT, 0);
 		
-		GL.disable(GL.BLEND);
+		endDraw();
 	}
 	
 	private function updateMatrix() 
 	{
 		transform.identity();
 		
-		transform.translate( -pivotX, -pivotY);
+		transform.translate(-pivotX,-pivotY);
 		transform.rotate(rotation);
 		transform.scale(scaleX, scaleY);
-		transform.translate(x + pivotX, y + pivotY);
+		transform.translate(x, y);
 		
 		if (parent != null)
 			transform.concat(parent.getTransform());
 		
 		matrixArray[0] = transform.a;
-		matrixArray[1] = transform.b;
+		matrixArray[1] = transform.c;
 		matrixArray[2] = transform.tx;
-		matrixArray[3] = transform.c;
+		matrixArray[3] = transform.b;
 		matrixArray[4] = transform.d;
 		matrixArray[5] = transform.ty;
 	}
 	
-	private function initRender(scene : Scene)
+	function initRender(scene : Scene)
 	{
 		updateMatrix();
 		
@@ -153,6 +154,14 @@ class DisplayObject implements IDrawable
 		GL.uniformMatrix3D(projectionMatrixUniform, false, scene.projectionMatrix);
 		GL.uniformMatrix3fv(modelViewMatrixUniform, false, matrixArray);
 		GL.uniform4f(colorUniform, color.r, color.g, color.b, color.a);
+	}
+	
+	function endDraw():Void 
+	{
+		GL.disable(GL.BLEND);
+		GL.disableVertexAttribArray(vtxPosAttr);
+		
+		program.release();
 	}
 	
 }

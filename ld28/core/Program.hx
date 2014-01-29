@@ -81,4 +81,9 @@ class Program
 		GL.useProgram(program);
 	}
 	
+	public function release() : Void
+	{
+		GL.useProgram(null);
+	}
+	
 }
