@@ -2,16 +2,19 @@ package ld28.display;
 import flash.geom.Matrix3D;
 import flash.geom.Rectangle;
 import flash.geom.Vector3D;
-import ld28.Color;
+import ld28.utils.Color;
 import ld28.core.IDrawable;
 import ld28.core.Texture;
 import ld28.Scene;
 import ld28.shaders.Basic2DShader;
+import ld28.shaders.ShaderManager;
 import ld28.core.Program;
 import ld28.shaders.SpriteBatch2DShader;
 import openfl.gl.GL;
 import openfl.gl.GLUniformLocation;
 import openfl.utils.Float32Array;
+import ld28.core.Mesh;
+
 
 /**
  * ...

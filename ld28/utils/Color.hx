@@ -1,4 +1,4 @@
-package ld28;
+package ld28.utils;
 import openfl.utils.Float32Array;
 
 /**

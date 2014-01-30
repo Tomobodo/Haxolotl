@@ -1,5 +1,5 @@
 package ld28.mesh;
-import ld28.Mesh;
+import ld28.core.Mesh;
 
 /**
  * ...

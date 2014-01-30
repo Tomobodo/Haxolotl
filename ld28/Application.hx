@@ -2,15 +2,25 @@ package ld28;
 
 import flash.display.Sprite;
 import flash.events.Event;
+import flash.geom.Rectangle;
 import openfl.display.OpenGLView;
 
 /**
  * ...
  * @author Thomas BAUDON
  */
+
+enum ScaleMode
+{
+	NoScale;
+	Scale;
+}
+ 
 class Application extends Sprite
 {
 	public static var current : Application;
+	
+	public var scaleMode : ScaleMode;
 	
 	var eventCatcher : Sprite;
 	
@@ -23,6 +33,8 @@ class Application extends Sprite
 	public function new() 
 	{
 		super();
+		
+		scaleMode = Scale;
 		
 		current = this;
 		touchDevice = false;
@@ -42,15 +54,23 @@ class Application extends Sprite
 		
 		glView = new OpenGLView();
 		screens = new ScreenManager(stage);
+		updateViewport();
 		glView.render = screens.render;
 		addChild(glView);
 		
 		initEventCatcher();
 	}
 	
+	function updateViewport() : Void
+	{
+		screens.setViewport(new Rectangle(0,0,stage.stageWidth,stage.stageHeight));
+	}
+	
 	function onResize(e:Event):Void 
 	{
 		initEventCatcher();
+		if(scaleMode == NoScale)
+			updateViewport();
 	}
 	
 	function initEventCatcher() 

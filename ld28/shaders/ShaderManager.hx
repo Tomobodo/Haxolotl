@@ -1,4 +1,4 @@
-package ld28;
+package ld28.shaders;
 
 import ld28.core.Program;
 

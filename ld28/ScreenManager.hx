@@ -53,4 +53,10 @@ class ScreenManager
 		for (screen in screenList)
 			screen.render(viewport);
 	}
+	
+	public function setViewport(rectangle:Rectangle) 
+	{
+		for (screen in screenList)
+			screen.setViewport(rectangle);
+	}
 }

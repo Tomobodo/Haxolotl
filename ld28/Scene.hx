@@ -20,7 +20,12 @@ class Scene
 	public function new() 
 	{
 		displayObjects = new List<IDrawable>();
-		projectionMatrix = Matrix3D.createOrtho(0, 800, 480, 0, 1000, -1000);
+		//setViewport(new Rectangle(0, 0, 800, 480));
+	}
+	
+	public function setViewport(_viewport : Rectangle)
+	{
+		projectionMatrix = Matrix3D.createOrtho(_viewport.x, _viewport.width, _viewport.height, _viewport.y, 1000, -1000);
 	}
 	
 	public function draw():Void 

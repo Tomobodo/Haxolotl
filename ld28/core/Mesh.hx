@@ -1,4 +1,4 @@
-package ld28;
+package ld28.core;
 
 import openfl.gl.GL;
 import openfl.gl.GLBuffer;
