@@ -12,7 +12,7 @@ class DisplayObjectContainer extends DisplayObject
 {
 	
 	var children : List<DisplayObject>;
-
+	
 	public function new() 
 	{
 		super(null);

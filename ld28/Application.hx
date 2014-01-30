@@ -1,6 +1,7 @@
 package ld28;
 
 import flash.display.Sprite;
+import flash.display.Stage;
 import flash.events.Event;
 import flash.geom.Rectangle;
 import openfl.display.OpenGLView;

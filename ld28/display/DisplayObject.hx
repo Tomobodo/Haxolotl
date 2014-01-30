@@ -35,6 +35,8 @@ class DisplayObject implements IDrawable
 	public var width(get_width, null):Float;
 	public var height(get_height, null):Float;
 	
+	public var interractive(default, set_interractive):Bool;
+	
 	public var color : Color;
 	
 	public var alpha : Float;
@@ -47,6 +49,8 @@ class DisplayObject implements IDrawable
 	var transform : Matrix3D;
 	
 	var vtxPosAttr : Int;
+	
+	var _interractive : Bool;
 	
 	var projectionMatrixUniform : GLUniformLocation;
 	var modelViewMatrixUniform : GLUniformLocation;
@@ -68,6 +72,8 @@ class DisplayObject implements IDrawable
 		pivotY = 0;
 		
 		alpha = 1;
+		
+		interractive = false;
 		
 		color = new Color(0xffffff);
 		transform = new Matrix3D();
@@ -135,6 +141,11 @@ class DisplayObject implements IDrawable
 	{
 		updateMatrix();
 		
+		if (_interractive)
+		{
+			checkEvent(scene);
+		}
+		
 		program.use();
 		
 		GL.blendFunc(GL.ONE, GL.ONE_MINUS_SRC_ALPHA);
@@ -165,4 +176,15 @@ class DisplayObject implements IDrawable
 	{
 		return mesh.boundingBox.get2D().height * scaleY;
 	}
+	
+	function set_interractive(value : Bool) : Bool 
+	{
+		return _interractive = value;
+	}
+	
+	function checkEvent(scene : Scene)
+	{
+		scene.eventManager.checkEvent(this);
+	}
+	
 }
