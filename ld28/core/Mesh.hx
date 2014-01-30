@@ -5,6 +5,8 @@ import openfl.gl.GLBuffer;
 import openfl.utils.Float32Array;
 import openfl.utils.Int16Array;
 
+import ld28.utils.BoundingBox;
+
 /**
  * ...
  * @author Thomas BAUDON
@@ -17,6 +19,8 @@ class Mesh
 	
 	public var vertexDrawMode : Int;
 
+	public  var boundingBox : BoundingBox;
+	
 	var vertexBuffer : GLBuffer;
 	var textCoordBuffer:GLBuffer;
 	var indexBuffer : GLBuffer;
@@ -44,8 +48,53 @@ class Mesh
 		genVertexBuffer();
 		genTexCoordBuffer();
 		genIndexBuffer();
+		
+		genBounding(_vertices);
 	}
 	
+	function genBounding(_vertices : Array<Float>) 
+	{
+		var minX : Float = 100000;
+		var minY : Float = 100000;
+		var minZ : Float = 100000;
+		
+		var maxX : Float = -100000;
+		var maxY : Float = -100000;
+		var maxZ : Float = -100000;
+		
+		var nbVertex : Int = Std.int(_vertices.length / 3);
+		
+		for (i in 0 ... nbVertex)
+		{
+			var currentX = _vertices[i * 3];
+			if (currentX < minX)
+				minX = currentX;
+			if (currentX > maxX)
+				maxX = currentX;
+				
+			var currentY = _vertices[i * 3 + 1];
+			if (currentY < minY)
+				minY = currentY;
+			if (currentY > maxY)
+				maxY = currentY;
+				
+			var currentZ = _vertices[i * 3 + 2];
+			if (currentZ < minZ)
+				minZ = currentZ;
+			if (currentZ > maxZ)
+				maxZ = currentZ;
+		}
+		
+		var x : Float = minX;
+		var y : Float = minY;
+		var z : Float = minZ;
+		
+		var width : Float = maxX - minX;
+		var heigth : Float = maxY - minY;
+		var depth : Float = maxZ - minZ;
+		
+		boundingBox = new BoundingBox(x, y, z, width, heigth, depth);
+	}
 	
 	public function getBuffer() : GLBuffer
 	{

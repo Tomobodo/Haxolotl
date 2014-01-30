@@ -15,7 +15,6 @@ import openfl.gl.GLUniformLocation;
 import openfl.utils.Float32Array;
 import ld28.core.Mesh;
 
-
 /**
  * ...
  * @author Thomas BAUDON
@@ -33,8 +32,8 @@ class DisplayObject implements IDrawable
 	public var pivotX : Float;
 	public var pivotY : Float;
 	
-	public var width : Int;
-	public var height : Int;
+	public var width(get_width, null):Float;
+	public var height(get_height, null):Float;
 	
 	public var color : Color;
 	
@@ -157,4 +156,13 @@ class DisplayObject implements IDrawable
 		program.release();
 	}
 	
+	function get_width():Float 
+	{
+		return mesh.boundingBox.get2D().width * scaleX;
+	}
+	
+	function get_height():Float 
+	{
+		return mesh.boundingBox.get2D().height * scaleY;
+	}
 }

@@ -40,4 +40,36 @@ class DisplayObjectContainer extends DisplayObject
 			child.draw(scene);
 	}
 	
+	override function get_width() : Float
+	{
+		var minX : Float = 100000;
+		var maxX : Float = -100000;
+		
+		for (child in children)
+		{
+			if (child.x < minX)
+				minX = child.x;
+			if (child.x + child.width > maxX)
+				maxX = child.x + child.width;
+		}
+		
+		return (maxX - minX) * scaleX;
+	}
+	
+	override function get_height() : Float
+	{
+		var minY : Float = 100000;
+		var maxY : Float = -100000;
+		
+		for (child in children)
+		{
+			if (child.y < minY)
+				minY = child.y;
+			if (child.y + child.height > maxY)
+				maxY = child.y + child.height;
+		}
+		
+		return (maxY - minY) * scaleY;
+	}
+	
 }
