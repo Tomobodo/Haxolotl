@@ -13,6 +13,7 @@ class Screen
 	var stage : Stage;
 	var scenes : List<Scene>;
 	var backgroundColor : Color;
+	var viewport:Rectangle;
 	
 	public function new(_backgroundColor : Color = null) 
 	{
@@ -52,7 +53,9 @@ class Screen
 		for (scene in scenes)
 			scene.draw();
 			
-		trace(GL.getError());
+		var glError = GL.getError();
+		if (glError != 0)
+			trace(glError);
 	}
 	
 	private function addScene(_scene : Scene) 

@@ -1,5 +1,4 @@
 package ld28.display;
-import flash.geom.Matrix;
 import flash.geom.Matrix3D;
 import flash.geom.Rectangle;
 import flash.geom.Vector3D;
@@ -43,8 +42,7 @@ class DisplayObject implements IDrawable
 	var mesh : Mesh;
 	var program : Program;
 	
-	var transform : Matrix;
-	var matrixArray : Float32Array;
+	var transform : Matrix3D;
 	
 	var vtxPosAttr : Int;
 	
@@ -70,8 +68,7 @@ class DisplayObject implements IDrawable
 		alpha = 1;
 		
 		color = new Color(0xffffff);
-		transform = new Matrix();
-		matrixArray = new Float32Array([transform.a, transform.b, transform.tx, transform.c, transform.d, transform.ty,0,0,1]);
+		transform = new Matrix3D();
 		
 		if (_program == null)
 			_program = ShaderManager.get().program(Basic2DShader);
@@ -95,7 +92,7 @@ class DisplayObject implements IDrawable
 		colorUniform = GL.getUniformLocation(program.program, "vertexColor");
 	}
 	
-	public function getTransform() : Matrix
+	public function getTransform() : Matrix3D
 	{
 		return transform;
 	}
@@ -123,20 +120,13 @@ class DisplayObject implements IDrawable
 	{
 		transform.identity();
 		
-		transform.translate(-pivotX,-pivotY);
-		transform.rotate(rotation);
-		transform.scale(scaleX, scaleY);
-		transform.translate(x, y);
+		transform.appendTranslation( -pivotX, -pivotY, 0);
+		transform.appendRotation(rotation, Vector3D.Z_AXIS);
+		transform.appendScale(scaleX, scaleY, 1);
+		transform.appendTranslation(x, y, 0);
 		
 		if (parent != null)
-			transform.concat(parent.getTransform());
-		
-		matrixArray[0] = transform.a;
-		matrixArray[1] = transform.c;
-		matrixArray[2] = transform.tx;
-		matrixArray[3] = transform.b;
-		matrixArray[4] = transform.d;
-		matrixArray[5] = transform.ty;
+			transform.append(parent.getTransform());
 	}
 	
 	function initRender(scene : Scene)
@@ -152,7 +142,7 @@ class DisplayObject implements IDrawable
 		GL.enableVertexAttribArray(vtxPosAttr);
 		
 		GL.uniformMatrix3D(projectionMatrixUniform, false, scene.projectionMatrix);
-		GL.uniformMatrix3fv(modelViewMatrixUniform, false, matrixArray);
+		GL.uniformMatrix3D(modelViewMatrixUniform, false, transform);
 		GL.uniform4f(colorUniform, color.r, color.g, color.b, color.a);
 	}
 	

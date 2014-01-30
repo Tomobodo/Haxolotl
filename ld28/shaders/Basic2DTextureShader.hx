@@ -14,18 +14,18 @@ class Basic2DTextureShader extends Program
 		attribute vec2 vertexPosition;
 		attribute vec2 aTexCoord;
 	
-		uniform mat3 modelViewMatrix;
-		uniform mat3 texCoordMatrix;
+		uniform mat4 texCoordMatrix;
+		
+		uniform mat4 modelViewMatrix;
 		uniform mat4 projectionMatrix;
 		
 		varying vec2 vTexCoord;
 		
 		void main(void) {
-			vec3 tempCoord = vec3(aTexCoord, 1) * texCoordMatrix;
+			vec4 tempCoord = vec4(aTexCoord, 0, 1) * texCoordMatrix;
 			vTexCoord = vec2(tempCoord.x, tempCoord.y);
 			
-			vec3 temp = vec3(vertexPosition,1.0) * modelViewMatrix;
-			gl_Position = projectionMatrix * vec4(temp, 1.0);
+			gl_Position = projectionMatrix * modelViewMatrix * vec4(vertexPosition,0,1);
 		}";
 		
 		fragmentShaderSource = "

@@ -1,5 +1,6 @@
 package ld28;
 import flash.geom.Matrix3D;
+import flash.geom.Rectangle;
 import openfl.gl.GL;
 import ld28.core.IDrawable;
 
@@ -10,32 +11,31 @@ import ld28.core.IDrawable;
  */
 class Scene
 {
+	var displayObjects : List<IDrawable>;
 	
-	var models : List<IDrawable>;
+	var viewport : Rectangle;
 	
 	public var projectionMatrix : Matrix3D;
 
 	public function new() 
 	{
-		models = new List<IDrawable>();
-		
+		displayObjects = new List<IDrawable>();
 		projectionMatrix = Matrix3D.createOrtho(0, 800, 480, 0, 1000, -1000);
 	}
 	
 	public function draw():Void 
 	{
-		for (model in models)
+		for (model in displayObjects)
 			model.draw(this);
 	}
 	
 	public function add(_model : IDrawable)
 	{
-		models.push(_model);
+		displayObjects.push(_model);
 	}
 	
 	public function remove(_model : IDrawable)
 	{
-		models.remove(_model);
+		displayObjects.remove(_model);
 	}
-	
 }

@@ -13,18 +13,16 @@ class Basic2DShader extends Program
 		vertexShaderSource = "
 		attribute vec2 vertexPosition;
 	
-		uniform mat3 modelViewMatrix;
+		uniform mat4 modelViewMatrix;
 		uniform mat4 projectionMatrix;
 		
 		void main(void) {
-			vec3 temp = vec3(vertexPosition,1.0) * modelViewMatrix;
-			gl_Position = projectionMatrix * vec4(temp, 1.0);
+			gl_Position = projectionMatrix * modelViewMatrix * vec4(vertexPosition,0,1);
 		}";
 		
 		fragmentShaderSource = "
 		precision mediump float;
 		uniform vec4 vertexColor;
-		
 		
 		void main(void)
 		{

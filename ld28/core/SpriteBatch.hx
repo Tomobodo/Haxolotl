@@ -2,6 +2,7 @@ package ld28.core;
 
 import flash.geom.Matrix;
 import flash.geom.Matrix3D;
+import flash.Vector.Vector;
 import ld28.display.Image;
 import ld28.Mesh;
 import flash.Lib;
@@ -64,8 +65,10 @@ class SpriteBatch extends Mesh
 		{
 			var mesh = child.getMesh();
 			
-			transformVertices(lastVertexIndex, mesh.vertices, child.getTransform());
-			transformCoord(lastVertexIndex, mesh.texCoord, child.getTextureMatrix());
+			var m : Matrix3D = child.getTransform();
+			
+			transformVertices(lastVertexIndex, mesh.vertices, m.rawData);
+			transformCoord(lastVertexIndex, mesh.texCoord, child.getTextureMatrix().rawData);
 			
 			lastVertexIndex += mesh.vertices.length;
 		}
@@ -74,7 +77,7 @@ class SpriteBatch extends Mesh
 		updateTexCoordBuffer();
 	}
 	
-	function transformVertices(startIndex : Int, _vertices : Float32Array, matrix : Matrix)
+	function transformVertices(startIndex : Int, _vertices : Float32Array, m : Vector<Float>)
 	{
 		var nbVertex : Int = cast _vertices.length / 2;
 		for (i in 0 ... nbVertex)
@@ -82,15 +85,15 @@ class SpriteBatch extends Mesh
 			var x = _vertices[i * 2];
 			var y = _vertices[i * 2 + 1];
 			
-			var newX = x * matrix.a + y * matrix.b + matrix.tx;
-			var newY = x * matrix.c + y * matrix.d + matrix.ty;
+			var newX = x * m[0] + y * m[4] + m[12];
+			var newY = x * m[1] + y * m[5] + m[13];
 			
 			vertices[startIndex + i * 2] = newX;
 			vertices[startIndex + i * 2 + 1] = newY;
 		}
 	}
 	
-	function transformCoord(startIndex : Int, _coords : Float32Array, matrix : Float32Array)
+	function transformCoord(startIndex : Int, _coords : Float32Array, matrix : Vector<Float>)
 	{
 		var nbCoord : Int = cast _coords.length / 2;
 		for (i in 0 ... nbCoord)
@@ -98,8 +101,8 @@ class SpriteBatch extends Mesh
 			var x = _coords[i * 2];
 			var y = _coords[i * 2 + 1];
 			
-			var newX = x * matrix[0] + y * matrix[1] + matrix[2];
-			var newY = x * matrix[3] + y * matrix[4] + matrix[5];
+			var newX = x * matrix[0] + y * matrix[4] + matrix[12];
+			var newY = x * matrix[1] + y * matrix[5] + matrix[13];
 			
 			texCoord[startIndex + i * 2] = newX;
 			texCoord[startIndex + i * 2 + 1] = newY;
@@ -134,15 +137,15 @@ class SpriteBatch extends Mesh
 			for (i in 0 ... meshVertices.length)
 				tempsVert.push(meshVertices[i]);
 			
-			var tTrans : Float32Array = child.getTextureMatrix();
+			var tTrans : Matrix3D = child.getTextureMatrix();
 			
 			for (i in 0 ... cast meshCoord.length / 2)
 			{
 				var x = meshCoord[i * 2];
 				var y = meshCoord[i * 2 + 1];
 				
-				tempCoord.push(x * tTrans[0] + y * tTrans[1] + tTrans[2]);
-				tempCoord.push(x * tTrans[3] + y * tTrans[4] + tTrans[5]);
+				tempCoord.push(x * tTrans.rawData[0] + y * tTrans.rawData[4] + tTrans.rawData[12]);
+				tempCoord.push(x * tTrans.rawData[1] + y * tTrans.rawData[5] + tTrans.rawData[13]);
 			}
 		}
 		

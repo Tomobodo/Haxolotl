@@ -1,5 +1,5 @@
 package ld28.display;
-import flash.geom.Matrix;
+import flash.geom.Matrix3D;
 import flash.geom.Rectangle;
 import ld28.mesh.Plane2D;
 import ld28.core.IDrawable;
@@ -28,7 +28,7 @@ class Image extends DisplayObject
 	var imageUniform : GLUniformLocation;
 	var texCoordMatrixUniform : GLUniformLocation;
 	
-	var texCoordtransform : Float32Array;
+	var texCoordtransform : Matrix3D;
 	
 	var textureRegion : Rectangle;
 	
@@ -40,7 +40,7 @@ class Image extends DisplayObject
 			region = new Rectangle(0, 0, texture.width, texture.height);
 		textureRegion = region;
 		
-		texCoordtransform = new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1]);
+		texCoordtransform = new Matrix3D();
 		setTextureRegion(textureRegion);
 		
 		super(new Plane2D(region.width, region.height), ShaderManager.get().program(Basic2DTextureShader));
@@ -50,10 +50,10 @@ class Image extends DisplayObject
 	{
 		textureRegion = region;
 		
-		texCoordtransform[0] = region.width / texture.width;
-		texCoordtransform[2] = region.x / texture.width;
-		texCoordtransform[4] = region.height / texture.height;
-		texCoordtransform[5] = region.y / texture.height;
+		texCoordtransform.rawData[0] = region.width / texture.width;
+		texCoordtransform.rawData[12] = region.x / texture.width;
+		texCoordtransform.rawData[5] = region.height / texture.height;
+		texCoordtransform.rawData[13] = region.y / texture.height;
 	}
 	
 	override function initAttributes() 
@@ -69,7 +69,7 @@ class Image extends DisplayObject
 		texCoordMatrixUniform = GL.getUniformLocation(program.program, "texCoordMatrix");
 	}
 	
-	public function getTextureMatrix() : Float32Array
+	public function getTextureMatrix() : Matrix3D
 	{
 		setTextureRegion(textureRegion);
 		return texCoordtransform;
@@ -81,7 +81,7 @@ class Image extends DisplayObject
 		
 		GL.enableVertexAttribArray(texCoordAttr);
 		
-		GL.uniformMatrix3fv(texCoordMatrixUniform, false, texCoordtransform);
+		GL.uniformMatrix3D(texCoordMatrixUniform, false, texCoordtransform);
 		GL.uniform1i(imageUniform, 0);
 		
 		#if desktop
