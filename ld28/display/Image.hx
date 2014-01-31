@@ -4,7 +4,7 @@ import flash.geom.Rectangle;
 import ld28.mesh.Plane2D;
 import ld28.core.IDrawable;
 import ld28.core.Mesh;
-import ld28.Scene;
+import ld28.core.Scene;
 import ld28.shaders.ShaderManager;
 import ld28.core.Program;
 import ld28.shaders.Basic2DTextureShader;

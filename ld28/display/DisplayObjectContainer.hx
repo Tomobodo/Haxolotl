@@ -2,7 +2,7 @@ package ld28.display;
 
 import ld28.core.Program;
 import ld28.display.DisplayObject;
-import ld28.Scene;
+import ld28.core.Scene;
 
 /**
  * ...

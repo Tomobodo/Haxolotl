@@ -5,7 +5,7 @@ import flash.geom.Vector3D;
 import ld28.utils.Color;
 import ld28.core.IDrawable;
 import ld28.core.Texture;
-import ld28.Scene;
+import ld28.core.Scene;
 import ld28.shaders.Basic2DShader;
 import ld28.shaders.ShaderManager;
 import ld28.core.Program;
@@ -19,7 +19,7 @@ import ld28.core.Mesh;
  * ...
  * @author Thomas BAUDON
  */
-class DisplayObject implements IDrawable
+class DisplayObject
 {
 	public var x : Float;
 	public var y : Float;
@@ -110,7 +110,7 @@ class DisplayObject implements IDrawable
 		return mesh;
 	}
 	
-	public function draw(scene : Scene)
+	public function draw()
 	{
 		initRender(scene);
 		

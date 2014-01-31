@@ -6,5 +6,7 @@ package ld28.core;
  */
 interface IDrawable
 {
-	public function draw(scene : Scene) : Void;
+	public function draw() : Void;
+	
+	public function update() : Void;
 }

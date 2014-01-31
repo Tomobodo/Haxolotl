@@ -1,10 +1,11 @@
-package ld28;
+package ld28.core;
 
 import flash.display.Sprite;
 import flash.display.Stage;
 import flash.events.Event;
 import flash.geom.Rectangle;
 import openfl.display.OpenGLView;
+import ld28.core.IDrawable;
 
 /**
  * ...
@@ -17,61 +18,60 @@ enum ScaleMode
 	Scale;
 }
  
-class Application extends Sprite
+class Engine
 {
-	public static var current : Application;
-	
 	public var scaleMode : ScaleMode;
+	
+	public var ready : Dynamic;
 	
 	var eventCatcher : Sprite;
 	
 	var touchDevice : Bool;
 	
+	var stage : Stage;
+	
 	var glView : OpenGLView;
 	
-	var screens : ScreenManager;
+	var drawlist : List<IDrawable>;
 	
-	public function new() 
+	public function new(_stage : Stage) 
 	{
-		super();
-		
 		scaleMode = Scale;
 		
-		current = this;
-		touchDevice = false;
-		addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
-	}
-	
-	public function start(_firstScreen : Screen)
-	{
-		screens.gotoScreen(_firstScreen);
-	}
-	
-	function onAddedToStage(e:Event):Void 
-	{
-		removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+		drawlist = new List<IDrawable>();
 		
+		touchDevice = false;
+		
+		stage = _stage;
+		
+		init();
+	}
+	
+	function init() : Void
+	{
 		stage.addEventListener(Event.RESIZE, onResize);
 		
 		glView = new OpenGLView();
-		screens = new ScreenManager(stage);
-		updateViewport();
-		glView.render = screens.render;
-		addChild(glView);
+		glView.render = render;
+		stage.addChild(glView);
 		
 		initEventCatcher();
+		
+		ready();
 	}
 	
-	function updateViewport() : Void
+	function render(viewport : Rectangle) : Void
 	{
-		screens.setViewport(new Rectangle(0,0,stage.stageWidth,stage.stageHeight));
+		for (drawable in drawlist)
+		{
+			drawable.update();
+			drawable.draw();
+		}
 	}
 	
 	function onResize(e:Event):Void 
 	{
 		initEventCatcher();
-		if(scaleMode == NoScale)
-			updateViewport();
 	}
 	
 	function initEventCatcher() 
