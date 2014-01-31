@@ -3,7 +3,7 @@
 	"url" : "https://github.com/TBaudon/ld28",
 	"license" : "MIT",
     "description" : "A opengl game engine for haxe",
-    "version" : "0.0.2",
+    "version" : "0.3.0",
 	"releasenote" : "",
 	"contributors" : ["Thomas BAUDON"],
     "dependencies" : { 

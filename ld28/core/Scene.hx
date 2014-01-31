@@ -1,4 +1,5 @@
 package ld28.core;
+import flash.display.DisplayObjectContainer;
 import flash.display.Stage;
 import flash.geom.Matrix3D;
 import flash.geom.Rectangle;
@@ -11,7 +12,7 @@ import ld28.core.Engine;
  * ...
  * @author Thomas BAUDON
  */
-class Scene implements IDrawable
+class Scene extends DisplayObjectContainer implements IDrawable
 {
 	var objects : List<IDrawable>;
 	

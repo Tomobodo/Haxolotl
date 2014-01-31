@@ -10,8 +10,11 @@ import ld28.core.Scene;
  */
 class DisplayObjectContainer extends DisplayObject
 {
-	
 	var children : List<DisplayObject>;
+	
+	/*
+	 * on added to scene, addChildrenToScene
+	 */
 	
 	public function new() 
 	{
@@ -23,53 +26,20 @@ class DisplayObjectContainer extends DisplayObject
 	public function add(child : DisplayObject)
 	{
 		children.push(child);
-		child.parent = this;
+		child.added(this);
 	}
 	
 	public function remove(child : DisplayObject)
 	{
 		children.remove(child);
-		child.parent = null;
+		child.removed(this);
 	}
 	
-	override public function draw(scene : Scene)
+	override public function addedToScene(_scene : Scene) : Void
 	{
-		updateMatrix();
-		
+		scene = _scene;
 		for (child in children)
-			child.draw(scene);
+			scene.add(child);
+		// dispatch addedToScene
 	}
-	
-	override function get_width() : Float
-	{
-		var minX : Float = 100000;
-		var maxX : Float = -100000;
-		
-		for (child in children)
-		{
-			if (child.x < minX)
-				minX = child.x;
-			if (child.x + child.width > maxX)
-				maxX = child.x + child.width;
-		}
-		
-		return (maxX - minX) * scaleX;
-	}
-	
-	override function get_height() : Float
-	{
-		var minY : Float = 100000;
-		var maxY : Float = -100000;
-		
-		for (child in children)
-		{
-			if (child.y < minY)
-				minY = child.y;
-			if (child.y + child.height > maxY)
-				maxY = child.y + child.height;
-		}
-		
-		return (maxY - minY) * scaleY;
-	}
-	
 }
