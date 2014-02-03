@@ -25,6 +25,7 @@ class Stage extends DisplayObjectContainer implements IDrawable
 	public function new() 
 	{
 		super();
+		stage = this;
 		batchMap = new Map<String, SpriteBatch>();
 		drawableChildren = new List<IDrawable>();
 	}
@@ -79,6 +80,7 @@ class Stage extends DisplayObjectContainer implements IDrawable
 		var textureName = "null";
 		if (object.texture != null)
 			textureName = object.texture.texture.path;
+			
 		var batch = batchMap[textureName];
 		if (batch == null)
 		{

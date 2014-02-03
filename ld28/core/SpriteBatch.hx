@@ -2,6 +2,10 @@ package ld28.core;
 
 import flash.geom.Matrix3D;
 import ld28.display.DisplayObject;
+import ld28.shaders.SpriteBatch2DShader;
+import openfl.gl.GL;
+import openfl.gl.GLBuffer;
+import openfl.gl.GLUniformLocation;
 import openfl.utils.Float32Array;
 import openfl.utils.Int16Array;
 
@@ -16,18 +20,37 @@ class SpriteBatch implements IDrawable
 	var first : BatchElement;
 	var last : BatchElement;
 	
-	var vertexBuffer : Float32Array;
-	var indexBuffer : Int16Array;
+	var vertex : Float32Array;
+	var index : Int16Array;
+	
+	var vertexBuffer : GLBuffer;
+	var indexBuffer : GLBuffer;
+	
+	var projectionUniform : GLUniformLocation;
 	
 	var program : Program;
+	var projectionMatrix:Matrix3D;
 	
 	public function new(_texture : Texture) 
 	{
 		texture = _texture;
 		
-		vertexBuffer = new Float32Array([]);
-		indexBuffer = new Int16Array([]);
-		indexBuffer[5] = 5;
+		vertex = new Float32Array([]);
+		index = new Int16Array([]);
+		
+		vertexBuffer = GL.createBuffer();
+		indexBuffer = GL.createBuffer();
+		
+		program = new SpriteBatch2DShader();
+		
+		program.use();
+		
+		initUniform();
+	}
+	
+	function initUniform() 
+	{
+		projectionUniform = GL.getUniformLocation(program.program, "projectionMatrix");
 	}
 	
 	public function add(object : DisplayObject)
@@ -68,16 +91,32 @@ class SpriteBatch implements IDrawable
 	
 	public function setProjectionMatrix(projection : Matrix3D) : Void
 	{
-		
+		projectionMatrix = projection;
 	}
 	
 	public function update()
 	{
-		trace(indexBuffer[5]);
+		
 	}
 	
 	public function draw()
 	{
+		initDraw();
 		
+		endDraw();
+	}
+	
+	function initDraw() 
+	{
+		program.use();
+		
+		GL.uniformMatrix3D(projectionUniform, false, projectionMatrix);
+		
+		//GL.vertexAttribPointer(
+	}
+	
+	function endDraw() 
+	{
+		program.release();
 	}
 }
