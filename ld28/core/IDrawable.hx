@@ -1,4 +1,5 @@
 package ld28.core;
+import flash.geom.Matrix3D;
 
 /**
  * ...
@@ -6,6 +7,8 @@ package ld28.core;
  */
 interface IDrawable
 {
+	public function setProjectionMatrix(projection : Matrix3D) : Void;
+	
 	public function update() : Void;
 	
 	public function draw() : Void;

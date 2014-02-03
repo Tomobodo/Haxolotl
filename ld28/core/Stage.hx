@@ -6,7 +6,7 @@ import openfl.gl.GL;
 import ld28.core.IDrawable;
 import ld28.core.Engine;
 import ld28.display.DisplayObjectContainer;
-
+import openfl.utils.Float32Array;
 
 /**
  * ...
@@ -14,16 +14,19 @@ import ld28.display.DisplayObjectContainer;
  */
 class Stage extends DisplayObjectContainer implements IDrawable
 {
-	var objects : List<IDrawable>;
+	var drawableChildren : List<IDrawable>;
 	
 	var viewport : Rectangle;
+	
+	var batchMap : Map<String, SpriteBatch>;
 	
 	public var projectionMatrix : Matrix3D;
 
 	public function new() 
 	{
 		super();
-		objects = new List<IDrawable>();
+		batchMap = new Map<String, SpriteBatch>();
+		drawableChildren = new List<IDrawable>();
 	}
 	
 	public function setViewport(_viewport : Rectangle)
@@ -38,7 +41,7 @@ class Stage extends DisplayObjectContainer implements IDrawable
 	
 	public function draw():Void 
 	{
-		for (object in objects)
+		for (object in drawableChildren)
 			object.draw();
 	}
 	
@@ -46,11 +49,43 @@ class Stage extends DisplayObjectContainer implements IDrawable
 	{
 		_child.addedToStage(this);
 		super.add(_child);
+		
+		if (_child.prim != null)
+		{
+			var batch = getBatch(_child);
+			batch.add(_child);
+		}
 	}
 	
 	override public function remove(_child : DisplayObject)
 	{
 		_child.removedFromStage(this);
 		super.remove(_child);
+		
+		if (_child.prim != null)
+		{
+			var batch = getBatch(_child);
+			batch.remove(_child);
+		}
+	}
+	
+	public function setProjectionMatrix(projection : Matrix3D) : Void
+	{
+		
+	}
+	
+	function getBatch(object : DisplayObject) : SpriteBatch
+	{
+		var textureName = "null";
+		if (object.texture != null)
+			textureName = object.texture.texture.path;
+		var batch = batchMap[textureName];
+		if (batch == null)
+		{
+			batch = new SpriteBatch(object.texture.texture);
+			batchMap[textureName] = batch;
+		}
+		
+		return batch;
 	}
 }

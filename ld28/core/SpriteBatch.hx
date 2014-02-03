@@ -1,6 +1,10 @@
 package ld28.core;
 
+import flash.geom.Matrix3D;
 import ld28.display.DisplayObject;
+import openfl.utils.Float32Array;
+import openfl.utils.Int16Array;
+
 /**
  * ...
  * @author Thomas B
@@ -12,9 +16,18 @@ class SpriteBatch implements IDrawable
 	var first : BatchElement;
 	var last : BatchElement;
 	
+	var vertexBuffer : Float32Array;
+	var indexBuffer : Int16Array;
+	
+	var program : Program;
+	
 	public function new(_texture : Texture) 
 	{
 		texture = _texture;
+		
+		vertexBuffer = new Float32Array([]);
+		indexBuffer = new Int16Array([]);
+		indexBuffer[5] = 5;
 	}
 	
 	public function add(object : DisplayObject)
@@ -45,12 +58,26 @@ class SpriteBatch implements IDrawable
 	public function findElement(object : DisplayObject) : BatchElement
 	{
 		var element = first;
-		while (element)
+		while (element != null)
 			if (element.object == object)
 				return element;
 			else
 				element = element.next;
+		return null;
 	}
 	
+	public function setProjectionMatrix(projection : Matrix3D) : Void
+	{
+		
+	}
 	
+	public function update()
+	{
+		trace(indexBuffer[5]);
+	}
+	
+	public function draw()
+	{
+		
+	}
 }

@@ -17,11 +17,14 @@ class Texture
 	public var width (get, null) : Int ;
 	public var height (get, null) : Int;
 	
+	public var path : String;
+	
 	private static var cache = new  Map<String, Texture>();
 	
 	function new(_path : String) 
 	{
-		var bitmapData = Assets.getBitmapData(_path);
+		path = _path;
+		var bitmapData = Assets.getBitmapData(path);
 		
 		#if html5
 		var pixels = bitmapData.getPixels(bitmapData.rect).byteView;
