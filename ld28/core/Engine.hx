@@ -4,6 +4,7 @@ import flash.display.Sprite;
 import flash.display.Stage;
 import flash.events.Event;
 import flash.geom.Rectangle;
+import haxe.Constraints.Function;
 import openfl.display.OpenGLView;
 import ld28.core.IDrawable;
 
@@ -21,8 +22,6 @@ enum ScaleMode
 class Engine
 {
 	public var scaleMode : ScaleMode;
-	
-	public var ready : Dynamic;
 	
 	var eventCatcher : Sprite;
 	
@@ -57,14 +56,14 @@ class Engine
 		
 		initEventCatcher();
 		
-		ready();
+		onReady();
 	}
 	
 	function render(viewport : Rectangle) : Void
 	{
 		for (drawable in drawlist)
 		{
-			drawable.update();
+			drawable.enterFrame();
 			drawable.draw();
 		}
 	}
@@ -84,5 +83,17 @@ class Engine
 		eventCatcher.graphics.beginFill(0, 0);
 		eventCatcher.graphics.drawRect(0, 0,stage.stageWidth,stage.stageHeight);
 		eventCatcher.graphics.endFill();
+	}
+	
+	public dynamic function onReady() { };
+	
+	public function add(object : IDrawable)
+	{
+		this.drawlist.push(object);
+	}
+	
+	public function remove(object : IDrawable)
+	{
+		this.drawlist.remove(object);
 	}
 }

@@ -2,7 +2,6 @@ package ld28.display;
 
 import ld28.core.Program;
 import ld28.display.DisplayObject;
-import ld28.core.Scene;
 
 /**
  * ...
@@ -18,7 +17,7 @@ class DisplayObjectContainer extends DisplayObject
 	
 	public function new() 
 	{
-		super(null);
+		super();
 		
 		children = new List<DisplayObject>();
 	}
@@ -27,19 +26,29 @@ class DisplayObjectContainer extends DisplayObject
 	{
 		children.push(child);
 		child.added(this);
+		if (stage != null)
+			stage.add(child);
 	}
 	
 	public function remove(child : DisplayObject)
 	{
 		children.remove(child);
 		child.removed(this);
+		if (stage != null)
+			stage.remove(child);
 	}
 	
-	override public function addedToScene(_scene : Scene) : Void
+	override public function added(_parent : DisplayObjectContainer) : Void
 	{
-		scene = _scene;
 		for (child in children)
-			scene.add(child);
-		// dispatch addedToScene
+			_parent.add(child);
+		super.added(_parent);
+	}
+	
+	override public function removed(_parent : DisplayObjectContainer) : Void
+	{
+		for (child in children)
+			_parent.remove(child);
+		super.removed(_parent);
 	}
 }

@@ -1,12 +1,14 @@
 package ld28.display;
+import ld28.core.InteractiveObject;
 import ld28.utils.Color;
-import ld28.core.Scene;
+import ld28.core.Stage;
+import ld28.core.InteractiveObject;
 
 /**
  * ...
  * @author Thomas BAUDON
  */
-class DisplayObject
+class DisplayObject extends InteractiveObject
 {
 	public var x : Float;
 	public var y : Float;
@@ -22,24 +24,18 @@ class DisplayObject
 	public var width : Float;
 	public var height : Float;
 	
-	public var interractive : Bool;
-	
 	public var color : Color;
-	
 	public var alpha : Float;
 	
 	public var parent : DisplayObjectContainer;
-	
-	public var scene : Scene;
-	
-	// signal addedToScene;
-	// signal removedFromScene;
 	
 	// signal added;
 	// signal remoced;
 
 	public function new() 
 	{
+		super();
+		
 		x = 0;
 		y = 0;
 		
@@ -53,21 +49,7 @@ class DisplayObject
 		
 		alpha = 1;
 		
-		interractive = false;
-		
 		color = new Color(0xffffff);
-	}
-	
-	public function addedToScene(_scene : Scene) : Void
-	{
-		scene = _scene;
-		// dispatch signal addedToScene(scene);
-	}
-	
-	public function removedFromScene(_scene : Scene) : Void
-	{
-		scene = null;
-		// dispatch signal removedFromScene(scene);
 	}
 	
 	public function added(_parent : DisplayObjectContainer) : Void

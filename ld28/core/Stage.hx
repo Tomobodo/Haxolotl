@@ -1,18 +1,18 @@
 package ld28.core;
-import flash.display.DisplayObjectContainer;
-import flash.display.Stage;
 import flash.geom.Matrix3D;
 import flash.geom.Rectangle;
+import ld28.display.DisplayObject;
 import openfl.gl.GL;
 import ld28.core.IDrawable;
 import ld28.core.Engine;
+import ld28.display.DisplayObjectContainer;
 
 
 /**
  * ...
  * @author Thomas BAUDON
  */
-class Scene extends DisplayObjectContainer implements IDrawable
+class Stage extends DisplayObjectContainer implements IDrawable
 {
 	var objects : List<IDrawable>;
 	
@@ -22,6 +22,7 @@ class Scene extends DisplayObjectContainer implements IDrawable
 
 	public function new() 
 	{
+		super();
 		objects = new List<IDrawable>();
 	}
 	
@@ -30,19 +31,26 @@ class Scene extends DisplayObjectContainer implements IDrawable
 		projectionMatrix = Matrix3D.createOrtho(_viewport.x, _viewport.width, _viewport.height, _viewport.y, 1000, -1000);
 	}
 	
+	public function enterFrame() : Void
+	{
+		
+	}
+	
 	public function draw():Void 
 	{
 		for (object in objects)
 			object.draw();
 	}
 	
-	public function add(_model : IDrawable)
+	override public function add(_child : DisplayObject)
 	{
-		objects.push(_model);
+		_child.addedToStage(this);
+		super.add(_child);
 	}
 	
-	public function remove(_model : IDrawable)
+	override public function remove(_child : DisplayObject)
 	{
-		objects.remove(_model);
+		_child.removedFromStage(this);
+		super.remove(_child);
 	}
 }

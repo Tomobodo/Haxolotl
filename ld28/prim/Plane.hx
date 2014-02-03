@@ -1,11 +1,11 @@
-package ld28.mesh;
-import ld28.core.Mesh;
+package ld28.prim;
+import ld28.core.Primitive;
 
 /**
  * ...
  * @author Thomas BAUDON
  */
-class Plane2D extends Mesh
+class Plane extends Primitive
 {
 	public function new(_w : Float, _h : Float) 
 	{

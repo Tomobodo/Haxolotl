@@ -4,7 +4,7 @@ import flash.geom.Matrix;
 import flash.geom.Matrix3D;
 import flash.Vector.Vector;
 import ld28.display.Image;
-import ld28.core.Mesh;
+import ld28.prim.Plane;
 import flash.Lib;
 import openfl.gl.GL;
 import openfl.gl.GLBuffer;
