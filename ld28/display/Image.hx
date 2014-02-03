@@ -1,6 +1,7 @@
 package ld28.display;
 import flash.geom.Matrix3D;
 import flash.geom.Rectangle;
+import ld28.core.TextureRegion;
 import ld28.prim.Plane;
 import ld28.core.IDrawable;
 import ld28.prim.Plane;
@@ -21,24 +22,10 @@ import openfl.utils.Float32Array;
  */
 class Image extends DisplayObject
 {
-	var texture : Texture;
-	
-	var texCoordAttr : Int;
-	
-	var imageUniform : GLUniformLocation;
-	var texCoordMatrixUniform : GLUniformLocation;
-	
-	var texCoordtransform : Matrix3D;
-	
-	var textureRegion : Rectangle;
-	
-	public function new(_texture : Texture, region : Rectangle = null) 
+	public function new(_texture : TextureRegion) 
 	{
 		texture = _texture;
-		
-		if (region == null)
-			region = new Rectangle(0, 0, texture.width, texture.height);
-		textureRegion = region;
+		prim = new Plane();
 		
 		texCoordtransform = new Matrix3D();
 		setTextureRegion(textureRegion);

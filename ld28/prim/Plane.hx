@@ -7,7 +7,7 @@ import ld28.core.Primitive;
  */
 class Plane extends Primitive
 {
-	public function new(_w : Float, _h : Float) 
+	public function new(_w : Float = 1, _h : Float = 1) 
 	{
 		var _vertices = [
 			0.0, _h,

@@ -55,15 +55,13 @@ class Engine
 		stage.addChild(glView);
 		
 		initEventCatcher();
-		
-		onReady();
 	}
 	
 	function render(viewport : Rectangle) : Void
 	{
 		for (drawable in drawlist)
 		{
-			drawable.enterFrame();
+			drawable.update();
 			drawable.draw();
 		}
 	}
@@ -84,8 +82,6 @@ class Engine
 		eventCatcher.graphics.drawRect(0, 0,stage.stageWidth,stage.stageHeight);
 		eventCatcher.graphics.endFill();
 	}
-	
-	public dynamic function onReady() { };
 	
 	public function add(object : IDrawable)
 	{

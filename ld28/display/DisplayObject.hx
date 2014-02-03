@@ -1,5 +1,7 @@
 package ld28.display;
 import ld28.core.InteractiveObject;
+import ld28.core.Primitive;
+import ld28.core.TextureRegion;
 import ld28.utils.Color;
 import ld28.core.Stage;
 import ld28.core.InteractiveObject;
@@ -28,6 +30,9 @@ class DisplayObject extends InteractiveObject
 	public var alpha : Float;
 	
 	public var parent : DisplayObjectContainer;
+	
+	public var prim : Primitive;
+	public var texture : TextureRegion;
 	
 	// signal added;
 	// signal remoced;

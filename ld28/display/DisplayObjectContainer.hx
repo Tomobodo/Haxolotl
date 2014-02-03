@@ -51,4 +51,11 @@ class DisplayObjectContainer extends DisplayObject
 			_parent.remove(child);
 		super.removed(_parent);
 	}
+	
+	override public function enteredFrame() : Void
+	{
+		for (child in children)
+			child.enteredFrame();
+		super.enteredFrame();
+	}
 }

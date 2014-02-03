@@ -13,7 +13,6 @@ import ld28.utils.BoundingBox;
  */
 class Primitive
 {
-	
 	public var vertices : Float32Array;
 	public var texCoord : Float32Array;
 	public var indexes : Int16Array;
