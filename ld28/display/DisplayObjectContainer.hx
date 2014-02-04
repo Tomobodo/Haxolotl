@@ -26,7 +26,7 @@ class DisplayObjectContainer extends DisplayObject
 	{
 		children.push(child);
 		child.added(this);
-		if (stage != null)
+		if (stage != null && stage != this)
 			stage.add(child);
 	}
 	
@@ -34,7 +34,7 @@ class DisplayObjectContainer extends DisplayObject
 	{
 		children.remove(child);
 		child.removed(this);
-		if (stage != null)
+		if (stage != null && stage != this)
 			stage.remove(child);
 	}
 	

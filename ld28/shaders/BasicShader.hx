@@ -46,7 +46,7 @@ class BasicShader extends Program
 			#end
 		"}";
 		
-		super();
+		super(vertexShaderSource, fragmentShaderSource);
 	}
 	
 }

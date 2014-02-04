@@ -37,13 +37,18 @@ class Stage extends DisplayObjectContainer implements IDrawable
 	
 	public function update() : Void
 	{
+		for (object in drawableChildren)
+			object.update();
 		this.enteredFrame();
 	}
 	
 	public function draw():Void 
 	{
 		for (object in drawableChildren)
+		{
+			object.setProjectionMatrix(projectionMatrix);
 			object.draw();
+		}
 	}
 	
 	override public function add(_child : DisplayObject)
@@ -86,6 +91,7 @@ class Stage extends DisplayObjectContainer implements IDrawable
 		{
 			batch = new SpriteBatch(object.texture.texture);
 			batchMap[textureName] = batch;
+			drawableChildren.add(batch);
 		}
 		
 		return batch;

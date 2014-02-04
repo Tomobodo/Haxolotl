@@ -1,11 +1,11 @@
 package ld28.core;
 
 import flash.display.Sprite;
-import flash.display.Stage;
 import flash.events.Event;
 import flash.geom.Rectangle;
 import haxe.Constraints.Function;
 import openfl.display.OpenGLView;
+import openfl.gl.GL;
 import ld28.core.IDrawable;
 
 /**
@@ -27,17 +27,19 @@ class Engine
 	
 	var touchDevice : Bool;
 	
-	var stage : Stage;
+	var stage : flash.display.Stage;
 	
 	var glView : OpenGLView;
 	
-	var drawlist : List<IDrawable>;
+	var stages : List<ld28.core.Stage>;
 	
-	public function new(_stage : Stage) 
+	var viewport : Rectangle;
+	
+	public function new(_stage : flash.display.Stage) 
 	{
 		scaleMode = Scale;
 		
-		drawlist = new List<IDrawable>();
+		stages = new List<ld28.core.Stage>();
 		
 		touchDevice = false;
 		
@@ -53,22 +55,37 @@ class Engine
 		glView = new OpenGLView();
 		glView.render = render;
 		stage.addChild(glView);
+		viewport = new Rectangle(0, 0, stage.stageWidth, stage.stageHeight);
 		
 		initEventCatcher();
 	}
 	
 	function render(viewport : Rectangle) : Void
 	{
-		for (drawable in drawlist)
+		GL.viewport (Std.int (viewport.x), Std.int (viewport.y), Std.int (viewport.width), Std.int (viewport.height));
+		GL.clearColor (0, 0, 0, 1);
+		GL.clear (GL.COLOR_BUFFER_BIT | GL.DEPTH_BUFFER_BIT);
+		
+		for (stage in stages)
 		{
-			drawable.update();
-			drawable.draw();
+			stage.update();
+			stage.draw();
 		}
+		
+		var glError = GL.getError();
+		if (glError != 0)
+			trace(glError);
 	}
 	
 	function onResize(e:Event):Void 
 	{
 		initEventCatcher();
+		if (scaleMode == NoScale)
+		{
+			viewport = new Rectangle(0, 0, stage.stageWidth, stage.stageHeight);
+			for (stage in stages)
+				stage.setViewport(viewport);
+		}
 	}
 	
 	function initEventCatcher() 
@@ -83,13 +100,14 @@ class Engine
 		eventCatcher.graphics.endFill();
 	}
 	
-	public function add(object : IDrawable)
+	public function add(stage : ld28.core.Stage)
 	{
-		this.drawlist.push(object);
+		this.stages.push(stage);
+		stage.setViewport(viewport);
 	}
 	
-	public function remove(object : IDrawable)
+	public function remove(stage : ld28.core.Stage)
 	{
-		this.drawlist.remove(object);
+		this.stages.remove(stage);
 	}
 }
