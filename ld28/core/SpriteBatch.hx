@@ -2,7 +2,7 @@ package ld28.core;
 
 import flash.geom.Matrix3D;
 import ld28.display.DisplayObject;
-import ld28.shaders.SpriteBatch2DShader;
+import ld28.shaders.SpriteBatchShader;
 import openfl.gl.GL;
 import openfl.gl.GLBuffer;
 import openfl.gl.GLUniformLocation;
@@ -41,7 +41,7 @@ class SpriteBatch implements IDrawable
 		vertexBuffer = GL.createBuffer();
 		indexBuffer = GL.createBuffer();
 		
-		program = new SpriteBatch2DShader();
+		program = new SpriteBatchShader();
 		
 		program.use();
 		
