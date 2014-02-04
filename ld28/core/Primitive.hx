@@ -1,5 +1,6 @@
 package ld28.core;
 
+import ld28.prim.Plane;
 import openfl.gl.GL;
 import openfl.gl.GLBuffer;
 import openfl.utils.Float32Array;
@@ -24,6 +25,15 @@ class Primitive
 	var vertexBuffer : GLBuffer;
 	var textCoordBuffer:GLBuffer;
 	var indexBuffer : GLBuffer;
+	
+	private static var s_plane : Plane;
+	
+	public static function getPlane() : Plane
+	{
+		if (s_plane == null)
+			s_plane = new Plane();
+		return s_plane;
+	}
 
 	public function new(_vertices : Array<Float> = null, _texCoord : Array<Float>, _indexes : Array<Int> = null) 
 	{

@@ -8,6 +8,7 @@ import openfl.gl.GLBuffer;
 import openfl.gl.GLUniformLocation;
 import openfl.utils.Float32Array;
 import openfl.utils.Int16Array;
+import openfl.utils.Int32Array;
 
 /**
  * ...
@@ -145,7 +146,7 @@ class SpriteBatch implements IDrawable
 			vertex[i++] = current.color.r;
 			vertex[i++] = current.color.g;
 			vertex[i++] = current.color.b;
-			vertex[i++] = current.color.a;
+			vertex[i++] = current.alpha ;
 			
 			// top right
 			vertex[i++] = current.x2;
@@ -155,7 +156,7 @@ class SpriteBatch implements IDrawable
 			vertex[i++] = current.color.r;
 			vertex[i++] = current.color.g;
 			vertex[i++] = current.color.b;
-			vertex[i++] = current.color.a;
+			vertex[i++] = current.alpha ;
 			
 			// bottom right
 			vertex[i++] = current.x2;
@@ -165,7 +166,7 @@ class SpriteBatch implements IDrawable
 			vertex[i++] = current.color.r;
 			vertex[i++] = current.color.g;
 			vertex[i++] = current.color.b;
-			vertex[i++] = current.color.a;
+			vertex[i++] = current.alpha ;
 			
 			// bottom left
 			vertex[i++] = current.x1;
@@ -175,7 +176,7 @@ class SpriteBatch implements IDrawable
 			vertex[i++] = current.color.r;
 			vertex[i++] = current.color.g;
 			vertex[i++] = current.color.b;
-			vertex[i++] = current.color.a;
+			vertex[i++] = current.alpha ;
 			
 			for (a in indexes)
 				index[j++] = a + k * 4;
@@ -193,7 +194,6 @@ class SpriteBatch implements IDrawable
 			
 			GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, indexBuffer);
 			GL.bufferData(GL.ELEMENT_ARRAY_BUFFER, new Int16Array(index), GL.DYNAMIC_DRAW);
-			
 		}	
 		else
 		{
@@ -215,13 +215,13 @@ class SpriteBatch implements IDrawable
 	function initDraw() 
 	{
 		#if desktop
-		GL.enable(GL.TEXTURE_2D);
+		//GL.enable(GL.TEXTURE_2D);
 		#end
 		
 		program.use();
 		
-		GL.blendFunc(GL.ONE, GL.ONE_MINUS_SRC_ALPHA);
 		GL.enable(GL.BLEND);
+		GL.blendFunc(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA);
 		GL.disable(GL.DEPTH_TEST);
 		
 		GL.uniformMatrix3D(projectionUniform, false, projectionMatrix);
@@ -257,7 +257,7 @@ class SpriteBatch implements IDrawable
 		GL.disableVertexAttribArray(colorAttribute);
 		
 		#if desktop
-		GL.disable(GL.TEXTURE_2D);
+		//GL.disable(GL.TEXTURE_2D);
 		#end
 	}
 }

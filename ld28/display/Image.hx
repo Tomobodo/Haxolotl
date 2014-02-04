@@ -1,6 +1,7 @@
 package ld28.display;
 import flash.geom.Matrix3D;
 import flash.geom.Rectangle;
+import ld28.core.Primitive;
 import ld28.core.TextureRegion;
 import ld28.prim.Plane;
 import ld28.core.IDrawable;
@@ -28,8 +29,6 @@ class Image extends DisplayObject
 		texture = _texture;
 		width = texture.region.width * texture.texture.width;
 		height = texture.region.height * texture.texture.height;
-		prim = new Plane();
-		
-		trace(width, height);
+		prim = Primitive.getPlane();
 	}
 }

@@ -43,7 +43,7 @@ class SpriteBatchShader extends Program
 			gl_FragColor = textureColor * vColor;"+
 			#else
 			+"
-			gl_FragColor = (textureColor * vColor).gbar;"+
+			gl_FragColor = textureColor.gbar * vColor.gbar;"+
 			#end
 		"
 		}";
