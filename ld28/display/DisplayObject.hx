@@ -37,7 +37,7 @@ class DisplayObject extends InteractiveObject
 	// signal added;
 	// signal remoced;
 
-	public function new() 
+	function new() 
 	{
 		super();
 		

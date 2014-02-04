@@ -15,7 +15,7 @@ class DisplayObjectContainer extends DisplayObject
 	 * on added to scene, addChildrenToScene
 	 */
 	
-	public function new() 
+	function new() 
 	{
 		super();
 		

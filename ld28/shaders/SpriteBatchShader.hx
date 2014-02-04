@@ -37,13 +37,13 @@ class SpriteBatchShader extends Program
 					
 		void main(void)
 		{
-			"
+			vec4 textureColor = texture2D(uImage0, vTexCoord);"
 			#if html5
 			+"
-			gl_FragColor = vColor;"+
+			gl_FragColor = textureColor * vColor;"+
 			#else
 			+"
-			gl_FragColor = vColor.gbar;"+
+			gl_FragColor = (textureColor * vColor).gbar;"+
 			#end
 		"
 		}";

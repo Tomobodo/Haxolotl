@@ -4,6 +4,7 @@ import flash.display.Sprite;
 import flash.events.Event;
 import flash.geom.Rectangle;
 import haxe.Constraints.Function;
+import ld28.utils.Color;
 import openfl.display.OpenGLView;
 import openfl.gl.GL;
 import ld28.core.IDrawable;
@@ -22,6 +23,7 @@ enum ScaleMode
 class Engine
 {
 	public var scaleMode : ScaleMode;
+	public var backGroundColor : Color;
 	
 	var eventCatcher : Sprite;
 	
@@ -45,6 +47,8 @@ class Engine
 		
 		stage = _stage;
 		
+		backGroundColor = new Color(0xffffff);
+		
 		init();
 	}
 	
@@ -63,7 +67,7 @@ class Engine
 	function render(viewport : Rectangle) : Void
 	{
 		GL.viewport (Std.int (viewport.x), Std.int (viewport.y), Std.int (viewport.width), Std.int (viewport.height));
-		GL.clearColor (0, 0, 0, 1);
+		GL.clearColor (backGroundColor.r, backGroundColor.g, backGroundColor.b, 1);
 		GL.clear (GL.COLOR_BUFFER_BIT | GL.DEPTH_BUFFER_BIT);
 		
 		for (stage in stages)

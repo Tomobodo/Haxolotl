@@ -38,8 +38,10 @@ class SpriteBatch implements IDrawable
 	
 	var needGeneration : Bool;
 	
-	var dataPerVertex : Int = 6;
+	var dataPerVertex : Int = 8;
 	var stride : Int;
+	
+	var nbSprite : Int = 0;
 	
 	public function new(_texture : Texture) 
 	{
@@ -93,6 +95,7 @@ class SpriteBatch implements IDrawable
 		}
 		
 		needGeneration = true;
+		nbSprite++;
 	}
 	
 	public function remove(object : DisplayObject)
@@ -104,6 +107,7 @@ class SpriteBatch implements IDrawable
 		element.previous = null;
 		
 		needGeneration = true;
+		nbSprite--;
 	}
 	
 	public function findElement(object : DisplayObject) : BatchElement
@@ -136,8 +140,8 @@ class SpriteBatch implements IDrawable
 			// top left
 			vertex[i++] = current.x1;
 			vertex[i++] = current.y1;
-			//vertex[i++] = current.u1;
-			//vertex[i++] = current.v1;
+			vertex[i++] = current.u1;
+			vertex[i++] = current.v1;
 			vertex[i++] = current.color.r;
 			vertex[i++] = current.color.g;
 			vertex[i++] = current.color.b;
@@ -146,8 +150,8 @@ class SpriteBatch implements IDrawable
 			// top right
 			vertex[i++] = current.x2;
 			vertex[i++] = current.y1;
-			//vertex[i++] = current.u1;
-			//vertex[i++] = current.v2;
+			vertex[i++] = current.u2;
+			vertex[i++] = current.v1;
 			vertex[i++] = current.color.r;
 			vertex[i++] = current.color.g;
 			vertex[i++] = current.color.b;
@@ -156,8 +160,8 @@ class SpriteBatch implements IDrawable
 			// bottom right
 			vertex[i++] = current.x2;
 			vertex[i++] = current.y2;
-			//vertex[i++] = current.u2;
-			//vertex[i++] = current.v2;
+			vertex[i++] = current.u2;
+			vertex[i++] = current.v2;
 			vertex[i++] = current.color.r;
 			vertex[i++] = current.color.g;
 			vertex[i++] = current.color.b;
@@ -166,8 +170,8 @@ class SpriteBatch implements IDrawable
 			// bottom left
 			vertex[i++] = current.x1;
 			vertex[i++] = current.y2;
-			//vertex[i++] = current.u1;
-			//vertex[i++] = current.v2;
+			vertex[i++] = current.u1;
+			vertex[i++] = current.v2;
 			vertex[i++] = current.color.r;
 			vertex[i++] = current.color.g;
 			vertex[i++] = current.color.b;
@@ -204,9 +208,7 @@ class SpriteBatch implements IDrawable
 	public function draw()
 	{
 		initDraw();
-		
-		GL.drawElements(GL.TRIANGLES, 6, GL.UNSIGNED_SHORT, 0);
-		
+		GL.drawElements(GL.TRIANGLES, nbSprite * 6, GL.UNSIGNED_SHORT, 0);
 		endDraw();
 	}
 	
@@ -218,6 +220,10 @@ class SpriteBatch implements IDrawable
 		
 		program.use();
 		
+		GL.blendFunc(GL.ONE, GL.ONE_MINUS_SRC_ALPHA);
+		GL.enable(GL.BLEND);
+		GL.disable(GL.DEPTH_TEST);
+		
 		GL.uniformMatrix3D(projectionUniform, false, projectionMatrix);
 		GL.uniform1i(textureUniform, 0);
 		
@@ -225,13 +231,15 @@ class SpriteBatch implements IDrawable
 		GL.activeTexture(GL.TEXTURE0);
 		
 		GL.enableVertexAttribArray(vertexPosAttribute);
+		GL.enableVertexAttribArray(texCoordAttribute);
 		GL.enableVertexAttribArray(colorAttribute);
 		
 		GL.bindBuffer(GL.ARRAY_BUFFER, vertexBuffer);
 		GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, indexBuffer);
 		
 		GL.vertexAttribPointer(vertexPosAttribute, 2, GL.FLOAT, false, stride, 0);
-		GL.vertexAttribPointer(colorAttribute, 4, GL.FLOAT, false, stride, 2 * 4);
+		GL.vertexAttribPointer(texCoordAttribute, 2, GL.FLOAT, false, stride, 2 * 4);
+		GL.vertexAttribPointer(colorAttribute, 4, GL.FLOAT, false, stride, 4 * 4);
 	}
 	
 	function endDraw() 
@@ -241,6 +249,12 @@ class SpriteBatch implements IDrawable
 		GL.bindBuffer(GL.ARRAY_BUFFER, null);
 		GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, null);
 		GL.bindTexture(GL.TEXTURE_2D, null);
+		
+		GL.disable(GL.BLEND);
+		
+		GL.disableVertexAttribArray(vertexPosAttribute);
+		GL.disableVertexAttribArray(texCoordAttribute);
+		GL.disableVertexAttribArray(colorAttribute);
 		
 		#if desktop
 		GL.disable(GL.TEXTURE_2D);
