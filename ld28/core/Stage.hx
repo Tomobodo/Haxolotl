@@ -18,7 +18,7 @@ class Stage extends DisplayObjectContainer implements IDrawable
 	
 	var viewport : Rectangle;
 	
-	var batchMap : Map<String, SpriteBatch>;
+	var batchMap : Map<String, MultipleSpriteBatch>;
 	
 	public var projectionMatrix : Matrix3D;
 
@@ -26,7 +26,7 @@ class Stage extends DisplayObjectContainer implements IDrawable
 	{
 		super();
 		stage = this;
-		batchMap = new Map<String, SpriteBatch>();
+		batchMap = new Map<String, MultipleSpriteBatch>();
 		drawableChildren = new List<IDrawable>();
 	}
 	
@@ -80,7 +80,7 @@ class Stage extends DisplayObjectContainer implements IDrawable
 		
 	}
 	
-	function getBatch(object : DisplayObject) : SpriteBatch
+	function getBatch(object : DisplayObject) : MultipleSpriteBatch
 	{
 		var textureName = "null";
 		if (object.texture != null)
@@ -89,7 +89,7 @@ class Stage extends DisplayObjectContainer implements IDrawable
 		var batch = batchMap[textureName];
 		if (batch == null)
 		{
-			batch = new SpriteBatch(object.texture.texture);
+			batch = new MultipleSpriteBatch(object.texture.texture);
 			batchMap[textureName] = batch;
 			drawableChildren.add(batch);
 		}

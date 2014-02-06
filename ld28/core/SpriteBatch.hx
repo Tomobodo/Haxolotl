@@ -21,8 +21,8 @@ class SpriteBatch implements IDrawable
 	var first : BatchElement;
 	var last : BatchElement;
 	
-	var vertex : Array<Float>;
-	var index : Array<Int>;
+	var vertex : Float32Array;
+	var index : Int16Array;
 	
 	var vertexBuffer : GLBuffer;
 	var indexBuffer : GLBuffer;
@@ -44,21 +44,36 @@ class SpriteBatch implements IDrawable
 	
 	var nbSprite : Int = 0;
 	
+	public var next : SpriteBatch;
+	public var prev : SpriteBatch;
+	
+	public var full : Bool;
+	public var empty : Bool;
+	
+	private static inline var MAX_SPRITE : Int = 16383;
+	
 	public function new(_texture : Texture) 
 	{
 		texture = _texture;
 		
 		stride = dataPerVertex * 4;
 		
-		vertex = new Array<Float>();
-		index = new Array<Int>();
-		
 		vertexBuffer = GL.createBuffer();
 		indexBuffer = GL.createBuffer();
 		
-		needGeneration = true;
-		
 		program = new SpriteBatchShader();
+		
+		vertex = new Float32Array(dataPerVertex * 4 * MAX_SPRITE);
+		index = new Int16Array(MAX_SPRITE * 6);
+		
+		GL.bindBuffer(GL.ARRAY_BUFFER, vertexBuffer);
+		GL.bufferData(GL.ARRAY_BUFFER, vertex, GL.DYNAMIC_DRAW);
+			
+		GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, indexBuffer);
+		GL.bufferData(GL.ELEMENT_ARRAY_BUFFER, index, GL.DYNAMIC_DRAW);
+		
+		full = false;
+		empty = true;
 		
 		program.use();
 		
@@ -79,24 +94,29 @@ class SpriteBatch implements IDrawable
 		colorAttribute = GL.getAttribLocation(program.program, "aColor");
 	}
 	
-	public function add(object : DisplayObject)
+	public function add(object : DisplayObject) : Bool
 	{
 		var element = new BatchElement(object);
-		
-		if (first == null)
+		if (nbSprite < MAX_SPRITE)
 		{
-			first = element;
-			last = element;
+			if (first == null)
+			{
+				first = element;
+				last = element;
+			}
+			else
+			{
+				last.next = element;
+				element.previous = last;
+				last = element;
+			}
+			
+			nbSprite++;
+			empty = false;
+			return true;
 		}
-		else
-		{
-			last.next = element;
-			element.previous = last;
-			last = element;
-		}
-		
-		needGeneration = true;
-		nbSprite++;
+		full = true;
+		return false;
 	}
 	
 	public function remove(object : DisplayObject)
@@ -107,8 +127,10 @@ class SpriteBatch implements IDrawable
 		element.next = null;
 		element.previous = null;
 		
-		needGeneration = true;
 		nbSprite--;
+		if (nbSprite == 0)
+			empty = true;
+		full = false;
 	}
 	
 	public function findElement(object : DisplayObject) : BatchElement
@@ -185,24 +207,12 @@ class SpriteBatch implements IDrawable
 			
 			current = current.next;
 		}
-		
-		if (needGeneration)
-		{
-			needGeneration = false;
-			GL.bindBuffer(GL.ARRAY_BUFFER, vertexBuffer);
-			GL.bufferData(GL.ARRAY_BUFFER, new Float32Array(vertex), GL.DYNAMIC_DRAW);
 			
-			GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, indexBuffer);
-			GL.bufferData(GL.ELEMENT_ARRAY_BUFFER, new Int16Array(index), GL.DYNAMIC_DRAW);
-		}	
-		else
-		{
-			GL.bindBuffer(GL.ARRAY_BUFFER, vertexBuffer);
-			GL.bufferSubData(GL.ARRAY_BUFFER, 0, new Float32Array(vertex));
+		GL.bindBuffer(GL.ARRAY_BUFFER, vertexBuffer);
+		GL.bufferSubData(GL.ARRAY_BUFFER, 0, vertex);
 			
-			GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, indexBuffer);
-			GL.bufferSubData(GL.ELEMENT_ARRAY_BUFFER, 0, new Int16Array(index));
-		}
+		GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, indexBuffer);
+		GL.bufferSubData(GL.ELEMENT_ARRAY_BUFFER, 0, index);
 	}
 	
 	public function draw()
