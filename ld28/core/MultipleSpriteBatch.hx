@@ -74,7 +74,7 @@ class MultipleSpriteBatch implements IDrawable
 		var found : DisplayObject = null;
 		while (e != null && found == null)
 		{
-			found = e.findElement(object).object;
+			found = e.findObject(object);
 			e = e.next;
 		}
 		

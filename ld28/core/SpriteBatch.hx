@@ -18,8 +18,8 @@ class SpriteBatch implements IDrawable
 {
 	var texture : Texture;
 	
-	var first : BatchElement;
-	var last : BatchElement;
+	var first : DisplayObject;
+	var last : DisplayObject;
 	
 	var vertex : Float32Array;
 	var index : Int16Array;
@@ -96,19 +96,18 @@ class SpriteBatch implements IDrawable
 	
 	public function add(object : DisplayObject) : Bool
 	{
-		var element = new BatchElement(object);
 		if (nbSprite < MAX_SPRITE)
 		{
 			if (first == null)
 			{
-				first = element;
-				last = element;
+				first = object;
+				last = object;
 			}
 			else
 			{
-				last.next = element;
-				element.previous = last;
-				last = element;
+				last.next = object;
+				object.prev = last;
+				last = object;
 			}
 			
 			nbSprite++;
@@ -121,23 +120,24 @@ class SpriteBatch implements IDrawable
 	
 	public function remove(object : DisplayObject)
 	{
-		var element : BatchElement = findElement(object);
-		element.previous.next = element.next;
-		element.next.previous = element.previous;
+		var element : DisplayObject = findObject(object);
+		element.prev.next = element.next;
+		element.next.prev = element.prev;
 		element.next = null;
-		element.previous = null;
+		element.prev = null;
 		
 		nbSprite--;
+		
 		if (nbSprite == 0)
 			empty = true;
 		full = false;
 	}
 	
-	public function findElement(object : DisplayObject) : BatchElement
+	public function findObject(object : DisplayObject) : DisplayObject
 	{
 		var element = first;
 		while (element != null)
-			if (element.object == object)
+			if (element == object)
 				return element;
 			else
 				element = element.next;
@@ -151,7 +151,7 @@ class SpriteBatch implements IDrawable
 	
 	public function update()
 	{
-		var current : BatchElement = first;
+		var current : DisplayObject = first;
 		var indexes : Array<Int> = [0, 1, 2, 2, 3, 0];
 		var i : Int = 0;
 		var j : Int = 0;
@@ -160,41 +160,46 @@ class SpriteBatch implements IDrawable
 		{
 			current.update();
 			
+			var x1 = current.x;
+			var x2 = current.x + current.width;
+			var y1 = current.y;
+			var y2 = current.y + current.height;
+			
 			// top left
-			vertex[i++] = current.x1;
-			vertex[i++] = current.y1;
-			vertex[i++] = current.u1;
-			vertex[i++] = current.v1;
+			vertex[i++] = x1;
+			vertex[i++] = y1;
+			vertex[i++] = 0.0;
+			vertex[i++] = 0.0;
 			vertex[i++] = current.color.r;
 			vertex[i++] = current.color.g;
 			vertex[i++] = current.color.b;
 			vertex[i++] = current.alpha ;
 			
 			// top right
-			vertex[i++] = current.x2;
-			vertex[i++] = current.y1;
-			vertex[i++] = current.u2;
-			vertex[i++] = current.v1;
+			vertex[i++] = x2;
+			vertex[i++] = y1;
+			vertex[i++] = 1.0;
+			vertex[i++] = 0.0;
 			vertex[i++] = current.color.r;
 			vertex[i++] = current.color.g;
 			vertex[i++] = current.color.b;
 			vertex[i++] = current.alpha ;
 			
 			// bottom right
-			vertex[i++] = current.x2;
-			vertex[i++] = current.y2;
-			vertex[i++] = current.u2;
-			vertex[i++] = current.v2;
+			vertex[i++] = x2;
+			vertex[i++] = y2;
+			vertex[i++] = 1.0;
+			vertex[i++] = 1.0;
 			vertex[i++] = current.color.r;
 			vertex[i++] = current.color.g;
 			vertex[i++] = current.color.b;
 			vertex[i++] = current.alpha ;
 			
 			// bottom left
-			vertex[i++] = current.x1;
-			vertex[i++] = current.y2;
-			vertex[i++] = current.u1;
-			vertex[i++] = current.v2;
+			vertex[i++] = x1;
+			vertex[i++] = y2;
+			vertex[i++] = 0.0;
+			vertex[i++] = 1.0;
 			vertex[i++] = current.color.r;
 			vertex[i++] = current.color.g;
 			vertex[i++] = current.color.b;
@@ -224,6 +229,8 @@ class SpriteBatch implements IDrawable
 	
 	function initDraw() 
 	{
+		update();
+		
 		#if desktop
 		//GL.enable(GL.TEXTURE_2D);
 		#end
