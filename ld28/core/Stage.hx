@@ -35,11 +35,11 @@ class Stage extends DisplayObjectContainer implements IDrawable
 		projectionMatrix = Matrix3D.createOrtho(_viewport.x, _viewport.width, _viewport.height, _viewport.y, 1000, -1000);
 	}
 	
-	public function update() : Void
+	override public function update() : Void
 	{
+		super.update();
 		for (object in drawableChildren)
 			object.update();
-		this.enteredFrame();
 	}
 	
 	public function draw():Void 

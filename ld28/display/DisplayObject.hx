@@ -68,4 +68,9 @@ class DisplayObject extends InteractiveObject
 		parent = null;
 		// dispatch signal removed(parent);
 	}
+	
+	public function update()
+	{
+		
+	}
 }

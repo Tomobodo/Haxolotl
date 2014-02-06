@@ -14,12 +14,9 @@ class InteractiveObject
 	// signal removedFromScene;
 	
 	// signal enterFrame;
-	
-	public var ENTER_FRAME : Signal0; 
 
 	public function new() 
 	{
-		ENTER_FRAME = new Signal0();
 	}
 	
 	public function addedToStage(_stage : Stage) : Void
@@ -32,10 +29,5 @@ class InteractiveObject
 	{
 		stage = null;
 		// dispatch signal removedFromScene(scene);
-	}
-	
-	public function enteredFrame() : Void
-	{
-		ENTER_FRAME.dispatch();
 	}
 }
