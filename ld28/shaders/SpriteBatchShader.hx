@@ -26,10 +26,12 @@ class SpriteBatchShader extends Program
 			vColor = aColor;
 			vTexCoord = aTexCoord;
 		}";
-		
-		fragmentShaderSource = "
-		precision mediump float;
-		
+
+		fragmentShaderSource =
+        #if !desktop
+		"precision mediump float;" +
+        #end
+		"
 		varying vec2 vTexCoord;
 		varying vec4 vColor;
 		
@@ -43,7 +45,7 @@ class SpriteBatchShader extends Program
 			gl_FragColor = textureColor * vColor;"+
 			#else
 			+"
-			gl_FragColor = textureColor.gbar * vColor.gbar;"+
+			gl_FragColor = (textureColor * vColor.argb).gbar;"+
 			#end
 		"
 		}";

@@ -66,7 +66,7 @@ class Program
 		
 		if (GL.getShaderParameter (fragmentShader, GL.COMPILE_STATUS) == 0)
 		{
-			var error = GL.getShaderInfoLog(vertexShader);
+			var error = GL.getShaderInfoLog(fragmentShader);
 			throw "Error compiling " + name + " fragment shader : " + error;
 		}
 	}

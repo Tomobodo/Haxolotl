@@ -3,7 +3,6 @@ package ld28.core;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.geom.Rectangle;
-import haxe.Constraints.Function;
 import ld28.utils.Color;
 import openfl.display.OpenGLView;
 import openfl.gl.GL;
