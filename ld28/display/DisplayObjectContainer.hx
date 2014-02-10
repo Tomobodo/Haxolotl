@@ -38,29 +38,9 @@ class DisplayObjectContainer extends DisplayObject
 			stage.remove(child);
 	}
 	
-	override public function added(_parent : DisplayObjectContainer) : Void
-	{
-		for (child in children)
-			_parent.add(child);
-		super.added(_parent);
-	}
-	
-	override public function removed(_parent : DisplayObjectContainer) : Void
-	{
-		for (child in children)
-			_parent.remove(child);
-		super.removed(_parent);
-	}
-	
 	override public function testInput(iX:Float, iY:Float):Bool 
 	{
 		return super.testInput(iX, iY);
 	}
 	
-	override public function update() : Void
-	{
-		super.update();
-		for (child in children)
-			child.update();
-	}
 }

@@ -68,7 +68,6 @@ class DisplayObject extends InteractiveObject
 	
 	public function update()
 	{
-		if(ENTER_FRAME.numListeners > 0)
-			ENTER_FRAME.dispatch();
+		ENTER_FRAME.dispatch();
 	}
 }

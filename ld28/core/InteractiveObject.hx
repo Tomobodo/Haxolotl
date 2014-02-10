@@ -20,9 +20,10 @@ class InteractiveObject
 	public var width : Float;
 	public var height : Float;
 	
-	public var PRESSED : Signal0;
-	public var RELEASED : Signal0;
-	public var HOVERED : Signal0;
+	public var PRESSED : Signal1<InteractiveObject>;
+	public var RELEASED : Signal1<InteractiveObject>;
+	public var HOVERED : Signal1<InteractiveObject>;
+	public var LEAVED : Signal1<InteractiveObject>;
 	
 	public var ADDED_TO_STAGE : Signal0;
 	public var REMOVE_FROM_STAGE : Signal0;
@@ -34,6 +35,8 @@ class InteractiveObject
 	public var stageTouchY : Int;
 	
 	var _interactive : Bool;
+	
+	var hover : Bool;
 
 	public function new() 
 	{
@@ -44,6 +47,8 @@ class InteractiveObject
 		
 		width = 0;
 		height = 0;
+		
+		hover = false;
 		
 		ADDED_TO_STAGE = new Signal0();
 		REMOVE_FROM_STAGE = new Signal0();
@@ -74,22 +79,33 @@ class InteractiveObject
 		if (inWidth && inHeight)
 			return true;
 		else
+		{
+			if (hover)
+				leaved(iX, iY);
 			return false;
+		}
 	}
 	
 	public function pressed(_x : Float, _y : Float)
 	{
-		PRESSED.dispatch();
+		PRESSED.dispatch(this);
 	}
 	
 	public function released(_x : Float, _y : Float)
 	{
-		RELEASED.dispatch();
+		RELEASED.dispatch(this);
 	}
 	
 	public function hovered(_x : Float, _y : Float)
 	{
-		HOVERED.dispatch();
+		hover = true;
+		HOVERED.dispatch(this);
+	}
+	
+	public function leaved(_x : Float, _y : Float)
+	{
+		hover = false;
+		LEAVED.dispatch(this);
 	}
 	
 	function get_interactive() : Bool
@@ -101,9 +117,10 @@ class InteractiveObject
 	{
 		if (value = true && PRESSED == null)
 		{
-			PRESSED = new Signal0();
-			RELEASED = new Signal0();
-			HOVERED = new Signal0();
+			PRESSED = new Signal1<InteractiveObject>();
+			RELEASED = new Signal1<InteractiveObject>();
+			HOVERED = new Signal1<InteractiveObject>();
+			LEAVED = new Signal1<InteractiveObject>();
 		}
 		return _interactive = value;
 	}
