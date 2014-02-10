@@ -9,7 +9,7 @@ import ld28.display.DisplayObject;
  */
 class DisplayObjectContainer extends DisplayObject
 {
-	var children : List<DisplayObject>;
+	var children : Array<DisplayObject>;
 	
 	/*
 	 * on added to scene, addChildrenToScene
@@ -19,7 +19,7 @@ class DisplayObjectContainer extends DisplayObject
 	{
 		super();
 		
-		children = new List<DisplayObject>();
+		children = new Array<DisplayObject>();
 	}
 	
 	public function add(child : DisplayObject)
@@ -40,7 +40,13 @@ class DisplayObjectContainer extends DisplayObject
 	
 	override public function testInput(iX:Float, iY:Float):Bool 
 	{
-		return super.testInput(iX, iY);
+		var nbChild = children.length;
+		for (i in (nbChild - 1) ... 0)
+		{
+			var current : DisplayObject = children[i];
+			if (current.testInput(iX, iY)) return true;
+		}
+		return false;
 	}
 	
 }
