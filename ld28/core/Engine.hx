@@ -96,13 +96,17 @@ class Engine
 	function initEventCatcher() 
 	{
 		if (eventCatcher == null)
+		{
 			eventCatcher = new Sprite();
+			stage.addChild(eventCatcher);
+		}
 		else
 			eventCatcher.graphics.clear();
 			
 		eventCatcher.graphics.beginFill(0, 0);
 		eventCatcher.graphics.drawRect(0, 0,stage.stageWidth,stage.stageHeight);
 		eventCatcher.graphics.endFill();
+		
 	}
 	
 	public function add(stage : ld28.core.Stage)
