@@ -121,8 +121,17 @@ class SpriteBatch implements IDrawable
 	public function remove(object : DisplayObject)
 	{
 		var element : DisplayObject = findObject(object);
-		element.prev.next = element.next;
-		element.next.prev = element.prev;
+	
+		if(element != first)
+			element.prev.next = element.next;
+		else
+			first = element.next;
+			
+		if(element != last)
+			element.next.prev = element.prev;
+		else
+			last = element.prev;
+		
 		element.next = null;
 		element.prev = null;
 		

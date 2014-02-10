@@ -132,6 +132,7 @@ class Stage extends DisplayObjectContainer implements IDrawable
 	override public function hovered(_x : Float, _y : Float)
 	{
 		super.hovered(_x, _y);
+		var firstHovered : Bool = false;
 		for (a in interractiveChildren)
 		{
 			if (!a.interactive)
@@ -142,8 +143,10 @@ class Stage extends DisplayObjectContainer implements IDrawable
 			
 			if (a.testInput(_x, _y))
 			{
-				a.hovered(_x, _y);
-				break;
+				if(!firstHovered)
+					a.hovered(_x, _y);
+				else
+					a.leaved(_x, _y);
 			}
 		}
 	}
