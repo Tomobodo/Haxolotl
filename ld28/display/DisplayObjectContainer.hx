@@ -54,8 +54,8 @@ class DisplayObjectContainer extends DisplayObject
 	
 	override public function update() : Void
 	{
+		super.update();
 		for (child in children)
 			child.update();
-		super.update();
 	}
 }

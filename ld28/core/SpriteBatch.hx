@@ -158,8 +158,6 @@ class SpriteBatch implements IDrawable
 		var k : Int = 0;
 		while (current != null)
 		{
-			current.update();
-			
 			var x1 = current.x;
 			var x2 = current.x + current.width;
 			var y1 = current.y;

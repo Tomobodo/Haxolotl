@@ -5,6 +5,7 @@ import ld28.core.TextureRegion;
 import ld28.utils.Color;
 import ld28.core.Stage;
 import ld28.core.InteractiveObject;
+import msignal.Signal.Signal0;
 
 /**
  * ...
@@ -29,6 +30,8 @@ class DisplayObject extends InteractiveObject
 	public var next : DisplayObject;
 	public var prev : DisplayObject;
 	
+	public var ENTER_FRAME : Signal0;
+	
 	function new() 
 	{
 		super();
@@ -42,6 +45,8 @@ class DisplayObject extends InteractiveObject
 		alpha = 1;
 		
 		color = new Color(0xffffff);
+		
+		ENTER_FRAME = new Signal0();
 	}
 	
 	public function added(_parent : DisplayObjectContainer) : Void
@@ -56,6 +61,7 @@ class DisplayObject extends InteractiveObject
 	
 	public function update()
 	{
-		
+		if(ENTER_FRAME.numListeners > 0)
+			ENTER_FRAME.dispatch();
 	}
 }

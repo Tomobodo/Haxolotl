@@ -38,10 +38,6 @@ class Stage extends DisplayObjectContainer implements IDrawable
 		height = _viewport.height;
 	}
 	
-	override public function update() : Void
-	{
-	}
-	
 	public function draw():Void 
 	{
 		for (object in drawableChildren)

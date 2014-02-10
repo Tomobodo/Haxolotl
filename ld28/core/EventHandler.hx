@@ -17,7 +17,6 @@ class EventHandler
 
 	public function new(_stage : flash.display.Stage, _stages : List<ld28.core.Stage>) 
 	{
-		
 		#if mobile
 			_stage.addEventListener(TouchEvent.TOUCH_BEGIN, onTouchBegin);
 			_stage.addEventListener(TouchEvent.TOUCH_END, onTouchEnd);
@@ -30,6 +29,7 @@ class EventHandler
 		
 		stages = _stages;
 	}
+	
 	
 	private function onMouseMove(e:MouseEvent):Void 
 	{
