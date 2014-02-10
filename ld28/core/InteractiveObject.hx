@@ -10,24 +10,25 @@ class InteractiveObject
 {
 	private var stage : Stage;
 	
-	// signal addedToScene;
-	// signal removedFromScene;
-	
-	// signal enterFrame;
+	public var enabled(default, set_enabled) : Bool;
 
 	public function new() 
 	{
+		enabled = false;
 	}
 	
 	public function addedToStage(_stage : Stage) : Void
 	{
 		stage = _stage;
-		// dispatch signal addedToScene(scene);
 	}
 	
 	public function removedFromStage(_stage : Stage) : Void
 	{
 		stage = null;
-		// dispatch signal removedFromScene(scene);
+	}
+	
+	function set_enabled(value : Bool) : Bool
+	{
+		return enabled = value;
 	}
 }

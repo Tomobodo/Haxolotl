@@ -232,14 +232,14 @@ class SpriteBatch implements IDrawable
 		update();
 		
 		#if desktop
-		//GL.enable(GL.TEXTURE_2D);
+		GL.enable(GL.TEXTURE_2D);
 		#end
 		
 		program.use();
 		
 		GL.enable(GL.BLEND);
 		GL.blendFunc(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA);
-		GL.disable(GL.DEPTH_TEST);
+		//GL.disable(GL.DEPTH_TEST);
 		
 		GL.uniformMatrix3D(projectionUniform, false, projectionMatrix);
 		GL.uniform1i(textureUniform, 0);
@@ -274,7 +274,7 @@ class SpriteBatch implements IDrawable
 		GL.disableVertexAttribArray(colorAttribute);
 		
 		#if desktop
-		//GL.disable(GL.TEXTURE_2D);
+		GL.disable(GL.TEXTURE_2D);
 		#end
 	}
 }

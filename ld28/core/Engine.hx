@@ -83,7 +83,7 @@ class Engine
 	function onResize(e:Event):Void 
 	{
 		initEventCatcher();
-		if (scaleMode == NoScale)
+		if (scaleMode != NoScale)
 		{
 			viewport = new Rectangle(0, 0, stage.stageWidth, stage.stageHeight);
 			for (stage in stages)
