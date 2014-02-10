@@ -12,19 +12,11 @@ import ld28.core.InteractiveObject;
  */
 class DisplayObject extends InteractiveObject
 {
-	public var x : Float;
-	public var y : Float;
-	
-	public var rotation : Float;
-	
 	public var scaleX : Float;
 	public var scaleY : Float;
 	
 	public var pivotX : Float;
 	public var pivotY : Float;
-	
-	public var width : Float;
-	public var height : Float;
 	
 	public var color : Color;
 	public var alpha : Float;
@@ -37,17 +29,9 @@ class DisplayObject extends InteractiveObject
 	public var next : DisplayObject;
 	public var prev : DisplayObject;
 	
-	// signal added;
-	// signal remoced;
-
 	function new() 
 	{
 		super();
-		
-		x = 0;
-		y = 0;
-		
-		rotation = 0;
 		
 		scaleX = 1;
 		scaleY = 1;
@@ -63,13 +47,11 @@ class DisplayObject extends InteractiveObject
 	public function added(_parent : DisplayObjectContainer) : Void
 	{
 		parent = _parent;
-		// dispatch signal added(parent);
 	}
 	
 	public function removed(_parent : DisplayObjectContainer) : Void
 	{
 		parent = null;
-		// dispatch signal removed(parent);
 	}
 	
 	public function update()

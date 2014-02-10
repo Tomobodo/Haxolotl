@@ -25,6 +25,7 @@ class Stage extends DisplayObjectContainer implements IDrawable
 	public function new() 
 	{
 		super();
+		enabled = true;
 		stage = this;
 		batchMap = new Map<String, MultipleSpriteBatch>();
 		drawableChildren = new List<IDrawable>();

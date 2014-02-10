@@ -61,6 +61,8 @@ class Engine
 		viewport = new Rectangle(0, 0, stage.stageWidth, stage.stageHeight);
 		
 		initEventCatcher();
+		
+		new EventHandler(stage, stages);
 	}
 	
 	function render(viewport : Rectangle) : Void
