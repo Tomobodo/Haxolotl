@@ -16,6 +16,8 @@ class Stage extends DisplayObjectContainer implements IDrawable
 {
 	var drawableChildren : List<IDrawable>;
 	
+	var interractiveChildren : List<InteractiveObject>;
+	
 	var viewport : Rectangle;
 	
 	var batchMap : Map<String, MultipleSpriteBatch>;
@@ -25,10 +27,11 @@ class Stage extends DisplayObjectContainer implements IDrawable
 	public function new() 
 	{
 		super();
-		enabled = true;
+		interactive = true;
 		stage = this;
 		batchMap = new Map<String, MultipleSpriteBatch>();
 		drawableChildren = new List<IDrawable>();
+		interractiveChildren = new List<InteractiveObject>();
 	}
 	
 	public function setViewport(_viewport : Rectangle)
@@ -52,6 +55,9 @@ class Stage extends DisplayObjectContainer implements IDrawable
 		_child.addedToStage(this);
 		super.add(_child);
 		
+		if (_child.interactive)
+			interractiveChildren.push(_child);
+		
 		if (_child.prim != null)
 		{
 			var batch = getBatch(_child);
@@ -64,6 +70,8 @@ class Stage extends DisplayObjectContainer implements IDrawable
 		_child.removedFromStage(this);
 		super.remove(_child);
 		
+		interractiveChildren.remove(_child);
+		
 		if (_child.prim != null)
 		{
 			var batch = getBatch(_child);
@@ -74,6 +82,63 @@ class Stage extends DisplayObjectContainer implements IDrawable
 	public function setProjectionMatrix(projection : Matrix3D) : Void
 	{
 		
+	}
+	
+	override public function pressed(_x : Float, _y : Float)
+	{
+		super.pressed(_x, _y);
+		for (a in interractiveChildren)
+		{
+			if (!a.interactive)
+			{
+				interractiveChildren.remove(a);
+				continue;
+			}
+			
+			if (a.testInput(_x, _y))
+			{
+				a.pressed(_x, _y);
+				break;
+			}
+		}
+	}
+	
+	override public function released(_x : Float, _y : Float)
+	{
+		super.released(_x, _y);
+		for (a in interractiveChildren)
+		{
+			if (!a.interactive)
+			{
+				interractiveChildren.remove(a);
+				continue;
+			}
+			
+			if (a.testInput(_x, _y))
+			{
+				a.released(_x, _y);
+				break;
+			}
+		}
+	}
+	
+	override public function hovered(_x : Float, _y : Float)
+	{
+		super.hovered(_x, _y);
+		for (a in interractiveChildren)
+		{
+			if (!a.interactive)
+			{
+				interractiveChildren.remove(a);
+				continue;
+			}
+			
+			if (a.testInput(_x, _y))
+			{
+				a.hovered(_x, _y);
+				break;
+			}
+		}
 	}
 	
 	function getBatch(object : DisplayObject) : MultipleSpriteBatch

@@ -34,43 +34,37 @@ class EventHandler
 	private function onMouseMove(e:MouseEvent):Void 
 	{
 		setTouchPos(e.localX, e.localY);
-		for (a in stages)
-			a.TOUCH_MOVE.dispatch();
+		for (a in stages) a.hovered(e.localX, e.localY);
 	}
 	
 	private function onMouseUp(e:MouseEvent):Void 
 	{
 		setTouchPos(e.localX, e.localY);
-		for (a in stages)
-			a.TOUCH_UP.dispatch();
+		for (a in stages) a.released(e.localX, e.localY);
 	}
 	
 	private function onMouseDown(e:MouseEvent):Void 
 	{
 		setTouchPos(e.localX, e.localY);
-		for (a in stages)
-			a.TOUCH_DOWN.dispatch();
+		for (a in stages) a.pressed(e.localX, e.localY);
 	}
 	
 	private function onTouchMove(e:TouchEvent):Void 
 	{
 		setTouchPos(e.localX, e.localY);
-		for (a in stages)
-			a.TOUCH_MOVE.dispatch();
+		for (a in stages) a.hovered(e.localX, e.localY);
 	}
 	
 	private function onTouchEnd(e:TouchEvent):Void 
 	{
 		setTouchPos(e.localX, e.localY);
-		for (a in stages)
-			a.TOUCH_UP.dispatch();
+		for (a in stages)a.released(e.localX, e.localY);
 	}
 	
 	private function onTouchBegin(e:TouchEvent):Void 
 	{
 		setTouchPos(e.localX, e.localY);
-		for (a in stages)
-			a.TOUCH_DOWN.dispatch();
+		for (a in stages)a.pressed(e.localX, e.localY);
 	}
 	
 	function setTouchPos(x : Float, y : Float):Void 

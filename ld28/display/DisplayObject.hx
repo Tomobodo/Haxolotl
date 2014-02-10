@@ -32,6 +32,9 @@ class DisplayObject extends InteractiveObject
 	
 	public var ENTER_FRAME : Signal0;
 	
+	public var ADDED : Signal0;
+	public var REMOVED : Signal0;
+	
 	function new() 
 	{
 		super();
@@ -47,16 +50,20 @@ class DisplayObject extends InteractiveObject
 		color = new Color(0xffffff);
 		
 		ENTER_FRAME = new Signal0();
+		ADDED = new Signal0();
+		REMOVED = new Signal0();
 	}
 	
 	public function added(_parent : DisplayObjectContainer) : Void
 	{
 		parent = _parent;
+		ADDED.dispatch();
 	}
 	
 	public function removed(_parent : DisplayObjectContainer) : Void
 	{
 		parent = null;
+		REMOVED.dispatch();
 	}
 	
 	public function update()

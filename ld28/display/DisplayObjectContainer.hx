@@ -52,6 +52,11 @@ class DisplayObjectContainer extends DisplayObject
 		super.removed(_parent);
 	}
 	
+	override public function testInput(iX:Float, iY:Float):Bool 
+	{
+		return super.testInput(iX, iY);
+	}
+	
 	override public function update() : Void
 	{
 		super.update();
