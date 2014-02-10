@@ -53,7 +53,7 @@ class InteractiveObject
 		ADDED_TO_STAGE = new Signal0();
 		REMOVE_FROM_STAGE = new Signal0();
 		
-		_interactive = false;
+		interactive = true;
 	}
 	
 	public function addedToStage(_stage : Stage) : Void
