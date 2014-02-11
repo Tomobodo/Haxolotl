@@ -28,9 +28,7 @@ Soon the engine will be implemented over [**Lime**][Lime] instead of [**OpenFL**
 
 ###Install 
 
-```
-haxelib install haxolotl
-```
+	haxelib install haxolotl
 
 ###How to use 
 
