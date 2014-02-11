@@ -1,6 +1,8 @@
 Haxolotl
 ====
 
+-![alt text](http://media.giphy.com/media/ebkgcMQPRbcC4/giphy.gif "I'm an Axolotl, i'm so cool!")
+
 Current version : 0.4.2
 
 A simple haxe game engine based on openfl's GLView for
@@ -17,7 +19,15 @@ RoadMap
 
 - font rendering
 - migration to lime
-- 3d rendering
+- optimisation
+- canvas backend for html target
+- 3d rendering 
+
+Install 
+-------------
+```
+haxelib install haxolotl
+```
 
 How to use 
 -------------
@@ -38,4 +48,5 @@ function onAddedToStage(e : Event)
     sampleStage.add(bunny);
 }
 ```
+
 see more in samples.
