@@ -37,5 +37,5 @@ function onAddedToStage(e : Event)
     
     sampleStage.add(bunny);
 }
-
+```
 see more in samples.
