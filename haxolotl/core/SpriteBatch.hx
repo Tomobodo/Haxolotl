@@ -1,8 +1,8 @@
-package ld28.core;
+package haxolotl.core;
 
 import flash.geom.Matrix3D;
-import ld28.display.DisplayObject;
-import ld28.shaders.SpriteBatchShader;
+import haxolotl.display.DisplayObject;
+import haxolotl.shaders.SpriteBatchShader;
 import openfl.gl.GL;
 import openfl.gl.GLBuffer;
 import openfl.gl.GLUniformLocation;

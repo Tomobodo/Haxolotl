@@ -1,10 +1,10 @@
-package ld28.display;
-import ld28.core.InteractiveObject;
-import ld28.core.Primitive;
-import ld28.core.TextureRegion;
-import ld28.utils.Color;
-import ld28.core.Stage;
-import ld28.core.InteractiveObject;
+package haxolotl.display;
+import haxolotl.core.InteractiveObject;
+import haxolotl.core.Primitive;
+import haxolotl.core.TextureRegion;
+import haxolotl.utils.Color;
+import haxolotl.core.Stage;
+import haxolotl.core.InteractiveObject;
 import msignal.Signal.Signal0;
 
 /**

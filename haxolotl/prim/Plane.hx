@@ -1,5 +1,5 @@
-package ld28.prim;
-import ld28.core.Primitive;
+package haxolotl.prim;
+import haxolotl.core.Primitive;
 
 /**
  * ...

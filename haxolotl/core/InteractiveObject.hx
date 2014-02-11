@@ -1,4 +1,4 @@
-package ld28.core;
+package haxolotl.core;
 import flash.events.FocusEvent;
 import msignal.Signal;
 

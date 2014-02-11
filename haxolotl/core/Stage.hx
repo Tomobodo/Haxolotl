@@ -1,11 +1,11 @@
-package ld28.core;
+package haxolotl.core;
 import flash.geom.Matrix3D;
 import flash.geom.Rectangle;
-import ld28.display.DisplayObject;
+import haxolotl.display.DisplayObject;
 import openfl.gl.GL;
-import ld28.core.IDrawable;
-import ld28.core.Engine;
-import ld28.display.DisplayObjectContainer;
+import haxolotl.core.IDrawable;
+import haxolotl.core.Engine;
+import haxolotl.display.DisplayObjectContainer;
 import openfl.utils.Float32Array;
 
 /**

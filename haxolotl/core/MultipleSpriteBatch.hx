@@ -1,5 +1,5 @@
-package ld28.core;
-import ld28.display.DisplayObject;
+package haxolotl.core;
+import haxolotl.display.DisplayObject;
 import flash.geom.Matrix3D;
 
 /**

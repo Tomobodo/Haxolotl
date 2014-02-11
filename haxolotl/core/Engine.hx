@@ -1,12 +1,12 @@
-package ld28.core;
+package haxolotl.core;
 
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.geom.Rectangle;
-import ld28.utils.Color;
+import haxolotl.utils.Color;
 import openfl.display.OpenGLView;
 import openfl.gl.GL;
-import ld28.core.IDrawable;
+import haxolotl.core.IDrawable;
 
 /**
  * ...
@@ -32,7 +32,7 @@ class Engine
 	
 	var glView : OpenGLView;
 	
-	var stages : List<ld28.core.Stage>;
+	var stages : List<haxolotl.core.Stage>;
 	
 	var viewport : Rectangle;
 	
@@ -40,7 +40,7 @@ class Engine
 	{
 		scaleMode = Scale;
 		
-		stages = new List<ld28.core.Stage>();
+		stages = new List<haxolotl.core.Stage>();
 		
 		touchDevice = false;
 		
@@ -109,13 +109,13 @@ class Engine
 		
 	}
 	
-	public function add(stage : ld28.core.Stage)
+	public function add(stage : haxolotl.core.Stage)
 	{
 		this.stages.push(stage);
 		stage.setViewport(viewport);
 	}
 	
-	public function remove(stage : ld28.core.Stage)
+	public function remove(stage : haxolotl.core.Stage)
 	{
 		this.stages.remove(stage);
 	}

@@ -1,12 +1,12 @@
-package ld28.core;
+package haxolotl.core;
 
-import ld28.prim.Plane;
+import haxolotl.prim.Plane;
 import openfl.gl.GL;
 import openfl.gl.GLBuffer;
 import openfl.utils.Float32Array;
 import openfl.utils.Int16Array;
 
-import ld28.utils.BoundingBox;
+import haxolotl.utils.BoundingBox;
 
 /**
  * ...

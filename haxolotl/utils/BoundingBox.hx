@@ -1,4 +1,4 @@
-package ld28.utils;
+package haxolotl.utils;
 import flash.geom.Rectangle;
 
 /**

@@ -1,7 +1,7 @@
-package ld28.display;
+package haxolotl.display;
 
-import ld28.core.Program;
-import ld28.display.DisplayObject;
+import haxolotl.core.Program;
+import haxolotl.display.DisplayObject;
 
 /**
  * ...

@@ -1,4 +1,4 @@
-package ld28.core;
+package haxolotl.core;
 import flash.display.BitmapData;
 import flash.utils.ByteArray;
 import openfl.gl.GLTexture;

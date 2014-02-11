@@ -1,6 +1,6 @@
-package ld28.shaders;
+package haxolotl.shaders;
 
-import ld28.core.Program;
+import haxolotl.core.Program;
 
 /**
  * ...

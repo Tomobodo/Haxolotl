@@ -1,10 +1,10 @@
 {
-	"name" : "ld28",
-	"url" : "https://github.com/TBaudon/ld28",
+	"name" : "haxolotl",
+	"url" : "https://github.com/TBaudon/Haxolotl",
 	"license" : "MIT",
-    "description" : "A opengl game engine for haxe",
-    "version" : "0.3.0",
-	"releasenote" : "",
+    "description" : "A multiplatform opengl game engine for haxe",
+    "version" : "0.4.2",
+	"releasenote" : "renamed ld28 to Haxolotl",
 	"contributors" : ["Thomas BAUDON"],
     "dependencies" : { 
 		"openfl" : "",

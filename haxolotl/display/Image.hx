@@ -1,16 +1,16 @@
-package ld28.display;
+package haxolotl.display;
 import flash.geom.Matrix3D;
 import flash.geom.Rectangle;
-import ld28.core.Primitive;
-import ld28.core.TextureRegion;
-import ld28.prim.Plane;
-import ld28.core.IDrawable;
-import ld28.prim.Plane;
-import ld28.core.Stage;
-import ld28.shaders.ShaderManager;
-import ld28.core.Program;
-import ld28.shaders.Basic2DTextureShader;
-import ld28.core.Texture;
+import haxolotl.core.Primitive;
+import haxolotl.core.TextureRegion;
+import haxolotl.prim.Plane;
+import haxolotl.core.IDrawable;
+import haxolotl.prim.Plane;
+import haxolotl.core.Stage;
+import haxolotl.shaders.ShaderManager;
+import haxolotl.core.Program;
+import haxolotl.shaders.Basic2DTextureShader;
+import haxolotl.core.Texture;
 
 import openfl.gl.GL;
 import openfl.gl.GLUniformLocation;

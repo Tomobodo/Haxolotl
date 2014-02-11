@@ -1,5 +1,5 @@
-package ld28.display;
-import ld28.display.DisplayObjectContainer;
+package haxolotl.display;
+import haxolotl.display.DisplayObjectContainer;
 
 /**
  * ...
