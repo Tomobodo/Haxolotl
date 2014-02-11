@@ -1,4 +1,4 @@
-package ld28.core;
+package haxolotl.core;
 import flash.display.Stage;
 import flash.events.MouseEvent;
 import flash.events.TouchEvent;
@@ -13,9 +13,9 @@ class EventHandler
 	var touchX : Float;
 	var touchY : Float;
 	
-	var stages : List<ld28.core.Stage>;
+	var stages : List<haxolotl.core.Stage>;
 
-	public function new(_stage : flash.display.Stage, _stages : List<ld28.core.Stage>) 
+	public function new(_stage : flash.display.Stage, _stages : List<haxolotl.core.Stage>) 
 	{
 		#if mobile
 			_stage.addEventListener(TouchEvent.TOUCH_BEGIN, onTouchBegin);
