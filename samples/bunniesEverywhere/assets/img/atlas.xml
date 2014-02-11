@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TextureAtlas imagePath="atlas.png">
+    <SubTexture name="bunny" x="0" y="0" width="26" height="37"/>
+    <SubTexture name="lol" x="26" y="0" width="262" height="157"/>
+    <SubTexture name="lol2" x="0" y="157" width="262" height="157"/>
+</TextureAtlas>
