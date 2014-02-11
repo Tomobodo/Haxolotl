@@ -24,19 +24,18 @@ How to use
 
 firstly, create an openFL project.
 Then in the addedToStage handler write :
-
->function onAddedToStage(e : Event)
->{
->    var engine = new Engine(stage);
->
->    var sampleStage = new haxolotl.core.Stage();
->    engine.add(sampleStage);
->    
->    var atlas = new TextureAtlas(Texture.get("myAtlas.png"), "myAtlas.xml");
->    
->    var bunny = new Image(atlas.get("bunny"));
->    
->    sampleStage.add(bunny);
->}
+```haxe
+function onAddedToStage(e : Event)
+{
+    var engine = new Engine(stage);
+    var sampleStage = new haxolotl.core.Stage();
+    engine.add(sampleStage);
+    
+    var atlas = new TextureAtlas(Texture.get("myAtlas.png"), "myAtlas.xml");
+    
+    var bunny = new Image(atlas.get("bunny"));
+    
+    sampleStage.add(bunny);
+}
 
 see more in samples.
