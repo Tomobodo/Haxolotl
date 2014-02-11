@@ -172,11 +172,26 @@ class SpriteBatch implements IDrawable
 			var y1 = current.y;
 			var y2 = current.y + current.height;
 			
+			var u1 = 0.0;
+			var v1 = 0.0;
+			var u2 = 1.0;
+			var v2 = 1.0;
+			
+			var tRegion = current.texture.region;
+			
+			if (tRegion != null)
+			{
+				u1 = tRegion.x;
+				v1 = tRegion.y;
+				u2 = tRegion.x + tRegion.width;
+				v2 = tRegion.y + tRegion.height;
+			}
+			
 			// top left
 			vertex[i++] = x1;
 			vertex[i++] = y1;
-			vertex[i++] = 0.0;
-			vertex[i++] = 0.0;
+			vertex[i++] = u1;
+			vertex[i++] = v1;
 			vertex[i++] = current.color.r;
 			vertex[i++] = current.color.g;
 			vertex[i++] = current.color.b;
@@ -185,8 +200,8 @@ class SpriteBatch implements IDrawable
 			// top right
 			vertex[i++] = x2;
 			vertex[i++] = y1;
-			vertex[i++] = 1.0;
-			vertex[i++] = 0.0;
+			vertex[i++] = u2;
+			vertex[i++] = v1;
 			vertex[i++] = current.color.r;
 			vertex[i++] = current.color.g;
 			vertex[i++] = current.color.b;
@@ -195,8 +210,8 @@ class SpriteBatch implements IDrawable
 			// bottom right
 			vertex[i++] = x2;
 			vertex[i++] = y2;
-			vertex[i++] = 1.0;
-			vertex[i++] = 1.0;
+			vertex[i++] = u2;
+			vertex[i++] = v2;
 			vertex[i++] = current.color.r;
 			vertex[i++] = current.color.g;
 			vertex[i++] = current.color.b;
@@ -205,8 +220,8 @@ class SpriteBatch implements IDrawable
 			// bottom left
 			vertex[i++] = x1;
 			vertex[i++] = y2;
-			vertex[i++] = 0.0;
-			vertex[i++] = 1.0;
+			vertex[i++] = u1;
+			vertex[i++] = v2;
 			vertex[i++] = current.color.r;
 			vertex[i++] = current.color.g;
 			vertex[i++] = current.color.b;

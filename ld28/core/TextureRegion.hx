@@ -18,12 +18,16 @@ class TextureRegion
 			_region = new Rectangle(0, 0, 1, 1);
 		else
 		{
-			var ratioX = _region.width / texture.width;
-			var ratioY = _region.height / texture.height;
-			_region.x *= ratioX;
-			_region.y *= ratioY;
-			_region.width *= ratioX;
-			_region.height *= ratioY;
+			var ratioX = texture.width;
+			var ratioY = texture.height;
+			
+			_region.x /= ratioX;
+			_region.y /= ratioY;
+			_region.width /= ratioX;
+			_region.height /= ratioY;
+			
+			trace(_region.x, _region.y);
+			
 		}
 		region = _region;
 	}
