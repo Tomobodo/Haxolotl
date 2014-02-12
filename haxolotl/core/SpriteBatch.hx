@@ -90,18 +90,29 @@ class SpriteBatch implements IDrawable
 		program = new SpriteBatchShader();
 		
 		vertex = new Float32Array(dataPerVertex * 4 * MAX_SPRITE);
-		index = new Int16Array(MAX_SPRITE * 6);
 		
 		GL.bindBuffer(GL.ARRAY_BUFFER, vertexBuffer);
 		GL.bufferData(GL.ARRAY_BUFFER, vertex, GL.DYNAMIC_DRAW);
+		
+		index = new Int16Array(MAX_SPRITE * 6);
+		indexes = [0, 1, 2, 2, 3, 0];
+		
+		var j : Int = 0;
+		var k : Int = 0;
+		
+		// Fill the index buffer as it never need to change
+		for (i in 0 ... MAX_SPRITE)
+		{
+			for (a in indexes)
+				index[j++] = a + k * 4;
+			k++;
+		}
 			
 		GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, indexBuffer);
-		GL.bufferData(GL.ELEMENT_ARRAY_BUFFER, index, GL.DYNAMIC_DRAW);
+		GL.bufferData(GL.ELEMENT_ARRAY_BUFFER, index, GL.STATIC_DRAW);
 		
 		full = false;
 		empty = true;
-		
-		indexes = [0, 1, 2, 2, 3, 0];
 		
 		program.use();
 		
@@ -220,32 +231,32 @@ class SpriteBatch implements IDrawable
 			}
 			
 			// top left
-			vertex[i++] = x1 * t.a + y1 * t.c + t.tx; //x1;
-			vertex[i++] = x1 * t.b + y1 * t.d + t.ty; //y1;
+			vertex[i++] = x1 * t.a + y1 * t.c + t.tx;
+			vertex[i++] = x1 * t.b + y1 * t.d + t.ty;
 			vertex[i++] = u1;
 			vertex[i++] = v1;
 			vertex[i++] = current.alpha;
 			vertex[i++] = current.color;
 			
 			// top right
-			vertex[i++] = x2 * t.a + y1 * t.c + t.tx;//x2;
-			vertex[i++] = x2 * t.b + y1 * t.d + t.ty;//y1;
+			vertex[i++] = x2 * t.a + y1 * t.c + t.tx;
+			vertex[i++] = x2 * t.b + y1 * t.d + t.ty;
 			vertex[i++] = u2;
 			vertex[i++] = v1;
 			vertex[i++] = current.alpha;
 			vertex[i++] = current.color;
 			
 			// bottom right
-			vertex[i++] = x2 * t.a + y2 * t.c + t.tx;//x2;
-			vertex[i++] = x2 * t.b + y2 * t.d + t.ty;//y2;
+			vertex[i++] = x2 * t.a + y2 * t.c + t.tx;
+			vertex[i++] = x2 * t.b + y2 * t.d + t.ty;
 			vertex[i++] = u2;
 			vertex[i++] = v2;
 			vertex[i++] = current.alpha;
 			vertex[i++] = current.color;
 			
 			// bottom left
-			vertex[i++] = x1 * t.a + y2 * t.c + t.tx;//x1;
-			vertex[i++] = x1 * t.b + y2 * t.d + t.ty;//y2;
+			vertex[i++] = x1 * t.a + y2 * t.c + t.tx;
+			vertex[i++] = x1 * t.b + y2 * t.d + t.ty;
 			vertex[i++] = u1;
 			vertex[i++] = v2;
 			vertex[i++] = current.alpha;
@@ -261,9 +272,6 @@ class SpriteBatch implements IDrawable
 			
 		GL.bindBuffer(GL.ARRAY_BUFFER, vertexBuffer);
 		GL.bufferSubData(GL.ARRAY_BUFFER, 0, vertex);
-			
-		GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, indexBuffer);
-		GL.bufferSubData(GL.ELEMENT_ARRAY_BUFFER, 0, index);
 	}
 	
 	public function draw()
