@@ -1,13 +1,17 @@
- <center>![alt text](http://media.giphy.com/media/ebkgcMQPRbcC4/giphy.gif "I'm an Axolotl, i'm so cool!")</center>
 #Haxolotl
 
 **Current version**: 0.4.2
 
-A simple haxe game engine based on [**OpenFL**][OpenFL] GLView forgood performance on html target and 3d rendering (later).
+A simple game toolkit based on FLash API initialy created for learning purpose during the 28 th [**_Ludum Dare_**](http://www.ludumdare.com).
+The lib aims to offer a good crossplatform alternative to FLash by using webGL on browser and OpenGL on native app.
+At the moment the tool works on most decent browsers, windows, mac and android. Linux and iOs haven't been tested yet, but it should be fine on these platform too.
 
-Crossplatform : html5, android, iOs, windows, linux and mac thanx to [**OpenFL**][OpenFL].
+To achieve this versatility accross platform, Haxolotl is build on top of [**OpenFL**][OpenFL], a great [**Haxe**](http://www.haxe.org) lib wich offers all the tool for building haxe app on several plateforms.
+Soon the engine will be implemented over [**Lime**][Lime] instead of [**OpenFL**][OpenFL] to get rid of all unused flash package for the flash target.
 
-Soon the engine will be implemented over [**Lime**][Lime] instead of [**OpenFL**][OpenFL] to get rid of all unused flash package.
+####Why are you reinventing the wheel? OpenFL does the **exact** same thing and probably better!
+Firstly, as I said, this initialy was a learning project. I also was looking for a Webgl implemention of Openfl for html5 target instead of 2D canvas without founding any. Haxolotl does that. Finally I plan to add a 3D renderer, and OpenFl doesn't have one, yet, as far as I know. So I guess Haxolotl may have some interest.
+
 
 [OpenFL]: https://github.com/openfl/openfl
 [Lime]: https://github.com/openfl/lime
@@ -23,12 +27,12 @@ Soon the engine will be implemented over [**Lime**][Lime] instead of [**OpenFL**
 - font rendering
 - migration to lime
 - optimisation
-- canvas backend for html target
+- canvas backend for iOs (c'mon Apple :( )
 - 3d rendering 
 
 ###Install 
 
-	haxelib install haxolotl
+	haxelib git haxolotl [the Haxolotl's repo url]
 
 ###How to use 
 
