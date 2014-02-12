@@ -44,6 +44,24 @@ class SpriteBatch implements IDrawable
 	
 	var nbSprite : Int = 0;
 	
+	// update loop var
+	
+	var x1 : Float;
+	var x2 : Float;
+	var y1 : Float;
+	var y2 : Float;
+		
+	var u1 : Float;
+	var u2 : Float;
+	var v1 : Float;
+	var v2 : Float;
+	
+	var current:DisplayObject;
+	
+	var i:Int;
+	var j:Int;
+	var k:Int;
+	
 	public var next : SpriteBatch;
 	public var prev : SpriteBatch;
 	
@@ -160,22 +178,26 @@ class SpriteBatch implements IDrawable
 	
 	public function update()
 	{
-		var current : DisplayObject = first;
 		var indexes : Array<Int> = [0, 1, 2, 2, 3, 0];
-		var i : Int = 0;
-		var j : Int = 0;
-		var k : Int = 0;
+
+		current = first;
+		
+		i = 0;
+		j = 0;
+		k = 0;
+		
 		while (current != null)
 		{
-			var x1 = current.x;
-			var x2 = current.x + current.width;
-			var y1 = current.y;
-			var y2 = current.y + current.height;
-			
-			var u1 = 0.0;
-			var v1 = 0.0;
-			var u2 = 1.0;
-			var v2 = 1.0;
+		
+			x1 = current.x;
+			x2 = current.x + current.width;
+			y1 = current.y;
+			y2 = current.y + current.height;
+				
+			u1 = 0.0;
+			v1 = 0.0;
+			u2 = 1.0;
+			v2 = 1.0;
 			
 			var tRegion = current.texture.region;
 			

@@ -13,12 +13,6 @@ import msignal.Signal.Signal0;
  */
 class DisplayObject extends InteractiveObject
 {
-	public var scaleX : Float;
-	public var scaleY : Float;
-	
-	public var pivotX : Float;
-	public var pivotY : Float;
-	
 	public var color : Color;
 	public var alpha : Float;
 	
@@ -38,12 +32,6 @@ class DisplayObject extends InteractiveObject
 	function new() 
 	{
 		super();
-		
-		scaleX = 1;
-		scaleY = 1;
-		
-		pivotX = 0;
-		pivotY = 0;
 		
 		alpha = 1;
 		

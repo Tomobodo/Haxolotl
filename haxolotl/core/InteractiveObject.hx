@@ -15,10 +15,16 @@ class InteractiveObject
 	public var x : Float;
 	public var y : Float;
 	
+	public var scaleX : Float;
+	public var scaleY : Float;
+	
+	public var pivotX : Float;
+	public var pivotY : Float;
+	
 	public var rotation : Float;
 	
-	public var width : Float;
-	public var height : Float;
+	public var width(get_width, null) : Float;
+	public var height(get_height, null) : Float;
 	
 	public var PRESSED : Signal1<InteractiveObject>;
 	public var RELEASED : Signal1<InteractiveObject>;
@@ -36,6 +42,9 @@ class InteractiveObject
 	
 	var _interactive : Bool;
 	
+	var _width : Float;
+	var _height : Float;
+	
 	var hover : Bool;
 
 	public function new() 
@@ -45,8 +54,14 @@ class InteractiveObject
 		
 		rotation = 0;
 		
-		width = 0;
-		height = 0;
+		_width = 0;
+		_height = 0;
+		
+		pivotX = 0;
+		pivotY = 0;
+		
+		scaleX = 1;
+		scaleY = 1;
 		
 		hover = false;
 		
@@ -70,8 +85,11 @@ class InteractiveObject
 	
 	public function testInput(iX : Float, iY : Float) : Bool
 	{
-		iX -= x;
-		iY -= y;
+		iX -= x + pivotX;
+		iY -= y + pivotY;
+		
+		//iX *= scaleX;
+		//iY *= scaleY;
 		
 		var inWidth = iX > 0 && iX < width;
 		var inHeight = iY > 0 && iY < height;
@@ -106,6 +124,16 @@ class InteractiveObject
 	{
 		hover = false;
 		LEAVED.dispatch(this);
+	}
+	
+	public function get_width() : Float
+	{
+		return _width * scaleX;
+	}
+	
+	public function get_height() : Float
+	{
+		return _height * scaleY;
 	}
 	
 	function get_interactive() : Bool

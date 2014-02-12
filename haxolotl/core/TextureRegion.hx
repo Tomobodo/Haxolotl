@@ -25,9 +25,6 @@ class TextureRegion
 			_region.y /= ratioY;
 			_region.width /= ratioX;
 			_region.height /= ratioY;
-			
-			trace(_region.x, _region.y);
-			
 		}
 		region = _region;
 	}
