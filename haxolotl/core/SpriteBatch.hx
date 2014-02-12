@@ -2,6 +2,7 @@ package haxolotl.core;
 
 import flash.geom.Matrix;
 import flash.geom.Matrix3D;
+import flash.geom.Rectangle;
 import haxolotl.display.DisplayObject;
 import haxolotl.shaders.SpriteBatchShader;
 import openfl.gl.GL;
@@ -74,6 +75,8 @@ class SpriteBatch implements IDrawable
 	public var empty : Bool;
 	
 	private static inline var MAX_SPRITE : Int = 16383;
+	var tRegion : Rectangle;
+	var indexes:Array<Int>;
 	
 	public function new(_texture : Texture) 
 	{
@@ -97,6 +100,8 @@ class SpriteBatch implements IDrawable
 		
 		full = false;
 		empty = true;
+		
+		indexes = [0, 1, 2, 2, 3, 0];
 		
 		program.use();
 		
@@ -183,8 +188,6 @@ class SpriteBatch implements IDrawable
 	
 	public function update()
 	{
-		var indexes : Array<Int> = [0, 1, 2, 2, 3, 0];
-
 		current = first;
 		
 		i = 0;
@@ -206,7 +209,7 @@ class SpriteBatch implements IDrawable
 			u2 = 1.0;
 			v2 = 1.0;
 			
-			var tRegion = current.texture.region;
+			tRegion = current.texture.region;
 			
 			if (tRegion != null)
 			{

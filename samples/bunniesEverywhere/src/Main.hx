@@ -40,6 +40,7 @@ class Main extends Sprite
 		removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		
 		engine = new Engine(stage);
+		engine.scaleMode = Scale;
 		
 		atlas = new TextureAtlas(Texture.get("img/atlas.png"), "img/atlas.xml");
 		
@@ -59,7 +60,6 @@ class Main extends Sprite
 	{
 		if (mouseDown)
 		{
-			trace(sampleStage.width, sampleStage.height);
 			for (i in 0 ... 20)
 				sampleStage.add(new Bunny());
 		}
