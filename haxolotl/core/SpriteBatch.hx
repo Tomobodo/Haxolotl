@@ -1,5 +1,6 @@
 package haxolotl.core;
 
+import flash.geom.Matrix;
 import flash.geom.Matrix3D;
 import haxolotl.display.DisplayObject;
 import haxolotl.shaders.SpriteBatchShader;
@@ -58,9 +59,13 @@ class SpriteBatch implements IDrawable
 	
 	var current:DisplayObject;
 	
+	var mat : Matrix;
+	
 	var i:Int;
 	var j:Int;
 	var k:Int;
+	
+	var t : Matrix;
 	
 	public var next : SpriteBatch;
 	public var prev : SpriteBatch;
@@ -188,11 +193,13 @@ class SpriteBatch implements IDrawable
 		
 		while (current != null)
 		{
-		
-			x1 = current.x;
-			x2 = current.x + current.width;
-			y1 = current.y;
-			y2 = current.y + current.height;
+			
+			t = current.transform;
+			
+			x1 = 0;
+			x2 = current.baseWidth;
+			y1 = 0;
+			y2 = current.baseHeight;
 				
 			u1 = 0.0;
 			v1 = 0.0;
@@ -210,8 +217,8 @@ class SpriteBatch implements IDrawable
 			}
 			
 			// top left
-			vertex[i++] = x1;
-			vertex[i++] = y1;
+			vertex[i++] = x1 * t.a + y1 * t.c + t.tx; //x1;
+			vertex[i++] = x1 * t.b + y1 * t.d + t.ty; //y1;
 			vertex[i++] = u1;
 			vertex[i++] = v1;
 			vertex[i++] = current.color.r;
@@ -220,8 +227,8 @@ class SpriteBatch implements IDrawable
 			vertex[i++] = current.alpha ;
 			
 			// top right
-			vertex[i++] = x2;
-			vertex[i++] = y1;
+			vertex[i++] = x2 * t.a + y1 * t.c + t.tx;//x2;
+			vertex[i++] = x2 * t.b + y1 * t.d + t.ty;//y1;
 			vertex[i++] = u2;
 			vertex[i++] = v1;
 			vertex[i++] = current.color.r;
@@ -230,8 +237,8 @@ class SpriteBatch implements IDrawable
 			vertex[i++] = current.alpha ;
 			
 			// bottom right
-			vertex[i++] = x2;
-			vertex[i++] = y2;
+			vertex[i++] = x2 * t.a + y2 * t.c + t.tx;//x2;
+			vertex[i++] = x2 * t.b + y2 * t.d + t.ty;//y2;
 			vertex[i++] = u2;
 			vertex[i++] = v2;
 			vertex[i++] = current.color.r;
@@ -240,8 +247,8 @@ class SpriteBatch implements IDrawable
 			vertex[i++] = current.alpha ;
 			
 			// bottom left
-			vertex[i++] = x1;
-			vertex[i++] = y2;
+			vertex[i++] = x1 * t.a + y2 * t.c + t.tx;//x1;
+			vertex[i++] = x1 * t.b + y2 * t.d + t.ty;//y2;
 			vertex[i++] = u1;
 			vertex[i++] = v2;
 			vertex[i++] = current.color.r;

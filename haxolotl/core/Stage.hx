@@ -37,8 +37,8 @@ class Stage extends DisplayObjectContainer implements IDrawable
 	public function setViewport(_viewport : Rectangle)
 	{
 		projectionMatrix = Matrix3D.createOrtho(_viewport.x, _viewport.width, _viewport.height, _viewport.y, 1000, -1000);
-		_width = _viewport.width;
-		_height = _viewport.height;
+		baseWidth = _viewport.width;
+		baseHeight = _viewport.height;
 	}
 	
 	public function draw():Void 

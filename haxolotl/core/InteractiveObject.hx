@@ -1,5 +1,6 @@
 package haxolotl.core;
 import flash.events.FocusEvent;
+import flash.geom.Matrix;
 import msignal.Signal;
 
 /**
@@ -40,10 +41,12 @@ class InteractiveObject
 	public var stageTouchX : Int;
 	public var stageTouchY : Int;
 	
+	public var transform(get_transform, null) : Matrix;
+	
 	var _interactive : Bool;
 	
-	var _width : Float;
-	var _height : Float;
+	public var baseWidth : Float;
+	public var baseHeight : Float;
 	
 	var hover : Bool;
 
@@ -54,8 +57,8 @@ class InteractiveObject
 		
 		rotation = 0;
 		
-		_width = 0;
-		_height = 0;
+		baseWidth = 0;
+		baseHeight = 0;
 		
 		pivotX = 0;
 		pivotY = 0;
@@ -64,6 +67,8 @@ class InteractiveObject
 		scaleY = 1;
 		
 		hover = false;
+		
+		transform = new Matrix();
 		
 		ADDED_TO_STAGE = new Signal0();
 		REMOVE_FROM_STAGE = new Signal0();
@@ -85,11 +90,8 @@ class InteractiveObject
 	
 	public function testInput(iX : Float, iY : Float) : Bool
 	{
-		iX -= x + pivotX;
-		iY -= y + pivotY;
-		
-		//iX *= scaleX;
-		//iY *= scaleY;
+		iX -= x;
+		iY -= y;
 		
 		var inWidth = iX > 0 && iX < width;
 		var inHeight = iY > 0 && iY < height;
@@ -126,14 +128,24 @@ class InteractiveObject
 		LEAVED.dispatch(this);
 	}
 	
+	public function get_transform() : Matrix
+	{
+		transform.identity();
+		transform.translate( -pivotX, -pivotY);
+		transform.scale(scaleX, scaleY);
+		transform.rotate(rotation);
+		transform.translate( pivotX + x, pivotY + y);
+		return transform;
+	}
+	
 	public function get_width() : Float
 	{
-		return _width * scaleX;
+		return Math.abs(baseWidth * scaleX);
 	}
 	
 	public function get_height() : Float
 	{
-		return _height * scaleY;
+		return Math.abs(baseHeight * scaleY);
 	}
 	
 	function get_interactive() : Bool

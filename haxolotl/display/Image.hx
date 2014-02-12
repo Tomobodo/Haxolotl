@@ -27,8 +27,8 @@ class Image extends DisplayObject
 		super();
 		
 		texture = _texture;
-		_width = texture.region.width * texture.texture.width;
-		_height = texture.region.height * texture.texture.height;
+		baseWidth = texture.region.width * texture.texture.width;
+		baseHeight = texture.region.height * texture.texture.height;
 		prim = Primitive.getPlane();
 	}
 }

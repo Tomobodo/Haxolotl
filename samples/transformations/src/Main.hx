@@ -47,8 +47,8 @@ class Main extends Sprite
 		bunny.x = 200;
 		bunny.y = 200;
 		
-		bunny.pivotX = bunny.width;// / 2;
-		bunny.pivotY = bunny.height;// / 2;
+		bunny.pivotX = bunny.width / 2;
+		bunny.pivotY = bunny.height / 2;
 		
 		time = 0;
 		
@@ -65,6 +65,7 @@ class Main extends Sprite
 	function onEnterFrame() 
 	{
 		time += 0.03;
+		bunny.rotation+=0.01;
 		bunny.scaleX = Math.sin(time);
 	}
 	

@@ -59,6 +59,7 @@ class Main extends Sprite
 	{
 		if (mouseDown)
 		{
+			trace(sampleStage.width, sampleStage.height);
 			for (i in 0 ... 20)
 				sampleStage.add(new Bunny());
 		}
