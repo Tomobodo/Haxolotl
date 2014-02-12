@@ -6,7 +6,7 @@ import flash.Lib;
 import haxolotl.core.Engine;
 import haxolotl.core.Stage;
 import haxolotl.core.Texture;
-import haxolotl.core.TextureRegion;
+import haxolotl.core.TextureAtlas;
 import haxolotl.display.Image;
 
 /**
@@ -18,6 +18,8 @@ class Main extends Sprite
 {
 	
 	var engine : Engine;
+	var sampleStage : Stage;
+	var bunny : Image;
 	
 	public function new()
 	{
@@ -31,13 +33,14 @@ class Main extends Sprite
 		removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		
 		engine = new Engine(stage);
-		engine.scaleMode = Scale;
 		
-		var sampleStage = new Stage();
+		sampleStage = new Stage();
 		engine.add(sampleStage);
 		
-		var image = new Image(new TextureRegion(Texture.get("img/atlas.png")));
-		sampleStage.add(image);
+		var atlas : TextureAtlas = new TextureAtlas(Texture.get("img/atlas.png"), "img/atlas.xml");
+		bunny = new Image(atlas.get("bunny"));
+		
+		sampleStage.add(bunny);
 	}
 	
 	public static function main() 

@@ -20,7 +20,7 @@
 	<haxelib name="haxolotl" />
 	
 	<!-- assets -->
-	<assets path="assets/img" rename="img" />
+	<assets path="../assets/img" rename="img" />
 	
 	<!-- optimize output
 	<haxeflag name="-dce full" /> -->

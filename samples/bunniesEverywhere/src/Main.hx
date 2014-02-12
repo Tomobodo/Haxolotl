@@ -3,6 +3,7 @@ package ;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.Lib;
+import flash.text.TextField;
 import haxolotl.core.Engine;
 import haxolotl.core.InteractiveObject;
 import haxolotl.core.Stage;

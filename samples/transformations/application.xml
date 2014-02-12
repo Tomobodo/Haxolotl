@@ -3,10 +3,10 @@
 	<!-- NMML reference: https://gist.github.com/1763850 -->
 	
 	<!-- metadata, make sure 'package' is at least 3 segments (ie. com.mycompany.myproject) -->
-	<meta title="basicImage" package="basicImage" version="1.0.0" company="Thomas B" />
+	<meta title="transformations" package="transformations" version="1.0.0" company="Thomas B" />
 	
 	<!-- output -->
-	<app main="Main" file="basicImage" path="bin" />
+	<app main="Main" file="transformations" path="bin" />
 	
 	<window background="#000000" fps="60" />
 	<window width="800" height="480" unless="mobile" />
@@ -14,8 +14,8 @@
 	
 	<!-- classpath, haxe libs -->
 	<source path="src" />
-	<haxelib name="openfl" />
 	<haxelib name="haxolotl" />
+	<haxelib name="openfl" />
 	
 	<!-- assets -->
 	<assets path="../assets/img" rename="img" />
