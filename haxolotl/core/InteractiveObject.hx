@@ -1,6 +1,7 @@
 package haxolotl.core;
 import flash.events.FocusEvent;
 import flash.geom.Matrix;
+import flash.geom.Point;
 import msignal.Signal;
 
 /**
@@ -90,11 +91,14 @@ class InteractiveObject
 	
 	public function testInput(iX : Float, iY : Float) : Bool
 	{
-		iX -= x;
-		iY -= y;
+		var point = new Point(iX, iY);
 		
-		var inWidth = iX > 0 && iX < width;
-		var inHeight = iY > 0 && iY < height;
+		var transformInvert = transform.clone();
+		transformInvert.invert();
+		point = transformInvert.transformPoint(point);
+		
+		var inWidth = point.x > 0 && point.x < width;
+		var inHeight = point.y > 0 && point.y < height;
 		
 		if (inWidth && inHeight)
 			return true;

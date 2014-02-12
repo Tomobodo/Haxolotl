@@ -66,7 +66,8 @@ class Main extends Sprite
 	{
 		time += 0.03;
 		bunny.rotation+=0.01;
-		bunny.scaleX = Math.sin(time);
+		bunny.scaleX = Math.sin(time) * 2;
+		bunny.scaleY = 2;
 	}
 	
 	public static function main() 
