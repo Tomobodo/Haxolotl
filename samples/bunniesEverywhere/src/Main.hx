@@ -58,8 +58,10 @@ class Main extends Sprite
 	function stageEnterFrame() 
 	{
 		if (mouseDown)
+		{
 			for (i in 0 ... 20)
 				sampleStage.add(new Bunny());
+		}
 	}
 	
 	function mouthReleased(target : InteractiveObject) 

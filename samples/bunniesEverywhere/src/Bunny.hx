@@ -26,18 +26,16 @@ class Bunny extends Image
 		x = 40 - width/2;
 		y = 110 - height/2;
 		
-		alpha = 1;
+		alpha = 0;
 		
 		color.r = Math.random();
 		color.g = Math.random();
 		color.b = Math.random();
-		alpha = 0;
 		
 		time = cast Math.random() * 500;
 		
-		ENTER_FRAME.add(onEnterFrame);
-		
 		HOVERED.add(onHoveredd);
+		ENTER_FRAME.add(onEnterFrame);
 	}
 	
 	function onHoveredd(a) 
@@ -57,7 +55,8 @@ class Bunny extends Image
 		{
 			x = stage.width - width;
 			vitX *= -1;
-		}else if (x < 0)
+		}
+		else if (x < 0)
 		{
 			x = 0;
 			vitX *= -1;
