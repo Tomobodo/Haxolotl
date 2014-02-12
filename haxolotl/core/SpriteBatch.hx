@@ -221,32 +221,32 @@ class SpriteBatch implements IDrawable
 			vertex[i++] = x1 * t.b + y1 * t.d + t.ty; //y1;
 			vertex[i++] = u1;
 			vertex[i++] = v1;
-			vertex[i++] = current.color;
 			vertex[i++] = current.alpha;
+			vertex[i++] = current.color;
 			
 			// top right
 			vertex[i++] = x2 * t.a + y1 * t.c + t.tx;//x2;
 			vertex[i++] = x2 * t.b + y1 * t.d + t.ty;//y1;
 			vertex[i++] = u2;
 			vertex[i++] = v1;
-			vertex[i++] = current.color;
 			vertex[i++] = current.alpha;
+			vertex[i++] = current.color;
 			
 			// bottom right
 			vertex[i++] = x2 * t.a + y2 * t.c + t.tx;//x2;
 			vertex[i++] = x2 * t.b + y2 * t.d + t.ty;//y2;
 			vertex[i++] = u2;
 			vertex[i++] = v2;
-			vertex[i++] = current.color;
 			vertex[i++] = current.alpha;
+			vertex[i++] = current.color;
 			
 			// bottom left
 			vertex[i++] = x1 * t.a + y2 * t.c + t.tx;//x1;
 			vertex[i++] = x1 * t.b + y2 * t.d + t.ty;//y2;
 			vertex[i++] = u1;
 			vertex[i++] = v2;
-			vertex[i++] = current.color;
 			vertex[i++] = current.alpha;
+			vertex[i++] = current.color;
 			
 			for (a in indexes)
 				index[j++] = a + k * 4;

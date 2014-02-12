@@ -27,10 +27,7 @@ class Bunny extends Image
 		y = 110 - height/2;
 		
 		alpha = 0;
-		
-		color.r = Math.random();
-		color.g = Math.random();
-		color.b = Math.random();
+		color = cast Math.random() * 0xffffff;
 		
 		time = cast Math.random() * 500;
 		
