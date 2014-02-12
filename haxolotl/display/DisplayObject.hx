@@ -13,7 +13,7 @@ import msignal.Signal.Signal0;
  */
 class DisplayObject extends InteractiveObject
 {
-	public var color : Color;
+	public var color : UInt;
 	public var alpha : Float;
 	
 	public var parent : DisplayObjectContainer;
@@ -35,7 +35,7 @@ class DisplayObject extends InteractiveObject
 		
 		alpha = 1;
 		
-		color = new Color(0xffffff);
+		color = 0xffffff;
 		
 		ENTER_FRAME = new Signal0();
 		ADDED = new Signal0();

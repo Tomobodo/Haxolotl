@@ -68,6 +68,7 @@ class Main extends Sprite
 		bunny.rotation+=0.01;
 		bunny.scaleX = Math.sin(time) * 2;
 		bunny.scaleY = 2;
+		bunny.color = 0xff6666;
 	}
 	
 	public static function main() 

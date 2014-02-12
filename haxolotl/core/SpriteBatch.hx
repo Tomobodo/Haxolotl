@@ -40,7 +40,7 @@ class SpriteBatch implements IDrawable
 	
 	var needGeneration : Bool;
 	
-	var dataPerVertex : Int = 8;
+	var dataPerVertex : Int = 6;
 	var stride : Int;
 	
 	var nbSprite : Int = 0;
@@ -221,40 +221,32 @@ class SpriteBatch implements IDrawable
 			vertex[i++] = x1 * t.b + y1 * t.d + t.ty; //y1;
 			vertex[i++] = u1;
 			vertex[i++] = v1;
-			vertex[i++] = current.color.r;
-			vertex[i++] = current.color.g;
-			vertex[i++] = current.color.b;
-			vertex[i++] = current.alpha ;
+			vertex[i++] = current.color;
+			vertex[i++] = current.alpha;
 			
 			// top right
 			vertex[i++] = x2 * t.a + y1 * t.c + t.tx;//x2;
 			vertex[i++] = x2 * t.b + y1 * t.d + t.ty;//y1;
 			vertex[i++] = u2;
 			vertex[i++] = v1;
-			vertex[i++] = current.color.r;
-			vertex[i++] = current.color.g;
-			vertex[i++] = current.color.b;
-			vertex[i++] = current.alpha ;
+			vertex[i++] = current.color;
+			vertex[i++] = current.alpha;
 			
 			// bottom right
 			vertex[i++] = x2 * t.a + y2 * t.c + t.tx;//x2;
 			vertex[i++] = x2 * t.b + y2 * t.d + t.ty;//y2;
 			vertex[i++] = u2;
 			vertex[i++] = v2;
-			vertex[i++] = current.color.r;
-			vertex[i++] = current.color.g;
-			vertex[i++] = current.color.b;
-			vertex[i++] = current.alpha ;
+			vertex[i++] = current.color;
+			vertex[i++] = current.alpha;
 			
 			// bottom left
 			vertex[i++] = x1 * t.a + y2 * t.c + t.tx;//x1;
 			vertex[i++] = x1 * t.b + y2 * t.d + t.ty;//y2;
 			vertex[i++] = u1;
 			vertex[i++] = v2;
-			vertex[i++] = current.color.r;
-			vertex[i++] = current.color.g;
-			vertex[i++] = current.color.b;
-			vertex[i++] = current.alpha ;
+			vertex[i++] = current.color;
+			vertex[i++] = current.alpha;
 			
 			for (a in indexes)
 				index[j++] = a + k * 4;
@@ -307,7 +299,7 @@ class SpriteBatch implements IDrawable
 		
 		GL.vertexAttribPointer(vertexPosAttribute, 2, GL.FLOAT, false, stride, 0);
 		GL.vertexAttribPointer(texCoordAttribute, 2, GL.FLOAT, false, stride, 2 * 4);
-		GL.vertexAttribPointer(colorAttribute, 4, GL.FLOAT, false, stride, 4 * 4);
+		GL.vertexAttribPointer(colorAttribute, 2, GL.FLOAT, false, stride, 4 * 4);
 	}
 	
 	function endDraw() 

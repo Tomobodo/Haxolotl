@@ -13,9 +13,9 @@ class SpriteBatchShader extends Program
 		vertexShaderSource = "
 		attribute vec2 aVertPos;
 		attribute vec2 aTexCoord;
-		attribute vec4 aColor;
+		attribute vec2 aColor;
 		
-		varying vec4 vColor;
+		varying vec2 vColor;
 		varying vec2 vTexCoord;
 		
 		uniform mat4 projectionMatrix;
@@ -29,23 +29,25 @@ class SpriteBatchShader extends Program
 
 		fragmentShaderSource =
         #if !desktop
-		"precision mediump float;" +
+		"precision lowp float;" +
         #end
 		"
 		varying vec2 vTexCoord;
-		varying vec4 vColor;
+		varying vec2 vColor;
 		
 		uniform sampler2D uImage0;
 					
 		void main(void)
 		{
+			vec3 col = mod(vec3(vColor.x / 65535.0, vColor.x / 256.0, vColor.x), 256.0) / 256.0;
+			vec4 finalColor = vec4(col, vColor.y);
 			vec4 textureColor = texture2D(uImage0, vTexCoord);"
 			#if html5
 			+"
-			gl_FragColor = textureColor * vColor;"+
+			gl_FragColor = textureColor * finalColor;"+
 			#else
 			+"
-			gl_FragColor = (textureColor * vColor.argb).gbar;"+
+			gl_FragColor = (textureColor * finalColor.argb).gbar;"+
 			#end
 		"
 		}";
