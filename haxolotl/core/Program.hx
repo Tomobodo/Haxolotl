@@ -1,9 +1,8 @@
 package haxolotl.core;
 
-import openfl.Assets;
-import openfl.gl.GL;
-import openfl.gl.GLProgram;
-import openfl.gl.GLShader;
+import lime.gl.GL;
+import lime.gl.GLProgram;
+import lime.gl.GLShader;
 
 /**
  * ...

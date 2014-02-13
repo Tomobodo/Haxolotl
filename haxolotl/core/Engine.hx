@@ -1,12 +1,11 @@
 package haxolotl.core;
 
-import flash.display.Sprite;
-import flash.events.Event;
-import flash.geom.Rectangle;
 import haxolotl.utils.Color;
-import openfl.display.OpenGLView;
-import openfl.gl.GL;
 import haxolotl.core.IDrawable;
+import haxolotl.geom.Rectangle;
+
+import lime.gl.GL;
+import lime.Lime;
 
 /**
  * ...
@@ -24,27 +23,23 @@ class Engine
 	public var scaleMode : ScaleMode;
 	public var backGroundColor : Color;
 	
-	var eventCatcher : Sprite;
-	
 	var touchDevice : Bool;
-	
-	var stage : flash.display.Stage;
-	
-	var glView : OpenGLView;
 	
 	var stages : List<haxolotl.core.Stage>;
 	
 	var viewport : Rectangle;
 	
-	public function new(_stage : flash.display.Stage) 
+	var lime : Lime;
+	
+	public function new(_lime : Lime) 
 	{
+		lime = _lime;
+		
 		scaleMode = Scale;
 		
 		stages = new List<haxolotl.core.Stage>();
 		
 		touchDevice = false;
-		
-		stage = _stage;
 		
 		backGroundColor = new Color(0xffffff);
 		
@@ -53,20 +48,12 @@ class Engine
 	
 	function init() : Void
 	{
-		stage.addEventListener(Event.RESIZE, onResize);
 		
-		glView = new OpenGLView();
-		glView.render = render;
-		stage.addChild(glView);
-		viewport = new Rectangle(0, 0, stage.stageWidth, stage.stageHeight);
-		
-		initEventCatcher();
-		
-		new EventHandler(stage, stages);
 	}
 	
-	function render(viewport : Rectangle) : Void
+	private function render(viewport : Rectangle) : Void
 	{
+		viewport = new Rectangle(0, 0, lime.config.width, lime.config.height);
 		GL.viewport (Std.int (viewport.x), Std.int (viewport.y), Std.int (viewport.width), Std.int (viewport.height));
 		GL.clearColor (backGroundColor.r, backGroundColor.g, backGroundColor.b, 1);
 		GL.clear (GL.COLOR_BUFFER_BIT | GL.DEPTH_BUFFER_BIT);
@@ -80,33 +67,6 @@ class Engine
 		var glError = GL.getError();
 		if (glError != 0)
 			trace(glError);
-	}
-	
-	function onResize(e:Event):Void 
-	{
-		initEventCatcher();
-		if (scaleMode != NoScale)
-		{
-			viewport = new Rectangle(0, 0, stage.stageWidth, stage.stageHeight);
-			for (stage in stages)
-				stage.setViewport(viewport);
-		}
-	}
-	
-	function initEventCatcher() 
-	{
-		if (eventCatcher == null)
-		{
-			eventCatcher = new Sprite();
-			stage.addChild(eventCatcher);
-		}
-		else
-			eventCatcher.graphics.clear();
-			
-		eventCatcher.graphics.beginFill(0, 0);
-		eventCatcher.graphics.drawRect(0, 0,stage.stageWidth,stage.stageHeight);
-		eventCatcher.graphics.endFill();
-		
 	}
 	
 	public function add(stage : haxolotl.core.Stage)

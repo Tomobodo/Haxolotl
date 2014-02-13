@@ -1,16 +1,16 @@
 package haxolotl.core;
 
-import flash.geom.Matrix;
-import flash.geom.Matrix3D;
-import flash.geom.Rectangle;
+import haxolotl.geom.Matrix;
+import lime.utils.Matrix3D;
+import haxolotl.geom.Rectangle;
 import haxolotl.display.DisplayObject;
 import haxolotl.shaders.SpriteBatchShader;
-import openfl.gl.GL;
-import openfl.gl.GLBuffer;
-import openfl.gl.GLUniformLocation;
-import openfl.utils.Float32Array;
-import openfl.utils.Int16Array;
-import openfl.utils.Int32Array;
+import lime.gl.GL;
+import lime.gl.GLBuffer;
+import lime.gl.GLUniformLocation;
+import lime.utils.Float32Array;
+import lime.utils.Int16Array;
+import lime.utils.Int32Array;
 
 /**
  * ...

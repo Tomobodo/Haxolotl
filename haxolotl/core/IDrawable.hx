@@ -1,5 +1,6 @@
 package haxolotl.core;
-import flash.geom.Matrix3D;
+
+import lime.utils.Matrix3D;
 
 /**
  * ...

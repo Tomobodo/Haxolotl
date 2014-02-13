@@ -3,20 +3,19 @@
 	<!-- NMML reference: https://gist.github.com/1763850 -->
 	
 	<!-- metadata, make sure 'package' is at least 3 segments (ie. com.mycompany.myproject) -->
-	<meta title="bunniesEverywhere" package="" version="1.0.0" company="Thomas BAUDON" />
+	<meta title="LimeSample" package="LimeSample" version="1.0.0" company="Thomas BAUDON" />
 	
 	<!-- output -->
-	<app main="Main" file="ld28samples" path="bin" />
+	<app main="Main" file="LimeSample" path="bin" />
 	
 	<window background="#000000" fps="60" />
 	<window width="800" height="480" unless="mobile" />
-	<window width="0" height="0" if="html5" />
 	<window orientation="landscape" vsync="false" antialiasing="0" if="cpp" />
 	
 	<!-- classpath, haxe libs -->
 	<source path="src" />
- 	<haxelib name="lime" />
-	<haxelib name="msignal" />
+	<haxelib name="format" />
+	<haxelib name="lime" />
 	<haxelib name="haxolotl" />
 	
 	<!-- assets -->

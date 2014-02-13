@@ -1,5 +1,5 @@
 package haxolotl.utils;
-import openfl.utils.Float32Array;
+import lime.utils.Float32Array;
 
 /**
  * ...
@@ -12,17 +12,17 @@ class Color
 	public var g : Float;
 	public var b : Float;
 	public var a : Float;
-	public var hex : UInt;
+	public var hex : Int;
 	
 	public var array : Float32Array;
 	
-	public function new(color : UInt, alpha : Float = 1) 
+	public function new(color : Int, alpha : Float = 1) 
 	{
 		hex = color;
 		
-		var rMask : UInt = (0xff0000 & color) >> 16;
-		var gMask : UInt = (0xff00 & color) >> 8;
-		var bMask : UInt = 0xff & color;
+		var rMask : Int = (0xff0000 & color) >> 16;
+		var gMask : Int = (0xff00 & color) >> 8;
+		var bMask : Int = 0xff & color;
 		
 		r = cast(rMask) / 255.0;
 		g = cast(gMask) / 255.0;

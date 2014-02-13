@@ -1,6 +1,6 @@
 package haxolotl.core;
 import haxolotl.display.DisplayObject;
-import flash.geom.Matrix3D;
+import lime.utils.Matrix3D;
 
 /**
  * ...

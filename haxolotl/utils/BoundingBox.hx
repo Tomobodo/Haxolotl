@@ -1,5 +1,6 @@
 package haxolotl.utils;
-import flash.geom.Rectangle;
+
+import haxolotl.geom.Rectangle;
 
 /**
  * ...

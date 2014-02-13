@@ -1,12 +1,10 @@
 package haxolotl.core;
-import flash.geom.Matrix3D;
-import flash.geom.Rectangle;
-import haxolotl.display.DisplayObject;
-import openfl.gl.GL;
+
 import haxolotl.core.IDrawable;
-import haxolotl.core.Engine;
+import haxolotl.display.DisplayObject;
 import haxolotl.display.DisplayObjectContainer;
-import openfl.utils.Float32Array;
+import haxolotl.geom.Rectangle;
+import lime.utils.Matrix3D;
 
 /**
  * ...

@@ -1,10 +1,10 @@
 package haxolotl.core;
 
 import haxolotl.prim.Plane;
-import openfl.gl.GL;
-import openfl.gl.GLBuffer;
-import openfl.utils.Float32Array;
-import openfl.utils.Int16Array;
+import lime.gl.GL;
+import lime.gl.GLBuffer;
+import lime.utils.Float32Array;
+import lime.utils.Int16Array;
 
 import haxolotl.utils.BoundingBox;
 

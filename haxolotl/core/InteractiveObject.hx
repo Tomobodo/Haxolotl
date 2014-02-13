@@ -1,7 +1,7 @@
 package haxolotl.core;
-import flash.events.FocusEvent;
-import flash.geom.Matrix;
-import flash.geom.Point;
+
+import haxolotl.geom.Matrix;
+import haxolotl.geom.Point;
 import msignal.Signal;
 import haxolotl.display.DisplayObjectContainer;
 

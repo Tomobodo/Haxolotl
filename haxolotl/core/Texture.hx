@@ -1,10 +1,15 @@
 package haxolotl.core;
-import flash.display.BitmapData;
-import flash.utils.ByteArray;
-import openfl.gl.GLTexture;
-import openfl.gl.GL;
-import openfl.Assets;
-import openfl.utils.UInt8Array;
+
+import format.png.Tools;
+import haxe.io.Bytes;
+
+import haxe.io.BytesInput;
+import haxe.zip.Reader;
+
+import lime.gl.GLTexture;
+import lime.gl.GL;
+import lime.utils.Assets;
+import lime.utils.UInt8Array;
 
 /**
  * ...
@@ -19,21 +24,22 @@ class Texture
 	
 	public var path : String;
 	
+	private var textureData : UInt8Array;
+	
 	private static var cache = new  Map<String, Texture>();
 	
 	function new(_path : String) 
 	{
 		path = _path;
-		var bitmapData = Assets.getBitmapData(path);
 		
-		#if html5
-		var pixels = bitmapData.getPixels(bitmapData.rect).byteView;
-		#else
-		var pixels = new UInt8Array(bitmapData.getPixels(bitmapData.rect));
-		#end
+		var bytes = Assets.getBytes(path);
+		var byteInput = new BytesInput(bytes, 0, bytes.length);
+		var png = new Reader(byteInput).read();
+		var pixels = Tools.extract32(png);
+		var header = Tools.getHeader(png);
 		
-		width = bitmapData.width;
-		height = bitmapData.height;
+		width = header.width;
+		height = header.height;
 			
 		texture = GL.createTexture();
 		GL.bindTexture(GL.TEXTURE_2D, texture);
