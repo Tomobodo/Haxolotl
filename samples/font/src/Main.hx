@@ -4,6 +4,7 @@ import flash.display.Sprite;
 import flash.events.Event;
 import flash.Lib;
 import haxolotl.core.Engine;
+import haxolotl.core.InteractiveObject;
 import haxolotl.core.Stage;
 import haxolotl.display.TextField;
 
@@ -32,12 +33,13 @@ class Main extends Sprite
 		var sampleStage : Stage = new Stage();
 		engine.add(sampleStage);
 		
-		var a = new TextField("arial", "What does the fox say?");
+		var a = new TextField("arial", "Hi!");
 		sampleStage.add(a);
 		
 		a.x = 100;
 		a.y = 200;
-		a.rotation = 1;
+		a.HOVERED.add(click);
+		a.rotation = 0.1;
 	}
 	
 	public static function main() 

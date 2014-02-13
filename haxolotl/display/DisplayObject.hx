@@ -54,8 +54,6 @@ class DisplayObject extends InteractiveObject
 	
 	public function update()
 	{
-		
-		
 		ENTER_FRAME.dispatch();
 	}
 }

@@ -2,6 +2,7 @@ package haxolotl.display;
 
 import flash.geom.Rectangle;
 import haxe.xml.Fast;
+import haxolotl.core.InteractiveObject;
 import haxolotl.core.TextureRegion;
 import haxolotl.display.DisplayObjectContainer;
 import haxolotl.core.Texture;
@@ -15,7 +16,6 @@ import openfl.Assets;
 
 class Glyph
 {
-	
 	public var id : Int;
 	public var x : Int;
 	public var y : Int;
@@ -49,8 +49,6 @@ class Glyph
 	{
 		return region;
 	}
-	
-	
 }
  
 class TextField extends DisplayObjectContainer
@@ -94,7 +92,7 @@ class TextField extends DisplayObjectContainer
 			glyphImg.color = color;
 			glyphImg.pivotX = -glyph.xOffset;
 			glyphImg.pivotY = -glyph.yOffset;
-			//glyphImg.rotation = 0.3;
+			glyphImg.interactive = false;
 			if (prevChar != null)
 				glyphImg.x = lastX;
 			lastX += glyph.xAdvance;

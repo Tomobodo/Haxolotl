@@ -12,10 +12,6 @@ class DisplayObjectContainer extends DisplayObject
 {
 	var children : Array<DisplayObject>;
 	
-	/*
-	 * on added to scene, addChildrenToScene
-	 */
-	
 	function new() 
 	{
 		super();
@@ -55,13 +51,15 @@ class DisplayObjectContainer extends DisplayObject
 	
 	override public function testInput(iX:Float, iY:Float):Bool 
 	{
+		
 		var nbChild = children.length;
-		for (i in (nbChild - 1) ... 0)
+		for (i in 0 ... (nbChild - 1))
 		{
-			var current : DisplayObject = children[i];
-			if (current.testInput(iX, iY)) return true;
+			var current = children[i];
+			if (current.testInput(iX, iY)) 
+				return true;
 		}
+		
 		return false;
 	}
-	
 }

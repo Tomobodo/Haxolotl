@@ -47,11 +47,12 @@ class InteractiveObject
 	
 	public var transform(get_transform, null) : Matrix;
 	
-	var _interactive : Bool;
 	
 	public var baseWidth : Float;
 	public var baseHeight : Float;
 	
+	var _interactive : Bool;
+	var _transform : Matrix;
 	var hover : Bool;
 
 	public function new() 
@@ -72,7 +73,7 @@ class InteractiveObject
 		
 		hover = false;
 		
-		transform = new Matrix();
+		_transform = new Matrix();
 		
 		ADDED_TO_STAGE = new Signal0();
 		REMOVE_FROM_STAGE = new Signal0();
@@ -137,17 +138,17 @@ class InteractiveObject
 	
 	public function get_transform() : Matrix
 	{
-		transform.identity();
+		_transform.identity();
 		
-		transform.translate( -pivotX, -pivotY);
-		transform.scale(scaleX, scaleY);
-		transform.rotate(rotation);
-		transform.translate(x, y);
+		_transform.translate( -pivotX, -pivotY);
+		_transform.scale(scaleX, scaleY);
+		_transform.rotate(rotation);
+		_transform.translate(x, y);
 		
 		if (parent != null)
-			transform.concat(parent.transform);
+			_transform.concat(parent.transform);
 		
-		return transform;
+		return _transform;
 	}
 	
 	public function get_width() : Float
