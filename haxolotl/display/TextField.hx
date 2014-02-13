@@ -2,11 +2,12 @@ package haxolotl.display;
 
 import flash.geom.Rectangle;
 import haxe.xml.Fast;
+import haxolotl.core.Font;
 import haxolotl.core.InteractiveObject;
 import haxolotl.core.TextureRegion;
 import haxolotl.display.DisplayObjectContainer;
 import haxolotl.core.Texture;
-import haxolotl.display.TextField.Glyph;
+import haxolotl.core.Glyph;
 import openfl.Assets;
 
 /**
@@ -14,80 +15,48 @@ import openfl.Assets;
  * @author Thomas B
  */
 
-class Glyph
-{
-	public var id : Int;
-	public var x : Int;
-	public var y : Int;
-	public var width : Int;
-	public var height : Int;
-	public var xOffset : Int;
-	public var yOffset : Int;
-	public var xAdvance : Int;
-	
-	public var region : TextureRegion;
-	
-	public function new(_id : Int, _x:Int, _y :Int, _width:Int, _height:Int, _xOffset:Int, _yOffset:Int, _xAdvance:Int)
-	{
-		id = _id;
-		x = _x;
-		y = _y;
-		width = _width;
-		height = _height;
-		xOffset = _xOffset;
-		yOffset = _yOffset;
-		xAdvance = _xAdvance;
-	}
-	
-	public function initRegion(texture : Texture)
-	{
-		var tRegion = new Rectangle(x, y, width, height);
-		region = new TextureRegion(texture, tRegion);
-	}
-	
-	public function getRegion() : TextureRegion
-	{
-		return region;
-	}
-}
- 
 class TextField extends DisplayObjectContainer
 {
 	
-	public function new(fontName : String, text : String = null, color : UInt = 0x000000, size = 12) 
+	public var text(default, set_text) : String;
+	public var font(default, set_font) : Font;
+	
+	var _text : String;
+	var _font : Font;
+	
+	public function new(font : Font, text : String = null, _color : UInt = 0x000000, size = 12) 
 	{
 		super();
+		_text = text;
+		_font = font;
 		
-		var fontTexture = Texture.get("fonts/" + fontName + ".png");
-		var fontXml = new Fast(Xml.parse(Assets.getText("fonts/" + fontName + ".fnt")));
+		color = _color;
 		
-		var root = fontXml.node.font;
-		var chars = root.node.chars;
-		var glyphs : Map<Int, Glyph> = new Map<Int, Glyph>();
+		if(_text != null) drawText();
+	}
+	
+	public function set_text(text : String) : String 
+	{
+		if (children.length > 0)
+			for (child in children)
+				remove(child);
 		
-		for (char in chars.nodes.char)
-		{
-			var id : Int = Std.parseInt(char.att.id);
-			var x : Int = Std.parseInt(char.att.x);
-			var y : Int = Std.parseInt(char.att.y);
-			var width : Int = Std.parseInt(char.att.width);
-			var height : Int = Std.parseInt(char.att.height);
-			var xOffset : Int = Std.parseInt(char.att.xoffset);
-			var yOffset : Int = Std.parseInt(char.att.yoffset);
-			var xAdvance : Int = Std.parseInt(char.att.xadvance);
-			
-			var glyph = new Glyph(id, x, y, width, height, xOffset, yOffset, xAdvance);
-			glyph.initRegion(fontTexture);
-			
-			glyphs[id] = glyph;
-		}
+		_text = text;
 		
+		if (_text != null)
+			drawText();
+		
+		return _text;
+	}
+	
+	function drawText()
+	{
 		var prevChar : Glyph = null;
 		var lastX : Int = 0;
-		for (i in 0 ... text.length)
+		for (i in 0 ... _text.length)
 		{
-			var char = text.charCodeAt(i);
-			var glyph = glyphs[char];
+			var char = _text.charCodeAt(i);
+			var glyph = _font.getGlyph(char);
 			var glyphImg = new Image(glyph.getRegion());
 			glyphImg.color = color;
 			glyphImg.pivotX = -glyph.xOffset;
@@ -99,5 +68,12 @@ class TextField extends DisplayObjectContainer
 			add(glyphImg);
 			prevChar = glyph;
 		}
+	}
+	
+	function set_font(font : Font)
+	{
+		_font = font;
+		if (_text != null) drawText();
+		return _font;
 	}
 }

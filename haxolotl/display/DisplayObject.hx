@@ -14,7 +14,7 @@ import msignal.Signal.Signal0;
 class DisplayObject extends InteractiveObject
 {
 	public var color : Int;
-	public var alpha : Float;
+	public var alpha(get_alpha, set_alpha) : Float;
 	
 	public var prim : Primitive;
 	public var texture : TextureRegion;
@@ -27,11 +27,13 @@ class DisplayObject extends InteractiveObject
 	public var ADDED : Signal0;
 	public var REMOVED : Signal0;
 	
+	var _alpha : Float;
+	
 	function new() 
 	{
 		super();
 		
-		alpha = 1;
+		_alpha = 1;
 		
 		color = 0xffffff;
 		
@@ -40,20 +42,30 @@ class DisplayObject extends InteractiveObject
 		REMOVED = new Signal0();
 	}
 	
-	public function added(_parent : DisplayObjectContainer) : Void
-	{
-		parent = _parent;
-		ADDED.dispatch();
-	}
-	
-	public function removed(_parent : DisplayObjectContainer) : Void
-	{
-		parent = null;
-		REMOVED.dispatch();
-	}
-	
 	public function update()
 	{
 		ENTER_FRAME.dispatch();
+	}
+	
+	public function __onAddedToStage()
+	{
+		ADDED_TO_STAGE.dispatch();
+	}
+	
+	public function __onRemovedFromStage()
+	{
+		REMOVE_FROM_STAGE.dispatch();
+	}
+	
+	public function get_alpha() : Float
+	{
+		if (parent != null)
+			return _alpha * parent.alpha;
+		return _alpha;
+	}
+	
+	public function set_alpha(alpha : Float) : Float
+	{
+		return _alpha = alpha;
 	}
 }

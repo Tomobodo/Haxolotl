@@ -11,7 +11,7 @@ import haxolotl.display.DisplayObjectContainer;
  */
 class InteractiveObject
 {
-	private var stage : Stage;
+	public var stage : Stage;
 	
 	public var interactive(get_interactive, set_interactive) : Bool;
 	
@@ -79,18 +79,6 @@ class InteractiveObject
 		REMOVE_FROM_STAGE = new Signal0();
 		
 		interactive = true;
-	}
-	
-	public function addedToStage(_stage : Stage) : Void
-	{
-		stage = _stage;
-		ADDED_TO_STAGE.dispatch();
-	}
-	
-	public function removedFromStage(_stage : Stage) : Void
-	{
-		REMOVE_FROM_STAGE.dispatch();
-		stage = null;
 	}
 	
 	public function testInput(iX : Float, iY : Float) : Bool

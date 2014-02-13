@@ -59,7 +59,15 @@ class Stage extends DisplayObjectContainer implements IDrawable
 	
 	override public function add(_child : DisplayObject)
 	{
-		_child.addedToStage(this);
+		_child.stage = this;
+		_child.__onAddedToStage();
+		
+		if (_child.parent == null)
+		{
+			_child.parent = this;
+			_child.ADDED.dispatch();
+		}
+		
 		children.push(_child);
 		
 		if (_child.interactive)
@@ -74,7 +82,15 @@ class Stage extends DisplayObjectContainer implements IDrawable
 	
 	override public function remove(_child : DisplayObject)
 	{
-		_child.removedFromStage(this);
+		_child.stage = null;
+		_child.__onRemovedFromStage();
+		
+		if (_child.parent == this)
+		{
+			_child.parent = null;
+			_child.REMOVED.dispatch();
+		}
+		
 		children.remove(_child);
 		
 		interractiveChildren.remove(_child);

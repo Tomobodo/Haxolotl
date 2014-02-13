@@ -10,19 +10,25 @@ import haxolotl.core.Stage;
  */
 class DisplayObjectContainer extends DisplayObject
 {
-	var children : Array<DisplayObject>;
+	public var children : Array<DisplayObject>;
+	public var numChildren : Int;
 	
-	function new() 
+	public function new() 
 	{
 		super();
 		
 		children = new Array<DisplayObject>();
+		numChildren = 0;
 	}
 	
 	public function add(child : DisplayObject)
 	{
 		children.push(child);
-		child.added(this);
+		child.parent = this;
+		child.ADDED.dispatch();
+		
+		numChildren ++;
+		
 		if (stage != null && stage != this)
 			stage.add(child);
 	}
@@ -30,28 +36,43 @@ class DisplayObjectContainer extends DisplayObject
 	public function remove(child : DisplayObject)
 	{
 		children.remove(child);
-		child.removed(this);
+		child.parent = null;
+		child.REMOVED.dispatch(); 
+		
+		numChildren --;
+		
 		if (stage != null && stage != this)
 			stage.remove(child);
 	}
 	
-	override public function addedToStage(_stage : Stage) : Void
+	public function removeAll()
 	{
-		super.addedToStage(_stage);
+		while(numChildren > 0) removeChildAt(0);
+	}
+	
+	public function removeChildAt(index : Int)
+	{
+		remove(children[index]);
+	}
+	
+	override public function __onAddedToStage()
+	{
+		super.__onAddedToStage();
+		
 		for (child in children)
 			stage.add(child);
 	}
 	
-	override public function removedFromStage(_stage : Stage) : Void
+	override public function __onRemovedFromStage()
 	{
-		super.removedFromStage(_stage);
+		super.__onRemovedFromStage();
+		
 		for (child in children)
 			stage.remove(child);
 	}
 	
 	override public function testInput(iX:Float, iY:Float):Bool 
 	{
-		
 		var nbChild = children.length;
 		for (i in 0 ... (nbChild - 1))
 		{

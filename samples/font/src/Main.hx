@@ -7,6 +7,7 @@ import haxolotl.core.Engine;
 import haxolotl.core.InteractiveObject;
 import haxolotl.core.Stage;
 import haxolotl.display.TextField;
+import haxolotl.core.Font;
 
 /**
  * ...
@@ -17,6 +18,8 @@ class Main extends Sprite
 {
 	
 	var engine : Engine;
+	var text:haxolotl.display.TextField;
+	var sampleStage:Stage;
 	
 	public function new()
 	{
@@ -30,16 +33,21 @@ class Main extends Sprite
 		
 		engine = new Engine(stage);
 		
-		var sampleStage : Stage = new Stage();
+		sampleStage = new Stage();
 		engine.add(sampleStage);
 		
-		var a = new TextField("arial", "Hi!");
-		sampleStage.add(a);
+		text = new TextField(Font.get("arial"), "Hey!", 0xff0000);
+		sampleStage.add(text);
 		
-		a.x = 100;
-		a.y = 200;
-		a.HOVERED.add(click);
-		a.rotation = 0.1;
+		text.x = 100;
+		text.y = 200;
+		text.rotation = 0.1;
+		text.PRESSED.add(onTextPressed);
+	}
+	
+	function onTextPressed(target : InteractiveObject) 
+	{
+		text.text = "lolilol";
 	}
 	
 	public static function main() 
