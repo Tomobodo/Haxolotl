@@ -32,9 +32,12 @@ class Main extends Sprite
 		var sampleStage : Stage = new Stage();
 		engine.add(sampleStage);
 		
-		var a = new TextField("arial", "What does the fox says?");
+		var a = new TextField("arial", "What does the fox say?");
 		sampleStage.add(a);
 		
+		a.x = 100;
+		a.y = 200;
+		a.rotation = 1;
 	}
 	
 	public static function main() 

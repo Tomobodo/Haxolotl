@@ -16,8 +16,6 @@ class DisplayObject extends InteractiveObject
 	public var color : Int;
 	public var alpha : Float;
 	
-	public var parent : DisplayObjectContainer;
-	
 	public var prim : Primitive;
 	public var texture : TextureRegion;
 	

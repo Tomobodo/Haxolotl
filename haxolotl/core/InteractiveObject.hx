@@ -3,6 +3,7 @@ import flash.events.FocusEvent;
 import flash.geom.Matrix;
 import flash.geom.Point;
 import msignal.Signal;
+import haxolotl.display.DisplayObjectContainer;
 
 /**
  * ...
@@ -16,6 +17,8 @@ class InteractiveObject
 	
 	public var x : Float;
 	public var y : Float;
+	
+	public var parent : DisplayObjectContainer;
 	
 	public var scaleX : Float;
 	public var scaleY : Float;
@@ -135,10 +138,15 @@ class InteractiveObject
 	public function get_transform() : Matrix
 	{
 		transform.identity();
+		
 		transform.translate( -pivotX, -pivotY);
 		transform.scale(scaleX, scaleY);
 		transform.rotate(rotation);
-		transform.translate(x,y);
+		transform.translate(x, y);
+		
+		if (parent != null)
+			transform.concat(parent.transform);
+		
 		return transform;
 	}
 	
