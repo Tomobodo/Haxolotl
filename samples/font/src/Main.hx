@@ -16,10 +16,16 @@ import haxolotl.core.Font;
 
 class Main extends Sprite 
 {
-	
 	var engine : Engine;
 	var text:haxolotl.display.TextField;
 	var sampleStage:Stage;
+	
+	var texts : Array<String>;
+	
+	var angle : Float;
+	var currentText:Int;
+	
+	var angleStep : Float; 
 	
 	public function new()
 	{
@@ -31,23 +37,72 @@ class Main extends Sprite
 	{
 		removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		
+		angleStep = (Math.PI * 2) / 240;
+		
+		var i = 0;
+		texts = new Array<String>();
+		texts[i++] = "Haxolotl is cool !";
+		texts[i++] = "WOOOOAOAAAH!!! TEXT!!!";
+		texts[i++] = "Hello world!";
+		texts[i++] = "Axolotls are so cuuuute <3";
+		texts[i++] = "Вы не пройдет!";
+		texts[i++] = "شما نمی بگذرد";
+		texts[i++] = "Bonjour mesdames et messieurs!";
+		texts[i++] = "J'aime les lapins!";
+		texts[i++] = "J'aime Haxolotl!";
+		texts[i++] = "Tu aimes Haxolotl!";
+		
 		engine = new Engine(stage);
 		
 		sampleStage = new Stage();
 		engine.add(sampleStage);
 		
-		text = new TextField(Font.get("arial"), "Hey!", 0xff0000);
+		currentText = 0;
+		
+		text = new TextField(Font.get("arial"), getText(), 0xff0000);
 		sampleStage.add(text);
 		
-		text.x = 100;
-		text.y = 200;
-		text.rotation = 0.1;
-		text.PRESSED.add(onTextPressed);
+		sampleStage.ENTER_FRAME.add(onEnterFrame);
+		
+		angle = 0;
+		
+		text.HOVERED.add(onTextPressed);
+	}
+	
+	function onEnterFrame() 
+	{
+		angle += angleStep;
+		
+		if (angle >= Math.PI * 2)
+		{
+			angle = 0;
+			text.color = cast Math.random() * 0xffffff;
+			text.text = getText();
+		}
+		
+		text.scaleX = Math.sin(angle);
+			
+		text.pivotX = text.width / 2;
+		text.pivotY = text.height / 2;
+		
+		text.x = sampleStage.width / 2;
+		text.y = sampleStage.height / 2;
+		
+		text.rotation += 0.005;
+	}
+	
+	function getText() : String
+	{
+		var text = texts[currentText];
+		currentText++;
+		if (currentText == texts.length)
+			currentText = 0;
+		return text;
 	}
 	
 	function onTextPressed(target : InteractiveObject) 
 	{
-		text.text = "lolilol";
+		text.text = getText();
 	}
 	
 	public static function main() 

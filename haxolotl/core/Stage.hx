@@ -167,6 +167,16 @@ class Stage extends DisplayObjectContainer implements IDrawable
 		}
 	}
 	
+	override public function get_width() : Float
+	{
+		return baseWidth;
+	}
+	
+	override public function get_height() : Float
+	{
+		return baseHeight;
+	}
+	
 	function getBatch(object : DisplayObject) : MultipleSpriteBatch
 	{
 		var textureName = "null";

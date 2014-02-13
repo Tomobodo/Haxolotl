@@ -50,6 +50,11 @@ class DisplayObjectContainer extends DisplayObject
 		while(numChildren > 0) removeChildAt(0);
 	}
 	
+	public function childAt(index : Int) : DisplayObject
+	{
+		return children[index];
+	}
+	
 	public function removeChildAt(index : Int)
 	{
 		remove(children[index]);
@@ -82,5 +87,23 @@ class DisplayObjectContainer extends DisplayObject
 		}
 		
 		return false;
+	}
+	
+	override public function get_width() : Float
+	{
+		var max : Float = 0;
+		for (child in children)
+			if (child.x + child.width > max)
+				max = child.x + child.width;
+		return max;
+	}
+	
+	override public function get_height() : Float
+	{
+		var max : Float = 0;
+		for (child in children)
+			if (child.y + child.height > max)
+				max = child.y + child.height;
+		return max;
 	}
 }

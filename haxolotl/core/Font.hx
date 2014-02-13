@@ -51,9 +51,12 @@ class Font
 		return cache[name];
 	}
 	
-	public function getGlyph(code : Int) : Glyph
+	public function getGlyph(char : String) : Glyph
 	{
-		return glyphs[code];
+		var code = char.charCodeAt(0);
+		var glyph = glyphs[code];
+		if(glyph != null) return glyph;
+		else return getGlyph('0');
 	}
 	
 }

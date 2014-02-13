@@ -37,9 +37,7 @@ class TextField extends DisplayObjectContainer
 	
 	public function set_text(text : String) : String 
 	{
-		if (children.length > 0)
-			for (child in children)
-				remove(child);
+		removeAll();
 		
 		_text = text;
 		
@@ -55,8 +53,7 @@ class TextField extends DisplayObjectContainer
 		var lastX : Int = 0;
 		for (i in 0 ... _text.length)
 		{
-			var char = _text.charCodeAt(i);
-			var glyph = _font.getGlyph(char);
+			var glyph = _font.getGlyph(_text.charAt(i));
 			var glyphImg = new Image(glyph.getRegion());
 			glyphImg.color = color;
 			glyphImg.pivotX = -glyph.xOffset;
