@@ -25,6 +25,7 @@ Firstly, as I said, this initialy was a learning project. I also was looking for
 ###RoadMap
 
 - font rendering
+- better sprite batch 
 - migration to lime
 - optimisation
 - canvas backend for iOs (c'mon Apple :( )

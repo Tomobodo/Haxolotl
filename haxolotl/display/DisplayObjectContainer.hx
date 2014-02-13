@@ -2,6 +2,7 @@ package haxolotl.display;
 
 import haxolotl.core.Program;
 import haxolotl.display.DisplayObject;
+import haxolotl.core.Stage;
 
 /**
  * ...
@@ -35,6 +36,20 @@ class DisplayObjectContainer extends DisplayObject
 		children.remove(child);
 		child.removed(this);
 		if (stage != null && stage != this)
+			stage.remove(child);
+	}
+	
+	override public function addedToStage(_stage : Stage) : Void
+	{
+		super.addedToStage(_stage);
+		for (child in children)
+			stage.add(child);
+	}
+	
+	override public function removedFromStage(_stage : Stage) : Void
+	{
+		super.removedFromStage(_stage);
+		for (child in children)
 			stage.remove(child);
 	}
 	

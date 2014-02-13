@@ -9,7 +9,6 @@ import haxolotl.prim.Plane;
 import haxolotl.core.Stage;
 import haxolotl.shaders.ShaderManager;
 import haxolotl.core.Program;
-import haxolotl.shaders.Basic2DTextureShader;
 import haxolotl.core.Texture;
 
 import openfl.gl.GL;

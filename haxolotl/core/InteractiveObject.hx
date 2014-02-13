@@ -138,7 +138,7 @@ class InteractiveObject
 		transform.translate( -pivotX, -pivotY);
 		transform.scale(scaleX, scaleY);
 		transform.rotate(rotation);
-		transform.translate( pivotX + x, pivotY + y);
+		transform.translate(x,y);
 		return transform;
 	}
 	
