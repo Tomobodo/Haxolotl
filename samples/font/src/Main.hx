@@ -59,7 +59,7 @@ class Main extends Sprite
 		
 		currentText = 0;
 		
-		text = new TextField(Font.get("arial"), getText(), 0xff0000);
+		text = new TextField(Font.get("pr_agamemnon"), getText(), 0xff0000);
 		sampleStage.add(text);
 		
 		sampleStage.ENTER_FRAME.add(onEnterFrame);
