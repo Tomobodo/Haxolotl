@@ -4,7 +4,7 @@
 
 A simple game toolkit based on FLash API initialy created for learning purpose during the 28 th [**_Ludum Dare_**](http://www.ludumdare.com).
 The lib aims to offer a good crossplatform alternative to FLash by using webGL on browser and OpenGL on native app.
-At the moment the tool works on most decent browsers, windows, mac and android. Linux and iOs haven't been tested yet, but it should be fine on these platform too.
+At the moment the tool works on most decent browsers, windows, mac and android. Linux haven't been tested yet, but it should be fine on this platform as well.
 
 To achieve this versatility accross platform, Haxolotl is build on top of [**OpenFL**][OpenFL], a great [**Haxe**](http://www.haxe.org) lib wich offers all the tool for building haxe app on several plateforms.
 Soon the engine will be implemented over [**Lime**][Lime] instead of [**OpenFL**][OpenFL] to get rid of all unused flash package for the flash target.
