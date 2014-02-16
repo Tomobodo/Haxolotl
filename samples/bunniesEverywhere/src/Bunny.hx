@@ -24,7 +24,9 @@ class Bunny extends Image
 		vitY = Math.random() * - 2 - 4;
 		
 		x = 40 - width/2;
-		y = 110 - height/2;
+		y = 110 - height / 2;
+		
+		interactive = false;
 		
 		alpha = 0;
 		color = cast Math.random() * 0xffffff;

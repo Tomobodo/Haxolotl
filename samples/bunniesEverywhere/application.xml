@@ -6,7 +6,7 @@
 	<meta title="bunniesEverywhere" package="" version="1.0.0" company="Thomas BAUDON" />
 	
 	<!-- output -->
-	<app main="Main" file="ld28samples" path="bin" />
+	<app main="Main" file="bunniesEverywhere" path="bin" />
 	
 	<window background="#000000" fps="60" />
 	<window width="800" height="480" unless="mobile" />
