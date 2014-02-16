@@ -1,6 +1,6 @@
 package haxolotl.core;
 import flash.geom.Matrix3D;
-import flash.geom.Rectangle;
+import haxolotl.geom.Rectangle;
 import haxolotl.display.DisplayObject;
 import openfl.gl.GL;
 import haxolotl.core.IDrawable;

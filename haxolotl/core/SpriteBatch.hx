@@ -2,7 +2,7 @@ package haxolotl.core;
 
 import flash.geom.Matrix;
 import flash.geom.Matrix3D;
-import flash.geom.Rectangle;
+import haxolotl.geom.Rectangle;
 import haxolotl.display.DisplayObject;
 import haxolotl.shaders.SpriteBatchShader;
 import openfl.gl.GL;
@@ -10,7 +10,6 @@ import openfl.gl.GLBuffer;
 import openfl.gl.GLUniformLocation;
 import openfl.utils.Float32Array;
 import openfl.utils.Int16Array;
-import openfl.utils.Int32Array;
 
 /**
  * ...

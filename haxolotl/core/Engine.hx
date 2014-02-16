@@ -2,7 +2,7 @@ package haxolotl.core;
 
 import flash.display.Sprite;
 import flash.events.Event;
-import flash.geom.Rectangle;
+import haxolotl.geom.Rectangle;
 import haxolotl.utils.Color;
 import openfl.display.OpenGLView;
 import openfl.gl.GL;

@@ -1,14 +1,8 @@
 package haxolotl.display;
 
-import flash.geom.Rectangle;
-import haxe.xml.Fast;
 import haxolotl.core.Font;
-import haxolotl.core.InteractiveObject;
-import haxolotl.core.TextureRegion;
-import haxolotl.display.DisplayObjectContainer;
-import haxolotl.core.Texture;
 import haxolotl.core.Glyph;
-import openfl.Assets;
+import haxolotl.display.DisplayObjectContainer;
 
 /**
  * ...
