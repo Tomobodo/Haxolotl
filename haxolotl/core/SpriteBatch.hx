@@ -46,7 +46,6 @@ class SpriteBatch
 	var nbSprite : Int = 0;
 	
 	// update loop var
-	
 	var x1 : Float;
 	var x2 : Float;
 	var y1 : Float;
@@ -57,13 +56,8 @@ class SpriteBatch
 	var v1 : Float;
 	var v2 : Float;
 	
-	var current:DisplayObject;
-	
-	var mat : Matrix;
-	
-	var i:Int;
-	var j:Int;
-	var k:Int;
+	// vertex data index
+	var vdi : Int;
 	
 	var t : Matrix;
 	
@@ -73,11 +67,13 @@ class SpriteBatch
 	public var full : Bool;
 	public var empty : Bool;
 	
-	private static inline var MAX_SPRITE : Int = 16383;
+	// maximum sprite number for a single draw call (max 16383)
+	private static inline var MAX_SPRITE : Int = 10000;
 	
 	var tRegion : Rectangle;
 	var indexes:Array<Int>;
 	var nbDrawCall : Int;
+	var vertexOffset : Int;
 	
 	public function new() 
 	{
@@ -94,6 +90,7 @@ class SpriteBatch
 		GL.bufferData(GL.ARRAY_BUFFER, vertex, GL.DYNAMIC_DRAW);
 		
 		index = new Int16Array(MAX_SPRITE * 6);
+		vertexOffset = 0;
 		indexes = [0, 1, 2, 2, 3, 0];
 		
 		var j : Int = 0;
@@ -139,12 +136,9 @@ class SpriteBatch
 	
 	public function start()
 	{
-		i = 0;
-		j = 0;
-		k = 0;
-		
-		tRegion = null;
+		vdi = 0;
 		nbDrawCall = 0;
+		tRegion = null;
 		
 		#if desktop
 		GL.enable(GL.TEXTURE_2D);
@@ -177,8 +171,16 @@ class SpriteBatch
 		GL.bindBuffer(GL.ARRAY_BUFFER, vertexBuffer);
 		GL.bufferSubData(GL.ARRAY_BUFFER, 0, vertex);
 		
-		GL.bindTexture(GL.TEXTURE_2D, texture.texture);
-		GL.activeTexture(GL.TEXTURE0);
+		if (texture != null)
+		{
+			GL.bindTexture(GL.TEXTURE_2D, texture.texture);
+			GL.activeTexture(GL.TEXTURE0);
+		}
+		else 
+		{
+			GL.bindTexture(GL.TEXTURE_2D, null);
+			GL.activeTexture(GL.TEXTURE0);
+		}
 		
 		// draw
 		GL.drawElements(GL.TRIANGLES, nbSprite * 6, GL.UNSIGNED_SHORT, 0);
@@ -186,13 +188,13 @@ class SpriteBatch
 		nbDrawCall++;
 		
 		nbSprite = 0;
+		vdi = 0;
 	}
 	
 	public function end()
 	{
 		flush();
 		
-		// End draw
 		program.release();
 		
 		GL.bindBuffer(GL.ARRAY_BUFFER, null);
@@ -214,11 +216,15 @@ class SpriteBatch
 	{
 		if (object.texture != null)
 		{
+			
 			if (object.texture.texture != texture)
 			{
-				if(i != 0) flush();
+				// don't need to flush if there is nothing to draw
+				if(vdi!=0)flush();
 				texture = object.texture.texture;
 			}
+			
+			nbSprite++;
 			
 			t = object.transform;
 			
@@ -244,43 +250,38 @@ class SpriteBatch
 			}
 			
 			// top left
-			vertex[i++] = x1 * t.a + y1 * t.c + t.tx;
-			vertex[i++] = x1 * t.b + y1 * t.d + t.ty;
-			vertex[i++] = u1;
-			vertex[i++] = v1;
-			vertex[i++] = object.alpha;
-			vertex[i++] = object.color;
+			vertex[vdi++] = x1 * t.a + y1 * t.c + t.tx;
+			vertex[vdi++] = x1 * t.b + y1 * t.d + t.ty;
+			vertex[vdi++] = u1;
+			vertex[vdi++] = v1;
+			vertex[vdi++] = object.alpha;
+			vertex[vdi++] = object.color;
 			
 			// top right
-			vertex[i++] = x2 * t.a + y1 * t.c + t.tx;
-			vertex[i++] = x2 * t.b + y1 * t.d + t.ty;
-			vertex[i++] = u2;
-			vertex[i++] = v1;
-			vertex[i++] = object.alpha;
-			vertex[i++] = object.color;
+			vertex[vdi++] = x2 * t.a + y1 * t.c + t.tx;
+			vertex[vdi++] = x2 * t.b + y1 * t.d + t.ty;
+			vertex[vdi++] = u2;
+			vertex[vdi++] = v1;
+			vertex[vdi++] = object.alpha;
+			vertex[vdi++] = object.color;
 			
 			// bottom right
-			vertex[i++] = x2 * t.a + y2 * t.c + t.tx;
-			vertex[i++] = x2 * t.b + y2 * t.d + t.ty;
-			vertex[i++] = u2;
-			vertex[i++] = v2;
-			vertex[i++] = object.alpha;
-			vertex[i++] = object.color;
+			vertex[vdi++] = x2 * t.a + y2 * t.c + t.tx;
+			vertex[vdi++] = x2 * t.b + y2 * t.d + t.ty;
+			vertex[vdi++] = u2;
+			vertex[vdi++] = v2;
+			vertex[vdi++] = object.alpha;
+			vertex[vdi++] = object.color;
 			
 			// bottom left
-			vertex[i++] = x1 * t.a + y2 * t.c + t.tx;
-			vertex[i++] = x1 * t.b + y2 * t.d + t.ty;
-			vertex[i++] = u1;
-			vertex[i++] = v2;
-			vertex[i++] = object.alpha;
-			vertex[i++] = object.color;
+			vertex[vdi++] = x1 * t.a + y2 * t.c + t.tx;
+			vertex[vdi++] = x1 * t.b + y2 * t.d + t.ty;
+			vertex[vdi++] = u1;
+			vertex[vdi++] = v2;
+			vertex[vdi++] = object.alpha;
+			vertex[vdi++] = object.color;
 			
-			for (a in indexes)
-				index[j++] = a + k * 4;
-			
-			k++;
-			
-			nbSprite++;
+			if (nbSprite >= MAX_SPRITE) flush();
 		}
 		
 		if (object.children != null && object.children.length > 0)

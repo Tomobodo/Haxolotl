@@ -18,6 +18,13 @@ class Color
 	
 	public function new(color : UInt, alpha : Float = 1) 
 	{
+		array = new Float32Array([1.0, 1.0, 1.0, 1.0]);
+		
+		set(color, alpha);
+	}
+	
+	public function set(color : UInt, alpha : Float = 1)
+	{
 		hex = color;
 		
 		var rMask : UInt = (0xff0000 & color) >> 16;
@@ -29,6 +36,9 @@ class Color
 		b = cast(bMask) / 255.0;
 		a = alpha;
 		
-		array = new Float32Array([r, g, b, a]);
+		array[0] = r;
+		array[1] = g;
+		array[2] = b;
+		array[3] = a;
 	}
 }
