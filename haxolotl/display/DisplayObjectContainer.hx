@@ -28,20 +28,24 @@ class DisplayObjectContainer extends DisplayObject
 		
 		numChildren ++;
 		
-		if (stage != null && stage != this)
-			stage.add(child);
+		if (stage != null)
+		{
+			child.stage = stage;
+			child.__onAddedToStage();
+		}
 	}
 	
 	public function remove(child : DisplayObject)
 	{
-		children.remove(child);
 		child.parent = null;
+		child.stage = null;
+		children.remove(child);
 		child.REMOVED.dispatch(); 
 		
 		numChildren --;
 		
-		if (stage != null && stage != this)
-			stage.remove(child);
+		if (stage != null)
+			child.__onRemovedFromStage();
 	}
 	
 	public function removeAll()
@@ -64,7 +68,10 @@ class DisplayObjectContainer extends DisplayObject
 		super.__onAddedToStage();
 		
 		for (child in children)
-			stage.add(child);
+		{
+			child.stage = this.stage;
+			child.__onAddedToStage();
+		}
 	}
 	
 	override public function __onRemovedFromStage()
@@ -72,7 +79,10 @@ class DisplayObjectContainer extends DisplayObject
 		super.__onRemovedFromStage();
 		
 		for (child in children)
-			stage.remove(child);
+		{
+			child.stage = null;
+			child.__onRemovedFromStage();
+		}
 	}
 	
 	override public function testInput(iX:Float, iY:Float):Bool 
