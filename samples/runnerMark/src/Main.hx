@@ -21,7 +21,7 @@ class Main extends Sprite
 {
 	var engine:Engine;
 	var runnerStage:Stage;
-	var atlas:TextureAtlas;
+	public static var atlas:TextureAtlas;
 	var statStage:Stage;
 	var statTxt:TextField;
 	
@@ -39,6 +39,12 @@ class Main extends Sprite
 	var runner : Image;
 	var runnerFrames : Array<TextureRegion>;
 	var runnerCurrentFrame : Int;
+	
+	var monsters : Array<Monster>;
+	
+	var addMonsterCounter : Int = 0;
+	
+	static private inline var GROUND_SPEED:Float = 0.4;
 	
 	public function new()
 	{
@@ -70,6 +76,23 @@ class Main extends Sprite
 		initBg();
 		initRunner();
 		initGround();
+		
+		monsters = new Array<Monster>();
+		addMonster();
+	}
+	
+	function addMonster() 
+	{
+		var monster = new Monster();
+		monster.x = runnerStage.width;
+		monsters.push(monster);
+		runnerStage.add(monster);
+	}
+	
+	function updateMonster()
+	{
+		for (monster in monsters)
+			monster.x -= GROUND_SPEED * elapsed;
 	}
 	
 	function initGround() 
@@ -88,7 +111,7 @@ class Main extends Sprite
 	
 	function updateGround()
 	{
-		groundX -= 0.9 * elapsed;
+		groundX -= GROUND_SPEED * elapsed;
 		if (groundX <= -ground[0].width)
 			groundX += ground[0].width;
 		for (i in 0 ... ground.length)
@@ -131,7 +154,7 @@ class Main extends Sprite
 		{
 			background.height = runnerStage.height * .7 - 50;
 			background.scaleX = background.scaleY;
-			background.y = runnerStage.height - background.height - 30;
+			background.y = runnerStage.height - background.height - 15;
 			runnerStage.add(background);
 		}
 		
@@ -145,9 +168,9 @@ class Main extends Sprite
 		for (background in bg)
 		{
 			if(a < 2)
-				background.x -= 0.3 * elapsed; 
+				background.x -= GROUND_SPEED / 4 * elapsed; 
 			else
-				background.x -= 0.5 * elapsed; 
+				background.x -= GROUND_SPEED / 2 * elapsed; 
 			if ((background.x + background.width) <= 0)
 				background.x = background.width;
 			a++;
@@ -173,6 +196,20 @@ class Main extends Sprite
 		uppdateBg();
 		updateRunner();
 		updateGround();
+		updateMonster();
+		
+		addMonsterCounter++;
+		
+		if (fps > 58)
+		{
+			score = fps * 10 + monsters.length;
+			
+			if (addMonsterCounter >= 30)
+			{
+				addMonsterCounter = 0;
+				addMonster();
+			}
+		}
 	}
 	
 	public static function main() 
