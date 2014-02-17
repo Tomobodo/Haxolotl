@@ -41,4 +41,17 @@ class TextureAtlas
 	{
 		return regionMap[name];
 	}
+	
+	public function getAnimation(prefix : String) : Array<TextureRegion>
+	{
+		var rep : Array<TextureRegion> =  new Array<TextureRegion>();
+		for (subTexture in root.nodes.SubTexture)
+		{	
+			var name : String = subTexture.att.name;
+			if (name.indexOf(prefix) > 0)
+				rep.push(regionMap[name]);
+		}
+		
+		return rep;
+	}
 }

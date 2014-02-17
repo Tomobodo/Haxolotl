@@ -28,8 +28,8 @@ class InteractiveObject
 	
 	public var rotation : Float;
 	
-	public var width(get_width, null) : Float;
-	public var height(get_height, null) : Float;
+	public var width(get_width, set_width) : Float;
+	public var height(get_height, set_height) : Float;
 	
 	public var PRESSED : Signal1<InteractiveObject>;
 	public var RELEASED : Signal1<InteractiveObject>;
@@ -78,7 +78,7 @@ class InteractiveObject
 		ADDED_TO_STAGE = new Signal0();
 		REMOVE_FROM_STAGE = new Signal0();
 		
-		interactive = true;
+		interactive = false;
 	}
 	
 	public function testInput(iX : Float, iY : Float) : Bool
@@ -147,6 +147,17 @@ class InteractiveObject
 	public function get_height() : Float
 	{
 		return Math.abs(baseHeight * scaleY);
+	}
+	
+	public function set_width(value : Float) : Float
+	{
+		scaleX = value / baseWidth;
+		return width;
+	}
+	public function set_height(value : Float) : Float 
+	{
+		scaleY = value / baseHeight;
+		return height;
 	}
 	
 	function get_interactive() : Bool
