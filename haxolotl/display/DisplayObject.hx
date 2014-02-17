@@ -27,6 +27,9 @@ class DisplayObject extends InteractiveObject
 	public var ADDED : Signal0;
 	public var REMOVED : Signal0;
 	
+	// not proud of it
+	public var children : Array<DisplayObject>;
+	
 	var _alpha : Float;
 	
 	function new() 

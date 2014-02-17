@@ -10,7 +10,6 @@ import haxolotl.core.Stage;
  */
 class DisplayObjectContainer extends DisplayObject
 {
-	public var children : Array<DisplayObject>;
 	public var numChildren : Int;
 	
 	public function new() 

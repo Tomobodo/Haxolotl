@@ -20,14 +20,14 @@ Firstly, as I said, this initialy was a learning project. I also was looking for
 
 - crossplatform
 - hardware accelerated 2d rendering
-- _hummmm_ more soon, still coding
+- font rendering
+- flash style api
 
 ###RoadMap
 
-- font rendering
 - better sprite batch 
-- migration to lime
 - optimisation
+- migration to lime
 - canvas backend for iOs (c'mon Apple :( )
 - 3d rendering 
 

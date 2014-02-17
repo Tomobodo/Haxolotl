@@ -20,7 +20,7 @@ class Stage extends DisplayObjectContainer implements IDrawable
 	
 	var viewport : Rectangle;
 	
-	var batchMap : Map<String, MultipleSpriteBatch>;
+	var spriteBatch : SpriteBatch;
 	
 	public var projectionMatrix : Matrix3D;
 
@@ -29,7 +29,7 @@ class Stage extends DisplayObjectContainer implements IDrawable
 		super();
 		interactive = true;
 		stage = this;
-		batchMap = new Map<String, MultipleSpriteBatch>();
+		spriteBatch = new SpriteBatch();
 		drawableChildren = new List<IDrawable>();
 		interractiveChildren = new List<InteractiveObject>();
 	}
@@ -37,17 +37,16 @@ class Stage extends DisplayObjectContainer implements IDrawable
 	public function setViewport(_viewport : Rectangle)
 	{
 		projectionMatrix = Matrix3D.createOrtho(_viewport.x, _viewport.width, _viewport.height, _viewport.y, 1000, -1000);
+		spriteBatch.setProjectionMatrix(projectionMatrix);
 		baseWidth = _viewport.width;
 		baseHeight = _viewport.height;
 	}
 	
 	public function draw():Void 
 	{
-		for (object in drawableChildren)
-		{
-			object.setProjectionMatrix(projectionMatrix);
-			object.draw();
-		}
+		spriteBatch.start();
+		spriteBatch.render(this);
+		spriteBatch.end();
 	}
 	
 	override public function update()
@@ -72,12 +71,6 @@ class Stage extends DisplayObjectContainer implements IDrawable
 		
 		if (_child.interactive)
 			interractiveChildren.push(_child);
-		
-		if (_child.prim != null)
-		{
-			var batch = getBatch(_child);
-			batch.add(_child);
-		}
 	}
 	
 	override public function remove(_child : DisplayObject)
@@ -94,17 +87,6 @@ class Stage extends DisplayObjectContainer implements IDrawable
 		children.remove(_child);
 		
 		interractiveChildren.remove(_child);
-		
-		if (_child.prim != null)
-		{
-			var batch = getBatch(_child);
-			batch.remove(_child);
-		}
-	}
-	
-	public function setProjectionMatrix(projection : Matrix3D) : Void
-	{
-		
 	}
 	
 	override public function pressed(_x : Float, _y : Float)
@@ -177,20 +159,10 @@ class Stage extends DisplayObjectContainer implements IDrawable
 		return baseHeight;
 	}
 	
-	function getBatch(object : DisplayObject) : MultipleSpriteBatch
+	/* INTERFACE haxolotl.core.IDrawable */
+	
+	public function setProjectionMatrix(projection:Matrix3D):Void 
 	{
-		var textureName = "null";
-		if (object.texture != null)
-			textureName = object.texture.texture.path;
-			
-		var batch = batchMap[textureName];
-		if (batch == null)
-		{
-			batch = new MultipleSpriteBatch(object.texture.texture);
-			batchMap[textureName] = batch;
-			drawableChildren.add(batch);
-		}
 		
-		return batch;
 	}
 }

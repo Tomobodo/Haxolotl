@@ -74,13 +74,13 @@ class SpriteBatch implements IDrawable
 	public var empty : Bool;
 	
 	private static inline var MAX_SPRITE : Int = 16383;
+	
 	var tRegion : Rectangle;
 	var indexes:Array<Int>;
+	var nbDrawCall : Int;
 	
-	public function new(_texture : Texture) 
+	public function new() 
 	{
-		texture = _texture;
-		
 		stride = dataPerVertex * 4;
 		
 		vertexBuffer = GL.createBuffer();
@@ -132,68 +132,99 @@ class SpriteBatch implements IDrawable
 		colorAttribute = GL.getAttribLocation(program.program, "aColor");
 	}
 	
-	public function add(object : DisplayObject) : Bool
-	{
-		if (nbSprite < MAX_SPRITE)
-		{
-			if (first == null)
-			{
-				first = object;
-				last = object;
-			}
-			else
-			{
-				last.next = object;
-				object.prev = last;
-				last = object;
-			}
-			
-			nbSprite++;
-			empty = false;
-			return true;
-		}
-		full = true;
-		return false;
-	}
-	
-	public function remove(object : DisplayObject)
-	{
-		var element : DisplayObject = findObject(object);
-	
-		if(element != first)
-			element.prev.next = element.next;
-		else
-			first = element.next;
-			
-		if(element != last)
-			element.next.prev = element.prev;
-		else
-			last = element.prev;
-		
-		element.next = null;
-		element.prev = null;
-		
-		nbSprite--;
-		
-		if (nbSprite == 0)
-			empty = true;
-		full = false;
-	}
-	
-	public function findObject(object : DisplayObject) : DisplayObject
-	{
-		var element = first;
-		while (element != null)
-			if (element == object)
-				return element;
-			else
-				element = element.next;
-		return null;
-	}
-	
 	public function setProjectionMatrix(projection : Matrix3D) : Void
 	{
 		projectionMatrix = projection;
+	}
+	
+	public function start()
+	{
+		i = 0;
+		j = 0;
+		k = 0;
+		tRegion = null;
+		nbDrawCall = 0;
+	}
+	
+	public function render(object : DisplayObject)
+	{
+		if (object.texture != null)
+		{
+			if (object.texture.texture != texture)
+			{
+				flush();
+				texture = object.texture.texture;
+			}
+			
+			t = object.transform;
+			
+			x1 = 0;
+			x2 = object.baseWidth;
+			y1 = 0;
+			y2 = object.baseHeight;
+				
+			u1 = 0.0;
+			v1 = 0.0;
+			u2 = 1.0;
+			v2 = 1.0;
+			
+			if(object.texture != null)
+				tRegion = object.texture.region;
+			
+			if (tRegion != null)
+			{
+				u1 = tRegion.x;
+				v1 = tRegion.y;
+				u2 = tRegion.x + tRegion.width;
+				v2 = tRegion.y + tRegion.height;
+			}
+			
+			// top left
+			vertex[i++] = x1 * t.a + y1 * t.c + t.tx;
+			vertex[i++] = x1 * t.b + y1 * t.d + t.ty;
+			vertex[i++] = u1;
+			vertex[i++] = v1;
+			vertex[i++] = object.alpha;
+			vertex[i++] = object.color;
+			
+			// top right
+			vertex[i++] = x2 * t.a + y1 * t.c + t.tx;
+			vertex[i++] = x2 * t.b + y1 * t.d + t.ty;
+			vertex[i++] = u2;
+			vertex[i++] = v1;
+			vertex[i++] = object.alpha;
+			vertex[i++] = object.color;
+			
+			// bottom right
+			vertex[i++] = x2 * t.a + y2 * t.c + t.tx;
+			vertex[i++] = x2 * t.b + y2 * t.d + t.ty;
+			vertex[i++] = u2;
+			vertex[i++] = v2;
+			vertex[i++] = object.alpha;
+			vertex[i++] = object.color;
+			
+			// bottom left
+			vertex[i++] = x1 * t.a + y2 * t.c + t.tx;
+			vertex[i++] = x1 * t.b + y2 * t.d + t.ty;
+			vertex[i++] = u1;
+			vertex[i++] = v2;
+			vertex[i++] = object.alpha;
+			vertex[i++] = object.color;
+			
+			for (a in indexes)
+				index[j++] = a + k * 4;
+			
+			k++;
+		}
+		
+		if (object.children != null && object.children.length > 0)
+			for (child in object.children)
+				render(child);
+	}
+	
+	public function end()
+	{
+		flush();
 	}
 	
 	public function update()
@@ -273,6 +304,11 @@ class SpriteBatch implements IDrawable
 		GL.bufferSubData(GL.ARRAY_BUFFER, 0, vertex);
 	}
 	
+	private function flush()
+	{
+		nbDrawCall++;
+	}
+	
 	public function draw()
 	{
 		initDraw();
@@ -292,7 +328,7 @@ class SpriteBatch implements IDrawable
 		
 		GL.enable(GL.BLEND);
 		GL.blendFunc(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA);
-		//GL.disable(GL.DEPTH_TEST);
+		GL.disable(GL.DEPTH_TEST);
 		
 		GL.uniformMatrix3D(projectionUniform, false, projectionMatrix);
 		GL.uniform1i(textureUniform, 0);

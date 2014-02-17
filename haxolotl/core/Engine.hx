@@ -65,7 +65,7 @@ class Engine
 		new EventHandler(stage, stages);
 	}
 	
-	function render(viewport : Rectangle) : Void
+	function render(viewport : flash.geom.Rectangle) : Void
 	{
 		GL.viewport (Std.int (viewport.x), Std.int (viewport.y), Std.int (viewport.width), Std.int (viewport.height));
 		GL.clearColor (backGroundColor.r, backGroundColor.g, backGroundColor.b, 1);
