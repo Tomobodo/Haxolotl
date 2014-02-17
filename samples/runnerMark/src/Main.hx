@@ -8,6 +8,7 @@ import haxolotl.core.Font;
 import haxolotl.core.Stage;
 import haxolotl.core.Texture;
 import haxolotl.core.TextureAtlas;
+import haxolotl.core.TextureRegion;
 import haxolotl.display.Image;
 import haxolotl.display.TextField;
 
@@ -31,7 +32,13 @@ class Main extends Sprite
 	var prevTime : Int = 0;
 	
 	var bg : Array<Image>;
+	var ground : Array<Image>;
+	var groundX : Float;
 	var elapsed:Int;
+	
+	var runner : Image;
+	var runnerFrames : Array<TextureRegion>;
+	var runnerCurrentFrame : Int;
 	
 	public function new()
 	{
@@ -52,8 +59,8 @@ class Main extends Sprite
 		
 		statStage = new Stage();
 		
-		engine.add(runnerStage);
 		engine.add(statStage);
+		engine.add(runnerStage);
 		
 		statTxt = new TextField(Font.get("arial"), "FPS : " + fps + " Score : " + score, 0xFFFFFF);
 		statStage.add(statTxt);
@@ -61,6 +68,53 @@ class Main extends Sprite
 		atlas = new TextureAtlas(Texture.get("img/RunnerMark.png"), "img/RunnerMark.xml");
 		
 		initBg();
+		initRunner();
+		initGround();
+	}
+	
+	function initGround() 
+	{
+		ground = new Array<Image>();
+		groundX = 0;
+		for (i in 0 ... 4)
+		{
+			var newGround = new Image(atlas.get("groundTop"));
+			newGround.y = runnerStage.height - 32;
+			newGround.x = groundX + i * newGround.width;
+			ground.push(newGround);
+			runnerStage.add(newGround);
+		}
+	}
+	
+	function updateGround()
+	{
+		groundX -= 0.9 * elapsed;
+		if (groundX <= -ground[0].width)
+			groundX += ground[0].width;
+		for (i in 0 ... ground.length)
+		{
+			var current = ground[i];
+			current.x = groundX + i * (current.width - 3);
+		}
+	}
+	
+	function initRunner() 
+	{
+		runnerFrames = atlas.getAnimation("Runner.swf/");
+		runnerCurrentFrame = 0;
+		runner = new Image(runnerFrames[runnerCurrentFrame]);
+		runnerStage.add(runner);
+		runner.x = 20;
+		runner.y = runnerStage.height - runner.height - 30;
+	}
+	
+	function updateRunner()
+	{
+		runnerCurrentFrame++;
+		if (runnerCurrentFrame > runnerFrames.length - 1)
+			runnerCurrentFrame = 0;
+		runner.updateFrame(runnerFrames[runnerCurrentFrame]);
+		runner.x = 150 + Math.sin(prevTime / 1000) * 120;
 	}
 	
 	function initBg() 
@@ -77,7 +131,7 @@ class Main extends Sprite
 		{
 			background.height = runnerStage.height * .7 - 50;
 			background.scaleX = background.scaleY;
-			background.y = runnerStage.height - background.height;
+			background.y = runnerStage.height - background.height - 30;
 			runnerStage.add(background);
 		}
 		
@@ -117,6 +171,8 @@ class Main extends Sprite
 		}
 		
 		uppdateBg();
+		updateRunner();
+		updateGround();
 	}
 	
 	public static function main() 

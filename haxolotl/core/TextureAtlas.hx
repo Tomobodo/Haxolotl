@@ -45,10 +45,11 @@ class TextureAtlas
 	public function getAnimation(prefix : String) : Array<TextureRegion>
 	{
 		var rep : Array<TextureRegion> =  new Array<TextureRegion>();
+		var root = atlas.node.TextureAtlas;
 		for (subTexture in root.nodes.SubTexture)
 		{	
 			var name : String = subTexture.att.name;
-			if (name.indexOf(prefix) > 0)
+			if (name.indexOf(prefix) == 0)
 				rep.push(regionMap[name]);
 		}
 		
