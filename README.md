@@ -1,6 +1,6 @@
 #Haxolotl
 
-**Current version**: 0.5.1
+**Current version**: 0.5.2
 
 A simple game toolkit based on FLash API initialy created for learning purpose during the 28 th [**_Ludum Dare_**](http://www.ludumdare.com).
 The lib aims to offer a good crossplatform alternative to FLash by using webGL on browser and OpenGL on native app.
@@ -22,10 +22,10 @@ Firstly, as I said, this initialy was a learning project. I also was looking for
 - hardware accelerated 2d rendering
 - font rendering
 - flash style api
+- better sprite batch
 
 ###RoadMap
 
-- better sprite batch 
 - optimisation
 - migration to lime
 - canvas backend for iOs (c'mon Apple :( )
