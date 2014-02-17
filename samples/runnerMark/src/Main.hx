@@ -45,7 +45,7 @@ class Main extends Sprite
 	var addMonsterCounter : Int = 0;
 	
 	static private inline var GROUND_SPEED:Float = 0.4;
-	static private inline var FRAME_SAMPLE:Float = 20;
+	static private inline var FRAME_SAMPLE:Float = 30;
 	
 	public function new()
 	{
@@ -199,11 +199,11 @@ class Main extends Sprite
 		updateGround();
 		updateMonster();
 		
-		if (fps > 58)
+		if (fps >= 58)
 		{
 			score = fps * 10 + monsters.length;
 			
-			for(i in 0 ... 5)
+			for(i in 0 ... 1)
 				addMonster();
 		}
 	}
