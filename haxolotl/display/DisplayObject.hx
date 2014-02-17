@@ -6,6 +6,7 @@ import haxolotl.utils.Color;
 import haxolotl.core.Stage;
 import haxolotl.core.InteractiveObject;
 import msignal.Signal.Signal0;
+import msignal.Signal.Signal1;
 
 /**
  * ...
@@ -22,10 +23,10 @@ class DisplayObject extends InteractiveObject
 	public var next : DisplayObject;
 	public var prev : DisplayObject;
 	
-	public var ENTER_FRAME : Signal0;
-	
 	public var ADDED : Signal0;
 	public var REMOVED : Signal0;
+	
+	public var UPDATED : Signal1<Float>;
 	
 	// not proud of it
 	public var children : Array<DisplayObject>;
@@ -40,14 +41,15 @@ class DisplayObject extends InteractiveObject
 		
 		color = 0xffffff;
 		
-		ENTER_FRAME = new Signal0();
 		ADDED = new Signal0();
 		REMOVED = new Signal0();
+		
+		UPDATED = new Signal1<Float>();
 	}
 	
-	public function update()
+	public function update(deltaTime : Float)
 	{
-		ENTER_FRAME.dispatch();
+		UPDATED.dispatch(deltaTime);
 	}
 	
 	public function __onAddedToStage()
@@ -64,7 +66,7 @@ class DisplayObject extends InteractiveObject
 	{
 		if (parent != null)
 			return _alpha * parent.alpha;
-		return _alpha;
+		return  _alpha;
 	}
 	
 	public function set_alpha(alpha : Float) : Float

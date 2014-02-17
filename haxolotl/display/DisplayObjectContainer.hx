@@ -35,11 +35,11 @@ class DisplayObjectContainer extends DisplayObject
 		}
 	}
 	
-	override public function update()
+	override public function update(deltaTime : Float)
 	{
-		super.update();
+		super.update(deltaTime);
 		for (child in children)
-			child.update();
+			child.update(deltaTime);
 	}
 	
 	public function remove(child : DisplayObject)

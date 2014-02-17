@@ -2,6 +2,7 @@ package haxolotl.core;
 import flash.geom.Matrix3D;
 import haxolotl.geom.Rectangle;
 import haxolotl.display.DisplayObject;
+import msignal.Signal.Signal0;
 import openfl.gl.GL;
 import haxolotl.core.IDrawable;
 import haxolotl.core.Engine;

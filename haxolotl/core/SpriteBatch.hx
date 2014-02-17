@@ -19,9 +19,6 @@ class SpriteBatch
 {
 	var texture : Texture;
 	
-	var first : DisplayObject;
-	var last : DisplayObject;
-	
 	var vertex : Float32Array;
 	var index : Int16Array;
 	
@@ -56,19 +53,18 @@ class SpriteBatch
 	var v1 : Float;
 	var v2 : Float;
 	
+	var color : Float;
+	var alpha : Float;
+	
 	// vertex data index
 	var vdi : Int;
 	
 	var t : Matrix;
 	
-	public var next : SpriteBatch;
-	public var prev : SpriteBatch;
-	
-	public var full : Bool;
 	public var empty : Bool;
 	
 	// maximum sprite number for a single draw call (max 16383 : 0xffff / 4)
-	private static inline var MAX_SPRITE : Int = 1000;
+	private static inline var MAX_SPRITE : Int = 2500;
 	
 	var tRegion : Rectangle;
 	var indexes:Array<Int>;
@@ -107,7 +103,6 @@ class SpriteBatch
 		GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, indexBuffer);
 		GL.bufferData(GL.ELEMENT_ARRAY_BUFFER, index, GL.STATIC_DRAW);
 		
-		full = false;
 		empty = true;
 		
 		program.use();
@@ -236,6 +231,9 @@ class SpriteBatch
 			u2 = 1.0;
 			v2 = 1.0;
 			
+			color = object.color;
+			alpha = object.alpha;
+			
 			if(object.texture != null)
 				tRegion = object.texture.region;
 			
@@ -252,32 +250,32 @@ class SpriteBatch
 			vertex[vdi++] = x1 * t.b + y1 * t.d + t.ty;
 			vertex[vdi++] = u1;
 			vertex[vdi++] = v1;
-			vertex[vdi++] = object.alpha;
-			vertex[vdi++] = object.color;
+			vertex[vdi++] = alpha;
+			vertex[vdi++] = color;
 			
 			// top right
 			vertex[vdi++] = x2 * t.a + y1 * t.c + t.tx;
 			vertex[vdi++] = x2 * t.b + y1 * t.d + t.ty;
 			vertex[vdi++] = u2;
 			vertex[vdi++] = v1;
-			vertex[vdi++] = object.alpha;
-			vertex[vdi++] = object.color;
+			vertex[vdi++] = alpha;
+			vertex[vdi++] = color;
 			
 			// bottom right
 			vertex[vdi++] = x2 * t.a + y2 * t.c + t.tx;
 			vertex[vdi++] = x2 * t.b + y2 * t.d + t.ty;
 			vertex[vdi++] = u2;
 			vertex[vdi++] = v2;
-			vertex[vdi++] = object.alpha;
-			vertex[vdi++] = object.color;
+			vertex[vdi++] = alpha;
+			vertex[vdi++] = color;
 			
 			// bottom left
 			vertex[vdi++] = x1 * t.a + y2 * t.c + t.tx;
 			vertex[vdi++] = x1 * t.b + y2 * t.d + t.ty;
 			vertex[vdi++] = u1;
 			vertex[vdi++] = v2;
-			vertex[vdi++] = object.alpha;
-			vertex[vdi++] = object.color;
+			vertex[vdi++] = alpha;
+			vertex[vdi++] = color;
 			
 			if (nbSprite >= MAX_SPRITE) flush();
 		}

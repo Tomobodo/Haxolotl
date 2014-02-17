@@ -23,11 +23,10 @@ class Monster extends Image
 		currentFrame = 0;
 		vity = 0;
 		super(frames[currentFrame]);
-		ENTER_FRAME.add(onEnterFrame);
 		bounceRate = cast Math.random() * 1000;
 	}
 	
-	function onEnterFrame() 
+	override public function update(deltaTime : Float) 
 	{
 		currentFrame++;
 		if (currentFrame == frames.length)
@@ -39,8 +38,8 @@ class Monster extends Image
 			
 		bounceCount ++;
 		
-		vity += 0.5;
-		y += vity;
+		vity += 15;
+		y += vity * deltaTime;
 		
 		if (y > stage.height - 30 - height)
 		{
@@ -58,7 +57,7 @@ class Monster extends Image
 	
 	function bounce()
 	{
-		vity -= 15;
+		vity -= 500;
 	}
 	
 }

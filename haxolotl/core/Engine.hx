@@ -2,6 +2,8 @@ package haxolotl.core;
 
 import flash.display.Sprite;
 import flash.events.Event;
+import flash.Lib;
+import haxe.Timer;
 import haxolotl.geom.Rectangle;
 import haxolotl.utils.Color;
 import openfl.display.OpenGLView;
@@ -38,6 +40,10 @@ class Engine
 	
 	var spriteBatch : SpriteBatch;
 	
+	var lastTime:Int = 0;
+	
+	static private inline var TIME_STEP : Int = 16;
+	
 	public function new(_stage : flash.display.Stage) 
 	{
 		scaleMode = Scale;
@@ -56,6 +62,7 @@ class Engine
 	function init() : Void
 	{
 		stage.addEventListener(Event.RESIZE, onResize);
+		stage.addEventListener(Event.ENTER_FRAME, update);
 		
 		glView = new OpenGLView();
 		glView.render = render;
@@ -69,16 +76,22 @@ class Engine
 		new EventHandler(stage, stages);
 	}
 	
+	function update(e : Event)
+	{
+		var deltaTime : Float = (Lib.getTimer() - lastTime) / 1000;
+		lastTime = Lib.getTimer();
+		for (stage in stages)
+			stage.update(deltaTime);
+	}
+	
 	function render(viewport : flash.geom.Rectangle) : Void
 	{
-		GL.viewport (Std.int (viewport.x), Std.int (viewport.y), Std.int (viewport.width), Std.int (viewport.height));
+		//GL.viewport (Std.int (viewport.x), Std.int (viewport.y), Std.int (viewport.width), Std.int (viewport.height));
 		GL.clearColor (backGroundColor.r, backGroundColor.g, backGroundColor.b, 1);
 		GL.clear (GL.COLOR_BUFFER_BIT | GL.DEPTH_BUFFER_BIT);
 		
 		for (stage in stages)
 		{
-			stage.update();
-			
 			spriteBatch.setProjectionMatrix(stage.projectionMatrix);
 			spriteBatch.start();
 			spriteBatch.render(stage);
@@ -95,7 +108,7 @@ class Engine
 	function onResize(e:Event):Void 
 	{
 		initEventCatcher();
-		if (scaleMode != NoScale)
+		if (scaleMode == NoScale)
 		{
 			viewport = new Rectangle(0, 0, stage.stageWidth, stage.stageHeight);
 			for (stage in stages)
@@ -116,7 +129,6 @@ class Engine
 		eventCatcher.graphics.beginFill(0, 0);
 		eventCatcher.graphics.drawRect(0, 0,stage.stageWidth,stage.stageHeight);
 		eventCatcher.graphics.endFill();
-		
 	}
 	
 	public function add(stage : haxolotl.core.Stage)

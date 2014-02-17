@@ -27,14 +27,12 @@ class Main extends Sprite
 	
 	var score : Int = 0;
 	var fps : Int = 0;
-	var lastXFrameTime : Int = 0;
+	var lastXFrameTime : Float = 0;
 	var nbFrame : Int = 0;
-	var prevTime : Int = 0;
 	
 	var bg : Array<Image>;
 	var ground : Array<Image>;
 	var groundX : Float;
-	var elapsed:Int;
 	
 	var runner : Image;
 	var runnerFrames : Array<TextureRegion>;
@@ -44,7 +42,7 @@ class Main extends Sprite
 	
 	var addMonsterCounter : Int = 0;
 	
-	static private inline var GROUND_SPEED:Float = 0.4;
+	static private inline var GROUND_SPEED:Float = 250;
 	static private inline var FRAME_SAMPLE:Float = 30;
 	
 	public function new()
@@ -62,7 +60,7 @@ class Main extends Sprite
 		engine.backGroundColor.set(0);
 		
 		runnerStage = new Stage();
-		runnerStage.ENTER_FRAME.add(onRunnerEnterFrame);
+		runnerStage.UPDATED.add(onRunnerUpdate);
 		
 		statStage = new Stage();
 		
@@ -90,10 +88,10 @@ class Main extends Sprite
 		runnerStage.add(monster);
 	}
 	
-	function updateMonster()
+	function updateMonster(deltaTime : Float)
 	{
 		for (monster in monsters)
-			monster.x -= GROUND_SPEED * elapsed;
+			monster.x -= GROUND_SPEED * deltaTime;
 	}
 	
 	function initGround() 
@@ -110,9 +108,9 @@ class Main extends Sprite
 		}
 	}
 	
-	function updateGround()
+	function updateGround(deltaTime : Float)
 	{
-		groundX -= GROUND_SPEED * elapsed;
+		groundX -= GROUND_SPEED * deltaTime;
 		if (groundX <= -ground[0].width)
 			groundX += ground[0].width;
 		for (i in 0 ... ground.length)
@@ -132,13 +130,13 @@ class Main extends Sprite
 		runner.y = runnerStage.height - runner.height - 30;
 	}
 	
-	function updateRunner()
+	function updateRunner(deltaTime : Float)
 	{
 		runnerCurrentFrame++;
 		if (runnerCurrentFrame > runnerFrames.length - 1)
 			runnerCurrentFrame = 0;
 		runner.updateFrame(runnerFrames[runnerCurrentFrame]);
-		runner.x = 150 + Math.sin(prevTime / 1000) * 120;
+		runner.x = 150 + Math.sin(Lib.getTimer() / 1000) * 120;
 	}
 	
 	function initBg() 
@@ -163,7 +161,7 @@ class Main extends Sprite
 		bg[3].x = bg[3].width;
 	}
 	
-	function uppdateBg()
+	function uppdateBg(elapsed : Float)
 	{
 		var a : Int = 0;
 		for (background in bg)
@@ -178,26 +176,24 @@ class Main extends Sprite
 		}
 	}
 	
-	function onRunnerEnterFrame() 
+	function onRunnerUpdate(deltaTime : Float) 
 	{
 		statTxt.text = "FPS : " + fps + " Score : " + score;
 		
-		elapsed = Lib.getTimer() - prevTime;
-		prevTime = Lib.getTimer();
-		lastXFrameTime += elapsed;
+		lastXFrameTime += deltaTime;
 		nbFrame++;
 		if (nbFrame == FRAME_SAMPLE)
 		{
 			var moy = lastXFrameTime / FRAME_SAMPLE;
-			fps = Std.int((1 / moy) * 1000);
+			fps = Std.int((1 / moy));
 			nbFrame = 0;
 			lastXFrameTime = 0;
 		}
 		
-		uppdateBg();
-		updateRunner();
-		updateGround();
-		updateMonster();
+		uppdateBg(deltaTime);
+		updateRunner(deltaTime);
+		updateGround(deltaTime);
+		updateMonster(deltaTime);
 		
 		if (fps >= 58)
 		{
