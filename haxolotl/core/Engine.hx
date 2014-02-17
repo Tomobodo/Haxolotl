@@ -36,6 +36,8 @@ class Engine
 	
 	var viewport : Rectangle;
 	
+	var spriteBatch : SpriteBatch;
+	
 	public function new(_stage : flash.display.Stage) 
 	{
 		scaleMode = Scale;
@@ -62,6 +64,8 @@ class Engine
 		
 		initEventCatcher();
 		
+		spriteBatch = new SpriteBatch();
+		
 		new EventHandler(stage, stages);
 	}
 	
@@ -74,7 +78,11 @@ class Engine
 		for (stage in stages)
 		{
 			stage.update();
-			stage.draw();
+			
+			spriteBatch.setProjectionMatrix(stage.projectionMatrix);
+			spriteBatch.start();
+			spriteBatch.render(stage);
+			spriteBatch.end();
 		}
 		
 		#if debug

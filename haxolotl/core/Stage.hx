@@ -12,15 +12,13 @@ import openfl.utils.Float32Array;
  * ...
  * @author Thomas BAUDON
  */
-class Stage extends DisplayObjectContainer implements IDrawable
+class Stage extends DisplayObjectContainer
 {
 	var drawableChildren : List<IDrawable>;
 	
 	var interractiveChildren : List<InteractiveObject>;
 	
 	var viewport : Rectangle;
-	
-	var spriteBatch : SpriteBatch;
 	
 	public var projectionMatrix : Matrix3D;
 
@@ -29,31 +27,15 @@ class Stage extends DisplayObjectContainer implements IDrawable
 		super();
 		interactive = true;
 		stage = this;
-		spriteBatch = new SpriteBatch();
-		drawableChildren = new List<IDrawable>();
+		
 		interractiveChildren = new List<InteractiveObject>();
 	}
 	
 	public function setViewport(_viewport : Rectangle)
 	{
 		projectionMatrix = Matrix3D.createOrtho(_viewport.x, _viewport.width, _viewport.height, _viewport.y, 1000, -1000);
-		spriteBatch.setProjectionMatrix(projectionMatrix);
 		baseWidth = _viewport.width;
 		baseHeight = _viewport.height;
-	}
-	
-	public function draw():Void 
-	{
-		spriteBatch.start();
-		spriteBatch.render(this);
-		spriteBatch.end();
-	}
-	
-	override public function update()
-	{
-		for (child in children)
-			child.update();
-		super.update();
 	}
 	
 	override public function add(_child : DisplayObject)
@@ -137,12 +119,5 @@ class Stage extends DisplayObjectContainer implements IDrawable
 	override public function get_height() : Float
 	{
 		return baseHeight;
-	}
-	
-	/* INTERFACE haxolotl.core.IDrawable */
-	
-	public function setProjectionMatrix(projection:Matrix3D):Void 
-	{
-		
 	}
 }

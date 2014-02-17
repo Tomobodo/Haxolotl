@@ -68,7 +68,7 @@ class SpriteBatch
 	public var empty : Bool;
 	
 	// maximum sprite number for a single draw call (max 16383 : 0xffff / 4)
-	private static inline var MAX_SPRITE : Int = 5000;
+	private static inline var MAX_SPRITE : Int = 1000;
 	
 	var tRegion : Rectangle;
 	var indexes:Array<Int>;
@@ -168,8 +168,7 @@ class SpriteBatch
 	private function flush()
 	{
 		// bind texture and buffer
-		GL.bindBuffer(GL.ARRAY_BUFFER, vertexBuffer);
-		GL.bufferSubData(GL.ARRAY_BUFFER, 0, vertex);
+		GL.bufferData(GL.ARRAY_BUFFER, vertex, GL.DYNAMIC_DRAW);
 		
 		if (texture != null)
 		{

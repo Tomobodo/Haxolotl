@@ -202,9 +202,7 @@ class Main extends Sprite
 		if (fps >= 58)
 		{
 			score = fps * 10 + monsters.length;
-			
-			for(i in 0 ... 1)
-				addMonster();
+			addMonster();
 		}
 	}
 	

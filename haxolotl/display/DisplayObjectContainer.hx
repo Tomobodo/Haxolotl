@@ -35,6 +35,13 @@ class DisplayObjectContainer extends DisplayObject
 		}
 	}
 	
+	override public function update()
+	{
+		super.update();
+		for (child in children)
+			child.update();
+	}
+	
 	public function remove(child : DisplayObject)
 	{
 		child.parent = null;
