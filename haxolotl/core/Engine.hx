@@ -77,9 +77,11 @@ class Engine
 			stage.draw();
 		}
 		
+		#if debug
 		var glError = GL.getError();
 		if (glError != 0)
 			trace(glError);
+		#end
 	}
 	
 	function onResize(e:Event):Void 
