@@ -67,7 +67,7 @@ class SpriteBatch
 	public var full : Bool;
 	public var empty : Bool;
 	
-	// maximum sprite number for a single draw call (max 16383)
+	// maximum sprite number for a single draw call (max 16383 : 0xffff / 4)
 	private static inline var MAX_SPRITE : Int = 10000;
 	
 	var tRegion : Rectangle;
@@ -216,7 +216,6 @@ class SpriteBatch
 	{
 		if (object.texture != null)
 		{
-			
 			if (object.texture.texture != texture)
 			{
 				// don't need to flush if there is nothing to draw
