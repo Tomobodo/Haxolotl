@@ -84,7 +84,7 @@ class Main extends Sprite
 	function addMonster() 
 	{
 		var monster = new Monster();
-		monster.x = runnerStage.width;
+		monster.x = runnerStage.width + 20 + cast Math.random() * 300;
 		monsters.push(monster);
 		runnerStage.add(monster);
 	}
@@ -198,17 +198,12 @@ class Main extends Sprite
 		updateGround();
 		updateMonster();
 		
-		addMonsterCounter++;
-		
 		if (fps > 58)
 		{
 			score = fps * 10 + monsters.length;
 			
-			if (addMonsterCounter >= 30)
-			{
-				addMonsterCounter = 0;
+			for(i in 0 ... 5)
 				addMonster();
-			}
 		}
 	}
 	

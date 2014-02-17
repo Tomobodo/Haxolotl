@@ -127,13 +127,20 @@ class InteractiveObject
 	public function get_transform() : Matrix
 	{
 		_transform.identity();
+		if (scaleX != 1 || scaleY != 1 || rotation != 1)
+		{
+			_transform.translate( -pivotX, -pivotY);
+			_transform.scale(scaleX, scaleY);
+			_transform.rotate(rotation);
+			_transform.translate(x, y);
+		}
+		else
+		{
+			_transform.tx = x - pivotX;
+			_transform.ty = y - pivotY;
+		}
 		
-		_transform.translate( -pivotX, -pivotY);
-		_transform.scale(scaleX, scaleY);
-		_transform.rotate(rotation);
-		_transform.translate(x, y);
-		
-		if (parent != null)
+		if (parent != null && parent != stage)
 			_transform.concat(parent.transform);
 		
 		return _transform;
