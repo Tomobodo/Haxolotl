@@ -127,7 +127,7 @@ class InteractiveObject
 	public function get_transform() : Matrix
 	{
 		_transform.identity();
-		if (scaleX != 1 || scaleY != 1 || rotation != 1)
+		if (scaleX != 1 || scaleY != 1 || rotation != 0)
 		{
 			_transform.translate( -pivotX, -pivotY);
 			_transform.scale(scaleX, scaleY);

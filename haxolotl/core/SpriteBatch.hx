@@ -68,7 +68,7 @@ class SpriteBatch
 	public var empty : Bool;
 	
 	// maximum sprite number for a single draw call (max 16383 : 0xffff / 4)
-	private static inline var MAX_SPRITE : Int = 10000;
+	private static inline var MAX_SPRITE : Int = 5000;
 	
 	var tRegion : Rectangle;
 	var indexes:Array<Int>;

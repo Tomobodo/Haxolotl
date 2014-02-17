@@ -45,6 +45,7 @@ class Main extends Sprite
 	var addMonsterCounter : Int = 0;
 	
 	static private inline var GROUND_SPEED:Float = 0.4;
+	static private inline var FRAME_SAMPLE:Float = 20;
 	
 	public function new()
 	{
@@ -185,9 +186,9 @@ class Main extends Sprite
 		prevTime = Lib.getTimer();
 		lastXFrameTime += elapsed;
 		nbFrame++;
-		if (nbFrame == 60)
+		if (nbFrame == FRAME_SAMPLE)
 		{
-			var moy = lastXFrameTime / 60;
+			var moy = lastXFrameTime / FRAME_SAMPLE;
 			fps = Std.int((1 / moy) * 1000);
 			nbFrame = 0;
 			lastXFrameTime = 0;
