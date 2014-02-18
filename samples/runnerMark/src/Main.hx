@@ -27,7 +27,8 @@ class Main extends Sprite
 	var statStage:Stage;
 	
 	var score : Int = 0;
-	var fps : Int = 0;
+	var scoreTxt : Text;
+	var fps : FPS;
 	var lastXFrameTime : Float = 0;
 	var nbFrame : Int = 0;
 	
@@ -68,7 +69,14 @@ class Main extends Sprite
 		engine.add(statStage);
 		engine.add(runnerStage);
 		
-		statStage.add(new FPS(new TextFormat("arial",0xffffff,24)));
+		var format = new TextFormat("arial", 0xffffff, 24);
+		
+		fps = new FPS(format);
+		statStage.add(fps);
+		
+		scoreTxt = new Text("Score : ", format);
+		statStage.add(scoreTxt);
+		scoreTxt.x = 200;
 		
 		atlas = new TextureAtlas(Texture.get("img/RunnerMark.png"), "img/RunnerMark.xml");
 		
@@ -180,22 +188,16 @@ class Main extends Sprite
 	{
 		lastXFrameTime += deltaTime;
 		nbFrame++;
-		if (nbFrame == FRAME_SAMPLE)
-		{
-			var moy = lastXFrameTime / FRAME_SAMPLE;
-			fps = Std.int((1 / moy));
-			nbFrame = 0;
-			lastXFrameTime = 0;
-		}
 		
 		uppdateBg(deltaTime);
 		updateRunner(deltaTime);
 		updateGround(deltaTime);
 		updateMonster(deltaTime);
 		
-		if (fps >= 58)
+		if (fps.fps >= 58)
 		{
-			score = fps * 10 + monsters.length;
+			score = fps.fps * 10 + monsters.length;
+			scoreTxt.text = "Score : " + score;
 			addMonster();
 		}
 	}

@@ -26,14 +26,26 @@ Firstly, as I said, this initialy was a learning project. I also was looking for
 - texture atlas
 - basic animation
 
+###In progress 
+
+- multithreaded game loop (workers / Threads)
+- texts
+- textformat
+- css style text styling 
+- optimisation
+
 ###RoadMap
 
-- multithreaded game loop
+- particle system
 - better animation handling
-- optimisation
+- google analitycs
+- social integration
 - migration to lime
 - canvas backend for iOs (c'mon Apple :( )
 - 3d rendering 
+- shader tool (graphic programming)
+- translation tool
+- entity / system
 
 ###Install 
 
