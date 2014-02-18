@@ -15,6 +15,9 @@ class Font
 	private var glyphs : Array<Glyph>;
 	
 	private static var cache = new Map<String, Font>();
+	
+	public var size(get_size, null) : Int;
+	private var _size : Int;
 
 	public function new(name : String) 
 	{
@@ -22,6 +25,9 @@ class Font
 		descriptor = new Fast(Xml.parse(Assets.getText("fonts/" + name + ".fnt")));
 		
 		var root = descriptor.node.font;
+		var info = root.node.info;
+		_size = Std.parseInt(info.att.size);
+		
 		var chars = root.node.chars;
 		
 		glyphs = new Array<Glyph>();
@@ -59,4 +65,8 @@ class Font
 		else return getGlyph('0');
 	}
 	
+	public function get_size() : Int
+	{
+		return _size;
+	}
 }
