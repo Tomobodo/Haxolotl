@@ -5,11 +5,13 @@ import flash.events.Event;
 import flash.Lib;
 import flash.text.TextField;
 import haxolotl.core.Engine;
+import haxolotl.core.Font;
 import haxolotl.core.InteractiveObject;
 import haxolotl.core.Stage;
 import haxolotl.core.Texture;
 import haxolotl.core.TextureAtlas;
 import haxolotl.display.Image;
+import haxolotl.utils.FPS;
 
 /**
  * ...
@@ -49,31 +51,33 @@ class Main extends Sprite
 		engine.add(sampleStage);
 		
 		mouth = new Image(atlas.get("lol2"));
+		mouth.interactive = true;
+		
 		sampleStage.add(mouth);
 		
 		mouth.PRESSED.add(mouthPressed);
 		mouth.RELEASED.add(mouthReleased);
 		mouth.LEAVED.add(mouthReleased);
+		
+		sampleStage.add(new FPS(Font.get("arial")));
 	}
 	
 	function stageEnterFrame(deltaTime : Float) 
 	{
 		if (mouseDown)
-		{
 			for (i in 0 ... 20)
 				sampleStage.add(new Bunny());
-		}
 	}
 	
 	function mouthReleased(target : InteractiveObject) 
 	{
-		mouth.texture = atlas.get("lol2");
+		mouth.updateFrame(atlas.get("lol2"));
 		mouseDown = false;
 	}
 	
 	function mouthPressed(target : InteractiveObject) 
 	{
-		mouth.texture = atlas.get("lol");
+		mouth.updateFrame(atlas.get("lol"));
 		mouseDown = true;
 	}
 

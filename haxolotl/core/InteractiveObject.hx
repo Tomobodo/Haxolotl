@@ -13,7 +13,7 @@ class InteractiveObject
 {
 	public var stage : Stage;
 	
-	public var interactive(get_interactive, set_interactive) : Bool;
+	public var interactive : Bool;
 	
 	public var x : Float;
 	public var y : Float;
@@ -47,16 +47,19 @@ class InteractiveObject
 	
 	public var transform(get_transform, null) : Matrix;
 	
-	
 	public var baseWidth : Float;
 	public var baseHeight : Float;
 	
-	var _interactive : Bool;
 	var _transform : Matrix;
 	var hover : Bool;
 
 	public function new() 
 	{
+		PRESSED = new Signal1<InteractiveObject>();
+		RELEASED = new Signal1<InteractiveObject>();
+		HOVERED = new Signal1<InteractiveObject>();
+		LEAVED = new Signal1<InteractiveObject>();
+			
 		x = 0;
 		y = 0;
 		
@@ -165,22 +168,5 @@ class InteractiveObject
 	{
 		scaleY = value / baseHeight;
 		return height;
-	}
-	
-	function get_interactive() : Bool
-	{
-		return _interactive;
-	}
-	
-	function set_interactive(value : Bool) : Bool
-	{
-		if (value = true && PRESSED == null)
-		{
-			PRESSED = new Signal1<InteractiveObject>();
-			RELEASED = new Signal1<InteractiveObject>();
-			HOVERED = new Signal1<InteractiveObject>();
-			LEAVED = new Signal1<InteractiveObject>();
-		}
-		return _interactive = value;
 	}
 }
