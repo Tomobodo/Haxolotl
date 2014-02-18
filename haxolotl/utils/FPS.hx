@@ -1,12 +1,13 @@
 package haxolotl.utils;
-import haxolotl.core.Font;
-import haxolotl.display.TextField;
+import haxolotl.text.Font;
+import haxolotl.text.Text;
+import haxolotl.text.TextFormat;
 
 /**
  * ...
  * @author Thomas B
  */
-class FPS extends TextField
+class FPS extends Text
 {
 	
 	var sampleSize : UInt;
@@ -15,9 +16,9 @@ class FPS extends TextField
 	
 	public var fps : UInt;
 	
-	public function new(font : Font, size : UInt = 12, color : UInt = 0x000000, _sampleSize : UInt = 60) 
+	public function new(format : TextFormat, _sampleSize : UInt = 30) 
 	{
-		super(font, "FPS : ", color);
+		super( "FPS : ", format);
 		sampleSize = _sampleSize;
 		sampleSum = 0;
 		UPDATED.add(onUpdated);

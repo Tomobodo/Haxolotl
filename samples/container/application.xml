@@ -19,6 +19,7 @@
 	
 	<!-- assets -->
 	<assets path="../assets/img" rename="img" />
+	<assets path="../assets/fonts" rename="fonts" />
 	
 	<!-- optimize output
 	<haxeflag name="-dce full" /> -->

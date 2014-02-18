@@ -3,14 +3,14 @@ package ;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.Lib;
-import flash.text.TextField;
 import haxolotl.core.Engine;
-import haxolotl.core.Font;
+import haxolotl.text.Font;
 import haxolotl.core.InteractiveObject;
 import haxolotl.core.Stage;
 import haxolotl.core.Texture;
 import haxolotl.core.TextureAtlas;
 import haxolotl.display.Image;
+import haxolotl.text.TextFormat;
 import haxolotl.utils.FPS;
 
 /**
@@ -59,7 +59,7 @@ class Main extends Sprite
 		mouth.RELEASED.add(mouthReleased);
 		mouth.LEAVED.add(mouthReleased);
 		
-		sampleStage.add(new FPS(Font.get("arial")));
+		sampleStage.add(new FPS(new TextFormat("arial")));
 	}
 	
 	function stageEnterFrame(deltaTime : Float) 

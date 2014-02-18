@@ -4,13 +4,15 @@ import flash.display.Sprite;
 import flash.events.Event;
 import flash.Lib;
 import haxolotl.core.Engine;
-import haxolotl.core.Font;
+import haxolotl.text.Font;
 import haxolotl.core.Stage;
 import haxolotl.core.Texture;
 import haxolotl.core.TextureAtlas;
 import haxolotl.core.TextureRegion;
 import haxolotl.display.Image;
-import haxolotl.display.TextField;
+import haxolotl.text.Text;
+import haxolotl.text.TextFormat;
+import haxolotl.utils.FPS;
 
 /**
  * ...
@@ -23,7 +25,6 @@ class Main extends Sprite
 	var runnerStage:Stage;
 	public static var atlas:TextureAtlas;
 	var statStage:Stage;
-	var statTxt:TextField;
 	
 	var score : Int = 0;
 	var fps : Int = 0;
@@ -67,8 +68,7 @@ class Main extends Sprite
 		engine.add(statStage);
 		engine.add(runnerStage);
 		
-		statTxt = new TextField(Font.get("arial"), "FPS : " + fps + " Score : " + score, 0xFFFFFF);
-		statStage.add(statTxt);
+		statStage.add(new FPS(new TextFormat("arial",0xffffff,24)));
 		
 		atlas = new TextureAtlas(Texture.get("img/RunnerMark.png"), "img/RunnerMark.xml");
 		
@@ -178,8 +178,6 @@ class Main extends Sprite
 	
 	function onRunnerUpdate(deltaTime : Float) 
 	{
-		statTxt.text = "FPS : " + fps + " Score : " + score;
-		
 		lastXFrameTime += deltaTime;
 		nbFrame++;
 		if (nbFrame == FRAME_SAMPLE)

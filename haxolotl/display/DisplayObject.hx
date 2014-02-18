@@ -20,9 +20,6 @@ class DisplayObject extends InteractiveObject
 	public var prim : Primitive;
 	public var texture : TextureRegion;
 	
-	public var next : DisplayObject;
-	public var prev : DisplayObject;
-	
 	public var ADDED : Signal0;
 	public var REMOVED : Signal0;
 	

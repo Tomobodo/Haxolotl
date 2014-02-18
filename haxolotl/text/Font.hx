@@ -1,4 +1,4 @@
-package haxolotl.core;
+package haxolotl.text;
 
 import haxe.xml.Fast;
 import haxolotl.core.Texture;

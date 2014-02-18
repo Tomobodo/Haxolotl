@@ -10,6 +10,8 @@ import haxolotl.core.Texture;
 import haxolotl.core.TextureAtlas;
 import haxolotl.display.DisplayObjectContainer;
 import haxolotl.display.Image;
+import haxolotl.text.TextFormat;
+import haxolotl.utils.FPS;
 
 /**
  * ...
@@ -51,7 +53,7 @@ class Main extends Sprite
 			var bunny = new Image(atlas.get("bunny"));
 			bunny.pivotX = bunny.width / 2;
 			bunny.pivotY = bunny.height / 2;
-			bunny.color = cast Math.random() * 0xffffff;
+			bunny.color = Std.int(Math.random() * 0xffffff);
 			
 			bunny.x = 100 * Math.cos(i * angleStep);
 			bunny.y = 100 * Math.sin(i * angleStep);
@@ -65,6 +67,8 @@ class Main extends Sprite
 		container.y = sampleScene.height / 2;
 		
 		container.PRESSED.add(onContainerPressed);
+		
+		sampleScene.add(new FPS(new TextFormat("arial", 0, 12)));
 		
 		time = 0;
 	}

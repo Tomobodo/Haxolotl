@@ -6,8 +6,12 @@ import flash.Lib;
 import haxolotl.core.Engine;
 import haxolotl.core.InteractiveObject;
 import haxolotl.core.Stage;
-import haxolotl.display.TextField;
-import haxolotl.core.Font;
+import haxolotl.text.Font;
+import haxolotl.text.Letter;
+import haxolotl.text.Text;
+import haxolotl.text.TextFormat;
+import haxolotl.text.Word;
+import haxolotl.utils.FPS;
 
 /**
  * ...
@@ -17,7 +21,7 @@ import haxolotl.core.Font;
 class Main extends Sprite 
 {
 	var engine : Engine;
-	var text:haxolotl.display.TextField;
+	var text:haxolotl.text.Text;
 	var sampleStage:Stage;
 	
 	var texts : Array<String>;
@@ -26,6 +30,7 @@ class Main extends Sprite
 	var currentText:Int;
 	
 	var angleStep : Float; 
+	var format:haxolotl.text.TextFormat;
 	
 	public function new()
 	{
@@ -51,6 +56,7 @@ class Main extends Sprite
 		texts[i++] = "J'aime les lapins!";
 		texts[i++] = "J'aime Haxolotl!";
 		texts[i++] = "Tu aimes Haxolotl!";
+		texts[i++] = "This is a very long text with\nmultiple line.\nI don't know what to write!\nBLABLABLA";
 		
 		engine = new Engine(stage);
 		
@@ -59,14 +65,29 @@ class Main extends Sprite
 		
 		currentText = 0;
 		
-		text = new TextField(Font.get("pr_agamemnon"), getText(), 0xff0000);
+		format = new TextFormat("arial", 0, 24);
+		var format2 = new TextFormat("pr_agamemnon", 0x9999ff, 40);
+		
+		text = new Text(getText(), format);
 		sampleStage.add(text);
+		
+		sampleStage.add(new FPS(format2));
 		
 		sampleStage.UPDATED.add(onEnterFrame);
 		
 		angle = 0;
 		
+		text.interactive = true;
 		text.HOVERED.add(onTextPressed);
+	
+		var laStr = "Haxolotl is a multiplatform Haxe\n" +
+					"game engine. Its main goal is to\n" +
+					"change multiplatform game making\n"  +
+					"into an easy task...\n";
+		
+		var describe : Text = new Text(laStr, format2);
+		describe.y = 100;
+		sampleStage.add(describe);
 	}
 	
 	function onEnterFrame(deltaTime : Float) 
@@ -76,7 +97,7 @@ class Main extends Sprite
 		if (angle >= Math.PI * 2)
 		{
 			angle = 0;
-			text.color = cast Math.random() * 0xffffff;
+			format.color = cast Math.random() * 0xffffff;
 			text.text = getText();
 		}
 		

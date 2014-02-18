@@ -1,6 +1,8 @@
-package haxolotl.core;
+package haxolotl.text;
 
+import haxolotl.core.TextureRegion;
 import haxolotl.geom.Rectangle;
+import haxolotl.core.Texture;
 
 /**
  * ...

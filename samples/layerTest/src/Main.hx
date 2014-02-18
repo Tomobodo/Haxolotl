@@ -4,12 +4,13 @@ import flash.display.Sprite;
 import flash.events.Event;
 import flash.Lib;
 import haxolotl.core.Engine;
-import haxolotl.core.Font;
+import haxolotl.text.Font;
 import haxolotl.core.Stage;
 import haxolotl.core.Texture;
 import haxolotl.core.TextureAtlas;
 import haxolotl.display.Image;
-import haxolotl.display.TextField;
+import haxolotl.text.Text;
+import haxolotl.text.TextFormat;
 
 /**
  * ...
@@ -44,7 +45,7 @@ class Main extends Sprite
 		bunny.x = 50;
 		
 		var font = new Font("arial");
-		var text = new TextField(font, "Hello, this a layer sample!");
+		var text = new Text("Hello, dis iz a layer sample!", new TextFormat("pr_agamemnon", 0xff9999));
 		
 		var bunnyB = new Image(regionA);
 		bunnyB.x = 100;
