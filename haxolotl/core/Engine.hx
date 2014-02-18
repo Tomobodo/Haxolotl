@@ -3,12 +3,14 @@ package haxolotl.core;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.Lib;
-import haxe.Timer;
 import haxolotl.geom.Rectangle;
 import haxolotl.utils.Color;
 import openfl.display.OpenGLView;
 import openfl.gl.GL;
-import haxolotl.core.IDrawable;
+
+#if cpp
+import cpp.vm.Thread;
+#end
 
 /**
  * ...
@@ -42,6 +44,10 @@ class Engine
 	
 	var lastTime:Int = 0;
 	
+	#if cpp
+	var t : Thread;
+	#end
+	
 	static private inline var TIME_STEP : Int = 16;
 	
 	public function new(_stage : flash.display.Stage) 
@@ -62,7 +68,6 @@ class Engine
 	function init() : Void
 	{
 		stage.addEventListener(Event.RESIZE, onResize);
-		stage.addEventListener(Event.ENTER_FRAME, update);
 		
 		glView = new OpenGLView();
 		glView.render = render;
@@ -74,9 +79,15 @@ class Engine
 		spriteBatch = new SpriteBatch();
 		
 		new EventHandler(stage, stages);
+		
+		#if cpp
+		t = Thread.create(updateThread);
+		#else
+		stage.addEventListener(Event.ENTER_FRAME, update);
+		#end
 	}
 	
-	function update(e : Event)
+	function update(e : Event = null)
 	{
 		var deltaTime : Float = (Lib.getTimer() - lastTime) / 1000;
 		lastTime = Lib.getTimer();
@@ -84,11 +95,29 @@ class Engine
 			stage.update(deltaTime);
 	}
 	
+	#if cpp
+	function updateThread()
+	{
+		var a = true;
+		while (a)
+		{
+			var updateGame = Thread.readMessage(false);
+			if (updateGame)
+				update();
+			Sys.sleep(.015);
+		}
+	}
+	#end
+	
 	function render(viewport : flash.geom.Rectangle) : Void
 	{
 		//GL.viewport (Std.int (viewport.x), Std.int (viewport.y), Std.int (viewport.width), Std.int (viewport.height));
 		GL.clearColor (backGroundColor.r, backGroundColor.g, backGroundColor.b, 1);
 		GL.clear (GL.COLOR_BUFFER_BIT | GL.DEPTH_BUFFER_BIT);
+		
+		#if cpp
+		t.sendMessage(true);
+		#end
 		
 		for (stage in stages)
 		{
