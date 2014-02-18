@@ -60,7 +60,7 @@ class Main extends Sprite
 		
 		sampleScene.add(container);
 		
-		container.ENTER_FRAME.add(containerEnterFrame);
+		container.UPDATED.add(containerEnterFrame);
 		container.x = sampleScene.width / 2;
 		container.y = sampleScene.height / 2;
 		
@@ -76,7 +76,7 @@ class Main extends Sprite
 	
 	var alphaDirection : Float = -0.01;
 	
-	function containerEnterFrame() 
+	function containerEnterFrame(deltaTime : Float) 
 	{
 		time++;
 		container.rotation += 0.01;

@@ -34,7 +34,7 @@ class Bunny extends Image
 		time = cast Math.random() * 500;
 		
 		HOVERED.add(onHoveredd);
-		ENTER_FRAME.add(onEnterFrame);
+		UPDATED.add(onEnterFrame);
 	}
 	
 	function onHoveredd(a) 
@@ -43,7 +43,7 @@ class Bunny extends Image
 			parent.remove(this);
 	}
 	
-	public function onEnterFrame() 
+	public function onEnterFrame(deltatTime : Float) 
 	{
 		x += vitX;
 		

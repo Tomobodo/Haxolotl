@@ -26,6 +26,7 @@ Firstly, as I said, this initialy was a learning project. I also was looking for
 
 ###RoadMap
 
+- multithreaded game loop
 - optimisation
 - migration to lime
 - canvas backend for iOs (c'mon Apple :( )

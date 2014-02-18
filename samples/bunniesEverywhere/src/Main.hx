@@ -45,7 +45,7 @@ class Main extends Sprite
 		atlas = new TextureAtlas(Texture.get("img/atlas.png"), "img/atlas.xml");
 		
 		sampleStage = new Stage();
-		sampleStage.ENTER_FRAME.add(stageEnterFrame);
+		sampleStage.UPDATED.add(stageEnterFrame);
 		engine.add(sampleStage);
 		
 		mouth = new Image(atlas.get("lol2"));
@@ -56,7 +56,7 @@ class Main extends Sprite
 		mouth.LEAVED.add(mouthReleased);
 	}
 	
-	function stageEnterFrame() 
+	function stageEnterFrame(deltaTime : Float) 
 	{
 		if (mouseDown)
 		{

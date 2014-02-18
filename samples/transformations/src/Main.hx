@@ -52,7 +52,7 @@ class Main extends Sprite
 		
 		time = 0;
 		
-		sampleStage.ENTER_FRAME.add(onEnterFrame);
+		sampleStage.UPDATED.add(onEnterFrame);
 		
 		bunny.PRESSED.add(click);
 	}
@@ -62,7 +62,7 @@ class Main extends Sprite
 		trace("click");
 	}
 	
-	function onEnterFrame() 
+	function onEnterFrame(deltaTime : Float) 
 	{
 		time += 0.03;
 		bunny.rotation+=0.01;
