@@ -78,4 +78,17 @@ class Text extends DisplayObjectContainer
 		
 		return _text;
 	}
+	
+	public function setMaxWidth(width : Int)
+	{
+		var line = first;
+		while (line != null)
+		{
+			if (line.width > width)
+			{
+				var newLine = new Line(null, _format);
+			}
+			line = line.next;
+		}
+	}
 }
