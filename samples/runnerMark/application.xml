@@ -5,12 +5,13 @@
 	<!-- metadata, make sure 'package' is at least 3 segments (ie. com.mycompany.myproject) -->
 	<meta title="runnerMark" package="runnerMark" version="1.0.0" company="Thomas B" />
 	
-	<!-- output -->
-	<app main="Main" file="runnerMark" path="bin" />
-	
-	<window background="#000000" fps="60" />
+	<window background="#000000" />
+	<window fps="60" unless="html5" />
 	<window width="800" height="480" unless="mobile" />
 	<window orientation="landscape" vsync="false" antialiasing="0" if="cpp" />
+	
+	<!-- output -->
+	<app main="Main" file="runnerMark" path="bin"/>
 	
 	<!-- classpath, haxe libs -->
 	<source path="src" />
