@@ -44,8 +44,8 @@ class Main extends Sprite
 		
 		sampleStage.add(bunny);
 		
-		bunny.x = 200;
-		bunny.y = 200;
+		bunny.x = sampleStage.width / 2;
+		bunny.y = sampleStage.height / 2;
 		
 		bunny.pivotX = bunny.width / 2;
 		bunny.pivotY = bunny.height / 2;

@@ -7,7 +7,7 @@
 	
 	<window background="#000000" />
 	<window fps="60" unless="html5" />
-	<window width="800" height="480" unless="mobile" />
+	<window width="600" height="320" unless="mobile" />
 	<window orientation="landscape" vsync="false" antialiasing="0" if="cpp" />
 	
 	<!-- output -->
