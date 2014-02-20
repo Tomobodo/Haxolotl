@@ -4,9 +4,8 @@ import flash.display.Sprite;
 import flash.events.Event;
 import flash.Lib;
 import haxolotl.core.Engine;
-import haxolotl.text.Font;
 import haxolotl.core.InteractiveObject;
-import haxolotl.core.Stage;
+import haxolotl.core.Scene;
 import haxolotl.core.Texture;
 import haxolotl.core.TextureAtlas;
 import haxolotl.display.Image;
@@ -25,7 +24,7 @@ class Main extends Sprite
 	
 	var engine : Engine;
 	
-	var sampleStage : Stage;
+	var sampleStage : Scene;
 	
 	var mouth : Image;
 	
@@ -46,7 +45,7 @@ class Main extends Sprite
 		
 		atlas = new TextureAtlas(Texture.get("img/atlas.png"), "img/atlas.xml");
 		
-		sampleStage = new Stage();
+		sampleStage = new Scene();
 		sampleStage.UPDATED.add(stageEnterFrame);
 		engine.add(sampleStage);
 		

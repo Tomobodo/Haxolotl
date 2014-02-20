@@ -5,7 +5,7 @@ import flash.events.Event;
 import flash.Lib;
 import haxolotl.core.Engine;
 import haxolotl.core.InteractiveObject;
-import haxolotl.core.Stage;
+import haxolotl.core.Scene;
 import haxolotl.core.Texture;
 import haxolotl.core.TextureAtlas;
 import haxolotl.display.DisplayObjectContainer;
@@ -37,7 +37,7 @@ class Main extends Sprite
 		
 		engine = new Engine(stage);
 		
-		var sampleScene = new Stage();
+		var sampleScene = new Scene();
 		engine.add(sampleScene);
 		
 		var atlas = new TextureAtlas(Texture.get("img/atlas.png"), "img/atlas.xml");

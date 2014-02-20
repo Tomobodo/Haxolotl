@@ -5,7 +5,7 @@ import flash.events.Event;
 import flash.Lib;
 import haxolotl.core.Engine;
 import haxolotl.core.InteractiveObject;
-import haxolotl.core.Stage;
+import haxolotl.core.Scene;
 import haxolotl.core.Texture;
 import haxolotl.core.TextureAtlas;
 import haxolotl.display.Image;
@@ -19,7 +19,7 @@ class Main extends Sprite
 {
 	
 	var engine : Engine;
-	var sampleStage : Stage;
+	var sampleStage : Scene;
 	var bunny : Image;
 	var time : Float;
 	
@@ -36,7 +36,7 @@ class Main extends Sprite
 		
 		engine = new Engine(stage);
 		
-		sampleStage = new Stage();
+		sampleStage = new Scene();
 		engine.add(sampleStage);
 		
 		var atlas : TextureAtlas = new TextureAtlas(Texture.get("img/atlas.png"), "img/atlas.xml");

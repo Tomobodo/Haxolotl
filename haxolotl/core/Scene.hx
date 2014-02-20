@@ -1,19 +1,15 @@
 package haxolotl.core;
 import flash.geom.Matrix3D;
-import haxolotl.geom.Rectangle;
-import haxolotl.display.DisplayObject;
-import msignal.Signal.Signal0;
-import openfl.gl.GL;
 import haxolotl.core.IDrawable;
-import haxolotl.core.Engine;
+import haxolotl.display.DisplayObject;
 import haxolotl.display.DisplayObjectContainer;
-import openfl.utils.Float32Array;
+import haxolotl.geom.Rectangle;
 
 /**
  * ...
  * @author Thomas BAUDON
  */
-class Stage extends DisplayObjectContainer
+class Scene extends DisplayObjectContainer
 {
 	var drawableChildren : List<IDrawable>;
 	

@@ -5,7 +5,7 @@ import flash.events.Event;
 import flash.Lib;
 import haxolotl.core.Engine;
 import haxolotl.text.Font;
-import haxolotl.core.Stage;
+import haxolotl.core.Scene;
 import haxolotl.core.Texture;
 import haxolotl.core.TextureAtlas;
 import haxolotl.display.Image;
@@ -21,7 +21,7 @@ class Main extends Sprite
 {
 	
 	var engine:Engine;
-	var testScene:Stage;
+	var testScene:Scene;
 	
 	public function new()
 	{
@@ -35,7 +35,7 @@ class Main extends Sprite
 		
 		engine = new Engine(stage);
 		engine.backGroundColor.set(0x6666ff);
-		testScene = new Stage();
+		testScene = new Scene();
 		engine.add(testScene);
 		
 		var atlas = new TextureAtlas(Texture.get("img/atlas.png"), "img/atlas.xml");

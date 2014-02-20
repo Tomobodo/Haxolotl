@@ -3,7 +3,7 @@ import haxolotl.core.InteractiveObject;
 import haxolotl.core.Primitive;
 import haxolotl.core.TextureRegion;
 import haxolotl.utils.Color;
-import haxolotl.core.Stage;
+import haxolotl.core.Scene;
 import haxolotl.core.InteractiveObject;
 import msignal.Signal.Signal0;
 import msignal.Signal.Signal1;

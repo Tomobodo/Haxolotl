@@ -11,7 +11,7 @@ import haxolotl.display.DisplayObjectContainer;
  */
 class InteractiveObject
 {
-	public var stage : Stage;
+	public var stage : Scene;
 	
 	public var interactive : Bool;
 	

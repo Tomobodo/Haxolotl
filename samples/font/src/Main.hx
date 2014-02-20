@@ -5,7 +5,7 @@ import flash.events.Event;
 import flash.Lib;
 import haxolotl.core.Engine;
 import haxolotl.core.InteractiveObject;
-import haxolotl.core.Stage;
+import haxolotl.core.Scene;
 import haxolotl.text.Font;
 import haxolotl.text.Letter;
 import haxolotl.text.Text;
@@ -22,7 +22,7 @@ class Main extends Sprite
 {
 	var engine : Engine;
 	var text:haxolotl.text.Text;
-	var sampleStage:Stage;
+	var sampleStage:Scene;
 	
 	var texts : Array<String>;
 	
@@ -60,7 +60,7 @@ class Main extends Sprite
 		
 		engine = new Engine(stage);
 		
-		sampleStage = new Stage();
+		sampleStage = new Scene();
 		engine.add(sampleStage);
 		
 		currentText = 0;

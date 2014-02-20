@@ -2,7 +2,7 @@ package haxolotl.display;
 
 import haxolotl.core.Program;
 import haxolotl.display.DisplayObject;
-import haxolotl.core.Stage;
+import haxolotl.core.Scene;
 
 /**
  * ...

@@ -1,6 +1,6 @@
 #Haxolotl
 
-**Current version**: 0.6.0
+**Current version**: 0.6.1
 
 A simple game toolkit based on FLash API initialy created for learning purpose during the 28 th [**_Ludum Dare_**](http://www.ludumdare.com).
 The lib aims to offer a good crossplatform alternative to FLash by using webGL on browser and OpenGL on native app.

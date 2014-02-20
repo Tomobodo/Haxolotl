@@ -1,5 +1,10 @@
 package haxolotl.core;
 
+
+#if cpp
+import cpp.vm.Thread;
+#end
+
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.Lib;
@@ -7,10 +12,6 @@ import haxolotl.geom.Rectangle;
 import haxolotl.utils.Color;
 import openfl.display.OpenGLView;
 import openfl.gl.GL;
-
-#if cpp
-import cpp.vm.Thread;
-#end
 
 /**
  * ...
@@ -36,7 +37,7 @@ class Engine
 	
 	var glView : OpenGLView;
 	
-	var stages : List<haxolotl.core.Stage>;
+	var stages : List<haxolotl.core.Scene>;
 	
 	var viewport : Rectangle;
 	
@@ -54,7 +55,7 @@ class Engine
 	{
 		scaleMode = Scale;
 		
-		stages = new List<haxolotl.core.Stage>();
+		stages = new List<haxolotl.core.Scene>();
 		
 		touchDevice = false;
 		
@@ -160,13 +161,13 @@ class Engine
 		eventCatcher.graphics.endFill();
 	}
 	
-	public function add(stage : haxolotl.core.Stage)
+	public function add(stage : haxolotl.core.Scene)
 	{
 		this.stages.push(stage);
 		stage.setViewport(viewport);
 	}
 	
-	public function remove(stage : haxolotl.core.Stage)
+	public function remove(stage : haxolotl.core.Scene)
 	{
 		this.stages.remove(stage);
 	}

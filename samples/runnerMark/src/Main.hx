@@ -5,7 +5,7 @@ import flash.events.Event;
 import flash.Lib;
 import haxolotl.core.Engine;
 import haxolotl.text.Font;
-import haxolotl.core.Stage;
+import haxolotl.core.Scene;
 import haxolotl.core.Texture;
 import haxolotl.core.TextureAtlas;
 import haxolotl.core.TextureRegion;
@@ -22,9 +22,9 @@ import haxolotl.utils.FPS;
 class Main extends Sprite 
 {
 	var engine:Engine;
-	var runnerStage:Stage;
+	var runnerStage:Scene;
 	public static var atlas:TextureAtlas;
-	var statStage:Stage;
+	var statStage:Scene;
 	
 	var score : Int = 0;
 	var scoreTxt : Text;
@@ -61,10 +61,10 @@ class Main extends Sprite
 		engine = new Engine(stage);
 		engine.backGroundColor.set(0);
 		
-		runnerStage = new Stage();
+		runnerStage = new Scene();
 		runnerStage.UPDATED.add(onRunnerUpdate);
 		
-		statStage = new Stage();
+		statStage = new Scene();
 		
 		engine.add(statStage);
 		engine.add(runnerStage);
