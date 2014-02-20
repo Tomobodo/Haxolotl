@@ -61,7 +61,7 @@ class Engine
 		
 		stage = _stage;
 		
-		backGroundColor = new Color(0xffffff);
+		backGroundColor = new Color(stage.color);
 		
 		init();
 	}
