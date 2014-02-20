@@ -11,8 +11,6 @@ import haxolotl.geom.Rectangle;
  */
 class Scene extends DisplayObjectContainer
 {
-	var drawableChildren : List<IDrawable>;
-	
 	var interractiveChildren : List<InteractiveObject>;
 	
 	var viewport : Rectangle;
@@ -23,7 +21,7 @@ class Scene extends DisplayObjectContainer
 	{
 		super();
 		interactive = true;
-		stage = this;
+		scene = this;
 		
 		interractiveChildren = new List<InteractiveObject>();
 	}
@@ -38,14 +36,23 @@ class Scene extends DisplayObjectContainer
 	override public function add(_child : DisplayObject)
 	{
 		super.add(_child);
-		if (_child.interactive)
-			interractiveChildren.push(_child);
+		if (_child.interactive) addInterractiv(_child);
+	}
+	
+	public function addInterractiv(_child : InteractiveObject)
+	{
+		interractiveChildren.push(_child);
+	}
+	
+	public function removeInterractiv(_child : InteractiveObject)
+	{
+		interractiveChildren.remove(_child);
 	}
 	
 	override public function remove(_child : DisplayObject)
 	{
 		super.remove(_child);
-		interractiveChildren.remove(_child);
+		removeInterractiv(_child);
 	}
 	
 	override public function pressed(_x : Float, _y : Float)

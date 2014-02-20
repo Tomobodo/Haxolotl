@@ -28,9 +28,9 @@ class DisplayObjectContainer extends DisplayObject
 		
 		numChildren ++;
 		
-		if (stage != null)
+		if (scene != null)
 		{
-			child.stage = stage;
+			child.scene = scene;
 			child.__onAddedToStage();
 		}
 	}
@@ -45,13 +45,13 @@ class DisplayObjectContainer extends DisplayObject
 	public function remove(child : DisplayObject)
 	{
 		child.parent = null;
-		child.stage = null;
+		child.scene = null;
 		children.remove(child);
 		child.REMOVED.dispatch(); 
 		
 		numChildren --;
 		
-		if (stage != null)
+		if (scene != null)
 			child.__onRemovedFromStage();
 	}
 	
@@ -76,7 +76,7 @@ class DisplayObjectContainer extends DisplayObject
 		
 		for (child in children)
 		{
-			child.stage = this.stage;
+			child.scene = this.scene;
 			child.__onAddedToStage();
 		}
 	}
@@ -87,7 +87,7 @@ class DisplayObjectContainer extends DisplayObject
 		
 		for (child in children)
 		{
-			child.stage = null;
+			child.scene = null;
 			child.__onRemovedFromStage();
 		}
 	}

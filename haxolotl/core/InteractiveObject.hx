@@ -11,9 +11,9 @@ import haxolotl.display.DisplayObjectContainer;
  */
 class InteractiveObject
 {
-	public var stage : Scene;
+	public var scene : Scene;
 	
-	public var interactive : Bool;
+	public var interactive(default, set) : Bool;
 	
 	public var x : Float;
 	public var y : Float;
@@ -143,7 +143,7 @@ class InteractiveObject
 			_transform.ty = y - pivotY;
 		}
 		
-		if (parent != null && parent != stage)
+		if (parent != null && parent != scene)
 			_transform.concat(parent.transform);
 		
 		return _transform;
@@ -168,5 +168,15 @@ class InteractiveObject
 	{
 		scaleY = value / baseHeight;
 		return height;
+	}
+	
+	public function set_interactive(value : Bool) : Bool
+	{
+		if (scene != null)
+			if(value == true)
+				scene.addInterractiv(this);
+			else	
+				scene.removeInterractiv(this);
+		return interactive = value;
 	}
 }

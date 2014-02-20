@@ -11,7 +11,6 @@ import haxolotl.app.Screen;
  */
 class Haxolotl
 {
-
 	var m_engine : Engine;
 	var m_stage : Stage;
 	var m_lastTime : Int;
