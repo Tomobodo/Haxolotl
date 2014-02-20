@@ -1,13 +1,9 @@
 package haxolotl.core;
 
-
-#if cpp
-import cpp.vm.Thread;
-#end
-
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.Lib;
+import haxolotl.core.Scene;
 import haxolotl.geom.Rectangle;
 import haxolotl.utils.Color;
 import openfl.display.OpenGLView;
@@ -37,7 +33,7 @@ class Engine
 	
 	var glView : OpenGLView;
 	
-	var stages : List<haxolotl.core.Scene>;
+	var scenes : List<Scene>;
 	
 	var viewport : Rectangle;
 	
@@ -55,7 +51,7 @@ class Engine
 	{
 		scaleMode = Scale;
 		
-		stages = new List<haxolotl.core.Scene>();
+		scenes = new List<Scene>();
 		
 		touchDevice = false;
 		
@@ -79,52 +75,20 @@ class Engine
 		
 		spriteBatch = new SpriteBatch();
 		
-		new EventHandler(stage, stages);
-		
-		#if cpp
-		t = Thread.create(updateThread);
-		#else
-		stage.addEventListener(Event.ENTER_FRAME, update);
-		#end
+		new EventHandler(stage, scenes);
 	}
-	
-	function update(e : Event = null)
-	{
-		var deltaTime : Float = (Lib.getTimer() - lastTime) / 1000;
-		lastTime = Lib.getTimer();
-		for (stage in stages)
-			stage.update(deltaTime);
-	}
-	
-	#if cpp
-	function updateThread()
-	{
-		var a = true;
-		while (a)
-		{
-			var updateGame = Thread.readMessage(false);
-			if (updateGame)
-				update();
-			Sys.sleep(.015);
-		}
-	}
-	#end
 	
 	function render(viewport : flash.geom.Rectangle) : Void
 	{
-		//GL.viewport (Std.int (viewport.x), Std.int (viewport.y), Std.int (viewport.width), Std.int (viewport.height));
+		GL.viewport (Std.int (viewport.x), Std.int (viewport.y), Std.int (viewport.width), Std.int (viewport.height));
 		GL.clearColor (backGroundColor.r, backGroundColor.g, backGroundColor.b, 1);
 		GL.clear (GL.COLOR_BUFFER_BIT | GL.DEPTH_BUFFER_BIT);
 		
-		#if cpp
-		t.sendMessage(true);
-		#end
-		
-		for (stage in stages)
+		for (scene in scenes)
 		{
-			spriteBatch.setProjectionMatrix(stage.projectionMatrix);
+			spriteBatch.setProjectionMatrix(scene.projectionMatrix);
 			spriteBatch.start();
-			spriteBatch.render(stage);
+			spriteBatch.render(scene);
 			spriteBatch.end();
 		}
 		
@@ -141,8 +105,8 @@ class Engine
 		if (scaleMode == NoScale)
 		{
 			viewport = new Rectangle(0, 0, stage.stageWidth, stage.stageHeight);
-			for (stage in stages)
-				stage.setViewport(viewport);
+			for (scene in scenes)
+				scene.setViewport(viewport);
 		}
 	}
 	
@@ -161,14 +125,14 @@ class Engine
 		eventCatcher.graphics.endFill();
 	}
 	
-	public function add(stage : haxolotl.core.Scene)
+	public function add(scene : Scene)
 	{
-		this.stages.push(stage);
-		stage.setViewport(viewport);
+		this.scenes.push(scene);
+		scene.setViewport(viewport);
 	}
 	
-	public function remove(stage : haxolotl.core.Scene)
+	public function remove(scene : Scene)
 	{
-		this.stages.remove(stage);
+		this.scenes.remove(scene);
 	}
 }
