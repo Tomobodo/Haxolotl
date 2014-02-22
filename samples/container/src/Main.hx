@@ -1,17 +1,10 @@
 package ;
 
 import flash.display.Sprite;
-import flash.events.Event;
 import flash.Lib;
-import haxolotl.core.Engine;
-import haxolotl.core.InteractiveObject;
-import haxolotl.core.Scene;
 import haxolotl.core.Texture;
 import haxolotl.core.TextureAtlas;
-import haxolotl.display.DisplayObjectContainer;
-import haxolotl.display.Image;
-import haxolotl.text.TextFormat;
-import haxolotl.utils.FPS;
+import haxolotl.Haxolotl;
 
 /**
  * ...
@@ -20,83 +13,14 @@ import haxolotl.utils.FPS;
 
 class Main extends Sprite 
 {
-	
-	var engine : Engine;
-	var container:haxolotl.display.DisplayObjectContainer;
-	var time : Int;
+	public static var atlas : TextureAtlas;
 	
 	public function new()
 	{
 		super();
-		addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
-	}
-	
-	private function onAddedToStage(e:Event):Void 
-	{
-		removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
-		
-		engine = new Engine(stage);
-		
-		var sampleScene = new Scene();
-		engine.add(sampleScene);
-		
-		var atlas = new TextureAtlas(Texture.get("img/atlas.png"), "img/atlas.xml");
-		
-		var bunnies = new Array<Image>();
-		container = new DisplayObjectContainer();
-		
-		var nbBunnies = 12;
-		var angleStep = (2 * Math.PI) / nbBunnies;
-		
-		for (i in 0 ... nbBunnies)
-		{
-			var bunny = new Image(atlas.get("bunny"));
-			bunny.pivotX = bunny.width / 2;
-			bunny.pivotY = bunny.height / 2;
-			bunny.color = Std.int(Math.random() * 0xffffff);
-			
-			bunny.x = 100 * Math.cos(i * angleStep);
-			bunny.y = 100 * Math.sin(i * angleStep);
-			container.add(bunny);
-		}
-		
-		sampleScene.add(container);
-		
-		container.UPDATED.add(containerEnterFrame);
-		container.x = sampleScene.width / 2;
-		container.y = sampleScene.height / 2;
-		
-		container.PRESSED.add(onContainerPressed);
-		
-		sampleScene.add(new FPS(new TextFormat("arial", 0, 12)));
-		
-		time = 0;
-	}
-	
-	function onContainerPressed(target : InteractiveObject) 
-	{
-		container.removeAll();
-	}
-	
-	var alphaDirection : Float = -0.01;
-	
-	function containerEnterFrame(deltaTime : Float) 
-	{
-		time++;
-		container.rotation += 0.01;
-		container.alpha += alphaDirection;
-		if (container.alpha <= 0)
-		{
-			container.alpha = 0;
-			alphaDirection = 0.01;
-		}else if (container.alpha >= 1)
-		{
-			container.alpha = 1;
-			alphaDirection = -0.01;
-		}
-		
-		for (bunny in container.children)
-			bunny.rotation -= 0.01;
+		var myApp = new Haxolotl();
+		atlas = new TextureAtlas(Texture.get("img/atlas.png"), "img/atlas.xml");
+		myApp.gotoScreen(new SampleScreen());
 	}
 	
 	public static function main() 

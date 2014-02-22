@@ -8,8 +8,8 @@
 	<!-- output -->
 	<app main="Main" file="container" path="bin" />
 	
-	<window background="#000000" fps="60" />
-	<window width="800" height="480" unless="mobile" />
+	<window background="#ffffff" fps="60" />
+	<window width="600" height="320" unless="mobile" />
 	<window orientation="landscape" vsync="false" antialiasing="0" if="cpp" />
 	
 	<!-- classpath, haxe libs -->
