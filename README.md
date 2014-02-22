@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/tbaudon/haxolotl.png?label=ready)](https://waffle.io/tbaudon/haxolotl)
 #Haxolotl
 
 **Current version**: 0.7.0
