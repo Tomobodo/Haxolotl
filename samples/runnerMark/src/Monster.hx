@@ -34,16 +34,16 @@ class Monster extends Image
 		updateFrame(frames[currentFrame]);
 		
 		if (x < -width)
-			x = stage.width;
+			x = scene.width;
 			
 		bounceCount ++;
 		
 		vity += 15;
 		y += vity * deltaTime;
 		
-		if (y > stage.height - 30 - height)
+		if (y > scene.height - 30 - height)
 		{
-			y = stage.height - 30 - height;
+			y = scene.height - 30 - height;
 			vity = 0;
 		}
 		
