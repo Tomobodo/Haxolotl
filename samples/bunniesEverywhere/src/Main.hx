@@ -9,6 +9,7 @@ import haxolotl.core.Scene;
 import haxolotl.core.Texture;
 import haxolotl.core.TextureAtlas;
 import haxolotl.display.Image;
+import haxolotl.Haxolotl;
 import haxolotl.text.TextFormat;
 import haxolotl.utils.FPS;
 
@@ -22,64 +23,16 @@ class Main extends Sprite
 	
 	public static var atlas : TextureAtlas;
 	
-	var engine : Engine;
-	
-	var sampleStage : Scene;
-	
-	var mouth : Image;
-	
-	var mouseDown : Bool;
-	
 	public function new()
 	{
 		super();
-		addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
-	}
-	
-	private function onAddedToStage(e:Event):Void 
-	{
-		removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		
-		engine = new Engine(stage);
-		engine.scaleMode = Scale;
-		
+		var sample = new Haxolotl();
 		atlas = new TextureAtlas(Texture.get("img/atlas.png"), "img/atlas.xml");
 		
-		sampleStage = new Scene();
-		sampleStage.UPDATED.add(stageEnterFrame);
-		engine.add(sampleStage);
-		
-		mouth = new Image(atlas.get("lol2"));
-		mouth.interactive = true;
-		
-		sampleStage.add(mouth);
-		
-		mouth.PRESSED.add(mouthPressed);
-		mouth.RELEASED.add(mouthReleased);
-		mouth.LEAVED.add(mouthReleased);
-		
-		sampleStage.add(new FPS(new TextFormat("arial")));
+		sample.gotoScreen(new BunnyScreen());
 	}
 	
-	function stageEnterFrame(deltaTime : Float) 
-	{
-		if (mouseDown)
-			for (i in 0 ... 20)
-				sampleStage.add(new Bunny());
-	}
-	
-	function mouthReleased(target : InteractiveObject) 
-	{
-		mouth.updateFrame(atlas.get("lol2"));
-		mouseDown = false;
-	}
-	
-	function mouthPressed(target : InteractiveObject) 
-	{
-		mouth.updateFrame(atlas.get("lol"));
-		mouseDown = true;
-	}
-
 	public static function main() 
 	{
 		Lib.current.addChild(new Main());

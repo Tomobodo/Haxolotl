@@ -50,9 +50,9 @@ class Bunny extends Image
 		if (alpha < 1)
 			alpha += 0.02;
 		
-		if (x + width > stage.width)
+		if (x + width > scene.width)
 		{
-			x = stage.width - width;
+			x = scene.width - width;
 			vitX *= -1;
 		}
 		else if (x < 0)
@@ -64,9 +64,9 @@ class Bunny extends Image
 		vitY += 0.3;
 		y += vitY;
 		
-		if (y + height > stage.height)
+		if (y + height > scene.height)
 		{
-			y = stage.height - height;
+			y = scene.height - height;
 			vitY *= -0.9;
 		}
 		

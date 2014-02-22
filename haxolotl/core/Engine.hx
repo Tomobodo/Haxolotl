@@ -41,10 +41,6 @@ class Engine
 	
 	var lastTime:Int = 0;
 	
-	#if cpp
-	var t : Thread;
-	#end
-	
 	static private inline var TIME_STEP : Int = 16;
 	
 	public function new(_stage : flash.display.Stage) 
