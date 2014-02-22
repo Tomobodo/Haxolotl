@@ -9,6 +9,7 @@ import haxolotl.core.Scene;
 import haxolotl.core.Texture;
 import haxolotl.core.TextureAtlas;
 import haxolotl.display.Image;
+import haxolotl.Haxolotl;
 
 /**
  * ...
@@ -27,48 +28,11 @@ class Main extends Sprite
 	{
 		super();
 		
-		addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+		var app = new Haxolotl();
+		app.gotoScreen(new SampleScreen());
 	}
 	
-	private function onAddedToStage(e:Event):Void 
-	{
-		removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
-		
-		engine = new Engine(stage);
-		
-		sampleStage = new Scene();
-		engine.add(sampleStage);
-		
-		var atlas : TextureAtlas = new TextureAtlas(Texture.get("img/atlas.png"), "img/atlas.xml");
-		bunny = new Image(atlas.get("bunny"));
-		
-		sampleStage.add(bunny);
-		
-		bunny.x = sampleStage.width / 2;
-		bunny.y = sampleStage.height / 2;
-		
-		bunny.pivotX = bunny.width / 2;
-		bunny.pivotY = bunny.height / 2;
-		
-		time = 0;
-		
-		sampleStage.UPDATED.add(onEnterFrame);
-		
-		bunny.PRESSED.add(click);
-	}
 	
-	function click(target : InteractiveObject)
-	{
-		trace("click");
-	}
-	
-	function onEnterFrame(deltaTime : Float) 
-	{
-		time += 0.03;
-		bunny.rotation+=0.01;
-		bunny.scaleX = Math.sin(time) * 2;
-		bunny.scaleY = 2;
-	}
 	
 	public static function main() 
 	{
