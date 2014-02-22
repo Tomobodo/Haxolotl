@@ -82,7 +82,7 @@ class Engine
 		
 		for (scene in scenes)
 		{
-			spriteBatch.setProjectionMatrix(scene.projectionMatrix);
+			spriteBatch.setViewport(scene.viewport);
 			spriteBatch.start();
 			spriteBatch.render(scene);
 			spriteBatch.end();

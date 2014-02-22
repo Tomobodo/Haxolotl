@@ -1,7 +1,7 @@
 [![Stories in Ready](https://badge.waffle.io/tbaudon/haxolotl.png?label=ready)](https://waffle.io/tbaudon/haxolotl)
 #Haxolotl
 
-**Current version**: 0.7.0
+**Current version**: 0.7.1
 
 A simple game toolkit based on FLash API initialy created for learning purpose during the 28 th [**_Ludum Dare_**](http://www.ludumdare.com).
 The lib aims to offer a good crossplatform alternative to FLash by using webGL on browser and OpenGL on native app.
@@ -9,10 +9,6 @@ At the moment the tool works on most decent browsers, windows, mac and android. 
 
 To achieve this versatility accross platform, Haxolotl is build on top of [**OpenFL**][OpenFL], a great [**Haxe**](http://www.haxe.org) lib wich offers all the tool for building haxe app on several plateforms.
 Soon the engine will be implemented over [**Lime**][Lime] instead of [**OpenFL**][OpenFL] to get rid of all unused flash package for the flash target.
-
-####Why are you reinventing the wheel? OpenFL does the **exact** same thing and probably better!
-Firstly, as I said, this initialy was a learning project. I also was looking for a Webgl implemention of Openfl for html5 target instead of 2D canvas without founding any. Haxolotl does that. Finally I plan to add a 3D renderer, and OpenFl doesn't have one, yet, as far as I know. So I guess Haxolotl may have some interest.
-
 
 [OpenFL]: https://github.com/openfl/openfl
 [Lime]: https://github.com/openfl/lime

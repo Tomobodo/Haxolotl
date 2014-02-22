@@ -13,9 +13,7 @@ class Scene extends DisplayObjectContainer
 {
 	var interractiveChildren : List<InteractiveObject>;
 	
-	var viewport : Rectangle;
-	
-	public var projectionMatrix : Matrix3D;
+	public var viewport : Rectangle;
 
 	public function new() 
 	{
@@ -28,7 +26,7 @@ class Scene extends DisplayObjectContainer
 	
 	public function setViewport(_viewport : Rectangle)
 	{
-		projectionMatrix = Matrix3D.createOrtho(_viewport.x, _viewport.width, _viewport.height, _viewport.y, 1000, -1000);
+		viewport = _viewport;
 		baseWidth = _viewport.width;
 		baseHeight = _viewport.height;
 	}

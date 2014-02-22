@@ -18,11 +18,12 @@ class SpriteBatchShader extends Program
 		varying vec2 vColor;
 		varying vec2 vTexCoord;
 		
-		uniform mat4 projectionMatrix;
+		uniform vec2 viewport;
 		
 		void main(void) 
 		{
-			gl_Position = projectionMatrix * vec4(aVertPos, 0.0, 1.0);
+			vec2 vp = viewport / 2.0;
+			gl_Position = vec4((aVertPos.x/vp.x)-1.0,(aVertPos.y/-vp.y)+1.0, 0.0, 1.0);
 			vColor = aColor;
 			vTexCoord = aTexCoord;
 		}";

@@ -25,7 +25,7 @@ class SpriteBatch
 	var vertexBuffer : GLBuffer;
 	var indexBuffer : GLBuffer;
 	
-	var projectionUniform : GLUniformLocation;
+	var viewportUniform : GLUniformLocation;
 	var textureUniform : GLUniformLocation;
 	
 	var vertexPosAttribute : Int;
@@ -33,7 +33,7 @@ class SpriteBatch
 	var colorAttribute : Int;
 	
 	var program : Program;
-	var projectionMatrix:Matrix3D;
+	var viewport : Rectangle;
 	
 	var needGeneration : Bool;
 	
@@ -113,7 +113,7 @@ class SpriteBatch
 	
 	function initUniforms() 
 	{
-		projectionUniform = GL.getUniformLocation(program.program, "projectionMatrix");
+		viewportUniform = GL.getUniformLocation(program.program, "viewport");
 		textureUniform = GL.getUniformLocation(program.program, "uImage0");
 	}
 	
@@ -124,9 +124,9 @@ class SpriteBatch
 		colorAttribute = GL.getAttribLocation(program.program, "aColor");
 	}
 	
-	public function setProjectionMatrix(projection : Matrix3D) : Void
+	public function setViewport(_viewport : Rectangle) : Void
 	{
-		projectionMatrix = projection;
+		viewport = _viewport;
 	}
 	
 	public function start()
@@ -145,8 +145,8 @@ class SpriteBatch
 		GL.blendFunc(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA);
 		GL.disable(GL.DEPTH_TEST);
 		
-		GL.uniformMatrix3D(projectionUniform, false, projectionMatrix);
 		GL.uniform1i(textureUniform, 0);
+		GL.uniform2f(viewportUniform, viewport.width, viewport.height);
 		
 		GL.enableVertexAttribArray(vertexPosAttribute);
 		GL.enableVertexAttribArray(texCoordAttribute);
