@@ -92,11 +92,11 @@ class Scroller extends DisplayObjectContainer
 				img.x -= xDelta;
 				img.y -= yDelta;
 				
-				if (img.x == -img.width * reverseX)
+				if (img.x <= -img.width * reverseX)
 				{
 					img.x += img.width * nbImgsOnX * reverseX;
 				}
-				if (img.y == -img.height * reverseY)
+				if (img.y <= -img.height * reverseY)
 				{
 					img.y += img.height * nbImgsOnY * reverseY;
 				}
