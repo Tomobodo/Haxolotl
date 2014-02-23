@@ -125,10 +125,12 @@ class Engine
 	{
 		this.scenes.push(scene);
 		scene.setViewport(viewport);
+		scene.ADDED.dispatch();
 	}
 	
 	public function remove(scene : Scene)
 	{
 		this.scenes.remove(scene);
+		scene.REMOVED.dispatch();
 	}
 }
