@@ -24,7 +24,6 @@ class DisplayObjectContainer extends DisplayObject
 	{
 		children.push(child);
 		child.parent = this;
-		child.ADDED.dispatch();
 		
 		numChildren ++;
 		
@@ -33,6 +32,8 @@ class DisplayObjectContainer extends DisplayObject
 			child.scene = scene;
 			child.__onAddedToStage();
 		}
+		
+		child.ADDED.dispatch();
 	}
 	
 	override public function update(deltaTime : Float)
