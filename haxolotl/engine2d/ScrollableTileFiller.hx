@@ -41,7 +41,6 @@ class ScrollableTileFiller extends TileFiller
 	private override function setParams()
 	{
 		super.setParams();
-		
 		numberOnX++;
 		numberOnY++;
 	}
@@ -58,7 +57,7 @@ class ScrollableTileFiller extends TileFiller
 			
 			if (_x > 0)
 			{
-				if (tile.x >= (tile.width + areaWidth))
+				if (tile.x >= tile.width)
 				{
 					tile.x -= tile.width * numberOnX;
 				}
@@ -73,7 +72,7 @@ class ScrollableTileFiller extends TileFiller
 			
 			if (_y > 0)
 			{
-				if (tile.y >= (tile.height + areaHeight))
+				if (tile.y >= tile.height)
 				{
 					tile.y -= tile.height * numberOnY;
 				}
