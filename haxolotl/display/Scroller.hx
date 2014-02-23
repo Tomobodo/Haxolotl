@@ -46,9 +46,11 @@ class Scroller extends DisplayObjectContainer
 		isPlaying = false;
 		reverseX = (onX < 0 ? -1 : 1);
 		reverseY = (onY < 0 ? -1 : 1);
+		
+		ADDED.add(init);
 	}
 	
-	public function init()
+	private function init()
 	{
 		initImages();
 		UPDATED.add(onUpdate);
