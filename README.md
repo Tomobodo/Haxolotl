@@ -1,7 +1,7 @@
 [![Stories in Ready](https://badge.waffle.io/tbaudon/haxolotl.png?label=ready)](https://waffle.io/tbaudon/haxolotl)
 #Haxolotl
 
-**Current version**: 0.7.2
+**Current version**: 0.7.3
 
 A simple game toolkit based on FLash API initialy created for learning purpose during the 28 th [**_Ludum Dare_**](http://www.ludumdare.com).
 The lib aims to offer a good crossplatform alternative to FLash by using webGL on browser and OpenGL on native app.
