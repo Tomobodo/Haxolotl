@@ -24,7 +24,6 @@ class MainScreen extends Screen
 	private function init()
 	{
 		scene = new Scene();
-		scene.UPDATED.add(onUpdate);
 		add(scene);
 		
 		world = new World();
@@ -37,11 +36,5 @@ class MainScreen extends Screen
 	private function onAdded()
 	{
 		world.init();
-	}
-	
-	
-	private function onUpdate(_deltaTime:Float)
-	{
-		world.update(_deltaTime);
 	}
 }
