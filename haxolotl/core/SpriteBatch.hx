@@ -135,10 +135,6 @@ class SpriteBatch
 		nbDrawCall = 0;
 		tRegion = null;
 		
-		#if desktop
-		//GL.enable(GL.TEXTURE_2D);
-		#end
-		
 		program.use();
 		
 		GL.enable(GL.BLEND);
@@ -199,10 +195,6 @@ class SpriteBatch
 		GL.disableVertexAttribArray(vertexPosAttribute);
 		GL.disableVertexAttribArray(texCoordAttribute);
 		GL.disableVertexAttribArray(colorAttribute);
-		
-		#if desktop
-		//GL.disable(GL.TEXTURE_2D);
-		#end
 	}
 	
 	public function render(object : DisplayObject)
