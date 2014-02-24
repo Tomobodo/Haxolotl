@@ -136,14 +136,13 @@ class SpriteBatch
 		tRegion = null;
 		
 		#if desktop
-		GL.enable(GL.TEXTURE_2D);
+		//GL.enable(GL.TEXTURE_2D);
 		#end
 		
 		program.use();
 		
 		GL.enable(GL.BLEND);
 		GL.blendFuncSeparate(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA, GL.ONE, GL.ONE_MINUS_SRC_ALPHA);
-		GL.disable(GL.DEPTH_TEST);
 		
 		GL.uniform1i(textureUniform, 0);
 		GL.uniform2f(viewportUniform, viewport.width, viewport.height);
@@ -202,7 +201,7 @@ class SpriteBatch
 		GL.disableVertexAttribArray(colorAttribute);
 		
 		#if desktop
-		GL.disable(GL.TEXTURE_2D);
+		//GL.disable(GL.TEXTURE_2D);
 		#end
 	}
 	
