@@ -21,12 +21,11 @@ class FPS extends Text
 		super( "FPS : ", format);
 		sampleSize = _sampleSize;
 		sampleSum = 0;
-		UPDATED.add(onUpdated);
 		frameCounter = 0;
 		fps = 0;
 	}
 	
-	function onUpdated(deltaTime : Float) 
+	public function update(deltaTime : Float) 
 	{
 		sampleSum += deltaTime;
 		if (frameCounter == sampleSize)

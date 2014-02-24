@@ -56,7 +56,6 @@ class RunnerScreen extends Screen
 		scoreTxt.x = 200;
 		scene.add(scoreTxt);
 		
-		UPDATED.add(onUpdate);
 		ADDED.add(onAdded);
 	}
 	
@@ -166,12 +165,16 @@ class RunnerScreen extends Screen
 		}
 	}
 	
-	function onUpdate(deltaTime : Float) 
+	override function update(deltaTime : Float) 
 	{
 		uppdateBg(deltaTime);
 		updateRunner(deltaTime);
 		updateGround(deltaTime);
 		updateMonster(deltaTime);
+		fps.update(deltaTime);
+		
+		for (monster in monsters)
+			monster.update(deltaTime);
 		
 		if (fps.fps >= 58)
 		{

@@ -36,13 +36,6 @@ class DisplayObjectContainer extends DisplayObject
 		child.ADDED.dispatch();
 	}
 	
-	override public function update(deltaTime : Float)
-	{
-		super.update(deltaTime);
-		for (child in children)
-			child.update(deltaTime);
-	}
-	
 	public function remove(child : DisplayObject)
 	{
 		child.parent = null;
@@ -71,7 +64,7 @@ class DisplayObjectContainer extends DisplayObject
 		remove(children[index]);
 	}
 	
-	override public function __onAddedToStage()
+	override function __onAddedToStage()
 	{
 		super.__onAddedToStage();
 		
@@ -82,7 +75,7 @@ class DisplayObjectContainer extends DisplayObject
 		}
 	}
 	
-	override public function __onRemovedFromStage()
+	override function __onRemovedFromStage()
 	{
 		super.__onRemovedFromStage();
 		

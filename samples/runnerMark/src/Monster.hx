@@ -26,7 +26,7 @@ class Monster extends Image
 		bounceRate = cast Math.random() * 1000;
 	}
 	
-	override public function update(deltaTime : Float) 
+	public function update(deltaTime : Float) 
 	{
 		currentFrame++;
 		if (currentFrame == frames.length)

@@ -12,6 +12,7 @@ import msignal.Signal.Signal1;
  * ...
  * @author Thomas BAUDON
  */
+@:allow(haxolotl.display.DisplayObjectContainer)
 class DisplayObject extends InteractiveObject
 {
 	public var color : Int;
@@ -22,8 +23,6 @@ class DisplayObject extends InteractiveObject
 	
 	public var ADDED : Signal0;
 	public var REMOVED : Signal0;
-	
-	public var UPDATED : Signal1<Float>;
 	
 	// not proud of it
 	public var children : Array<DisplayObject>;
@@ -40,21 +39,14 @@ class DisplayObject extends InteractiveObject
 		
 		ADDED = new Signal0();
 		REMOVED = new Signal0();
-		
-		UPDATED = new Signal1<Float>();
 	}
 	
-	public function update(deltaTime : Float)
-	{
-		UPDATED.dispatch(deltaTime);
-	}
-	
-	public function __onAddedToStage()
+	function __onAddedToStage()
 	{
 		ADDED_TO_STAGE.dispatch();
 	}
 	
-	public function __onRemovedFromStage()
+	function __onRemovedFromStage()
 	{
 		REMOVE_FROM_STAGE.dispatch();
 	}

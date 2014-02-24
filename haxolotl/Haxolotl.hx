@@ -43,7 +43,7 @@ class Haxolotl
 	{
 		var deltaTime : Float = (Lib.getTimer() - m_lastTime) / 1000;
 		m_lastTime = Lib.getTimer();
-		m_screen.__updated(deltaTime);
+		m_screen.update(deltaTime);
 	}
 	
 }

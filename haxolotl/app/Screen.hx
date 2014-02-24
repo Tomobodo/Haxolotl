@@ -18,7 +18,6 @@ class Screen
 	
 	public var ADDED : Signal0;
 	public var REMOVED : Signal0;
-	public var UPDATED : Signal1<Float>;
 	
 	public function new() 
 	{
@@ -26,7 +25,6 @@ class Screen
 		
 		ADDED = new Signal0();
 		REMOVED = new Signal0();
-		UPDATED = new Signal1<Float>();
 	}
 	
 	public function add(scene : Scene)
@@ -43,12 +41,9 @@ class Screen
 			m_engine.remove(scene);
 	}
 	
-	@:final
-	function __updated(deltaTime : Float)
+	
+	function update(deltaTime : Float)
 	{
-		for (scene in m_scenes)
-			scene.update(deltaTime);
-		UPDATED.dispatch(deltaTime);
 	}
 	
 	@:final
