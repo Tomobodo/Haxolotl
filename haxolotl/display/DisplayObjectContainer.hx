@@ -93,7 +93,7 @@ class DisplayObjectContainer extends DisplayObject
 	override public function testInput(iX:Float, iY:Float):Bool 
 	{
 		var nbChild = children.length;
-		for (i in 0 ... (nbChild - 1))
+		for (i in 0 ... nbChild)
 		{
 			var current = children[i];
 			if (current.testInput(iX, iY)) 

@@ -11,7 +11,7 @@ import haxolotl.geom.Rectangle;
  */
 class Scene extends DisplayObjectContainer
 {
-	var interractiveChildren : List<InteractiveObject>;
+	var interactiveChildren : List<InteractiveObject>;
 	
 	public var viewport : Rectangle;
 
@@ -21,7 +21,7 @@ class Scene extends DisplayObjectContainer
 		interactive = true;
 		scene = this;
 		
-		interractiveChildren = new List<InteractiveObject>();
+		interactiveChildren = new List<InteractiveObject>();
 	}
 	
 	public function setViewport(_viewport : Rectangle)
@@ -39,12 +39,12 @@ class Scene extends DisplayObjectContainer
 	
 	public function addInterractiv(_child : InteractiveObject)
 	{
-		interractiveChildren.push(_child);
+		interactiveChildren.push(_child);
 	}
 	
 	public function removeInterractiv(_child : InteractiveObject)
 	{
-		interractiveChildren.remove(_child);
+		interactiveChildren.remove(_child);
 	}
 	
 	override public function remove(_child : DisplayObject)
@@ -56,11 +56,11 @@ class Scene extends DisplayObjectContainer
 	override public function pressed(_x : Float, _y : Float)
 	{
 		super.pressed(_x, _y);
-		for (a in interractiveChildren)
+		for (a in interactiveChildren)
 		{
 			if (!a.interactive)
 			{
-				interractiveChildren.remove(a);
+				interactiveChildren.remove(a);
 				continue;
 			}
 			
@@ -75,11 +75,11 @@ class Scene extends DisplayObjectContainer
 	override public function released(_x : Float, _y : Float)
 	{
 		super.released(_x, _y);
-		for (a in interractiveChildren)
+		for (a in interactiveChildren)
 		{
 			if (!a.interactive)
 			{
-				interractiveChildren.remove(a);
+				interactiveChildren.remove(a);
 				continue;
 			}
 			
@@ -95,11 +95,11 @@ class Scene extends DisplayObjectContainer
 	{
 		super.hovered(_x, _y);
 		var firstHovered : Bool = false;
-		for (a in interractiveChildren)
+		for (a in interactiveChildren)
 		{
 			if (!a.interactive)
 			{
-				interractiveChildren.remove(a);
+				interactiveChildren.remove(a);
 				continue;
 			}
 			
