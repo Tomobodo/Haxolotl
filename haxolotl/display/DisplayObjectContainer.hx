@@ -23,7 +23,6 @@ class DisplayObjectContainer extends DisplayObject
 	public function add(child : DisplayObject)
 	{
 		children.push(child);
-		child.parent = this;
 		
 		numChildren ++;
 		
@@ -32,6 +31,8 @@ class DisplayObjectContainer extends DisplayObject
 			child.scene = scene;
 			child.__onAddedToStage();
 		}
+		// set parent after __addedToStage /!\ 
+		child.parent = this;
 		
 		child.ADDED.dispatch();
 	}

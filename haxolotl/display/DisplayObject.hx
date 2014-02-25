@@ -43,6 +43,11 @@ class DisplayObject extends InteractiveObject
 	
 	function __onAddedToStage()
 	{
+		// remove from current parent to avoid from being held by 2 DisplayObjectContainers
+		if (parent != null)
+		{
+			parent.remove(this);
+		}
 		ADDED_TO_STAGE.dispatch();
 	}
 	
