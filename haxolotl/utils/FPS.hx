@@ -1,4 +1,5 @@
 package haxolotl.utils;
+import haxolotl.Haxolotl;
 import haxolotl.text.Font;
 import haxolotl.text.Text;
 import haxolotl.text.TextFormat;
@@ -13,6 +14,7 @@ class FPS extends Text
 	var sampleSize : UInt;
 	var sampleSum : Float;
 	var frameCounter : UInt;
+	var engine : Haxolotl;
 	
 	public var fps : UInt;
 	
@@ -23,11 +25,22 @@ class FPS extends Text
 		sampleSum = 0;
 		frameCounter = 0;
 		fps = 0;
+		engine = Haxolotl.current;
 	}
 	
 	public function update(deltaTime : Float) 
 	{
-		sampleSum += deltaTime;
+		
+		var dt : Float;
+		
+		if (engine.multiThreaded)
+			if (engine.renderTime > engine.updateTime)
+				dt = engine.renderTime;
+			else dt = engine.updateTime;
+		else
+			dt = deltaTime;
+		
+		sampleSum += dt;
 		if (frameCounter == sampleSize)
 		{
 			var sampleMoy : Float = sampleSum  / sampleSize;

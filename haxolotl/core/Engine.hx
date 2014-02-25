@@ -5,6 +5,7 @@ import flash.events.Event;
 import flash.Lib;
 import haxolotl.core.Scene;
 import haxolotl.geom.Rectangle;
+import haxolotl.Haxolotl;
 import haxolotl.utils.Color;
 import openfl.display.OpenGLView;
 import openfl.gl.GL;
@@ -76,6 +77,7 @@ class Engine
 	
 	function render(viewport : flash.geom.Rectangle) : Void
 	{
+		var renderTimeStart = Lib.getTimer();
 		GL.viewport (Std.int (viewport.x), Std.int (viewport.y), Std.int (viewport.width), Std.int (viewport.height));
 		GL.clearColor (backGroundColor.r, backGroundColor.g, backGroundColor.b, 1);
 		GL.clear (GL.COLOR_BUFFER_BIT | GL.DEPTH_BUFFER_BIT);
@@ -93,6 +95,8 @@ class Engine
 		if (glError != 0)
 			trace(glError);
 		#end
+		
+		Haxolotl.current.renderTime = 0.001 * (Lib.getTimer() - renderTimeStart);
 	}
 	
 	function onResize(e:Event):Void 
