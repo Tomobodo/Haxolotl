@@ -87,7 +87,6 @@ class InteractiveObject
 	public function testInput(iX : Float, iY : Float) : Bool
 	{
 		var point = new Point(iX, iY);
-		
 		var transformInvert = transform.clone();
 		transformInvert.invert();
 		point = transformInvert.transformPoint(point);

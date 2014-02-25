@@ -75,6 +75,8 @@ class DisplayObjectContainer extends DisplayObject
 		for (child in children)
 		{
 			child.scene = this.scene;
+			if (child.interactive)
+				scene.addInterractiv(child);
 			child.__onAddedToStage();
 		}
 	}
@@ -86,6 +88,8 @@ class DisplayObjectContainer extends DisplayObject
 		for (child in children)
 		{
 			child.scene = null;
+			if (child.interactive)
+				scene.removeInterractiv(child);
 			child.__onRemovedFromStage();
 		}
 	}

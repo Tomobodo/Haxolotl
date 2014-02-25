@@ -18,6 +18,7 @@ class SampleScreen extends Screen
 	var container : DisplayObjectContainer;
 	var time : Float;
 	var alphaDirection : Float;
+	var fps : FPS;
 	
 	public function new() 
 	{
@@ -50,12 +51,16 @@ class SampleScreen extends Screen
 		}
 		
 		scene.add(container);
-		scene.add(new FPS(new TextFormat("arial", 0, 12)));
+		fps = new FPS(new TextFormat("arial", 0, 42));
+		scene.add(fps);
 		
 		container.PRESSED.add(onContainerPressed);
-		container.UPDATED.add(onContainerUpdate);
+		container.interactive = true;
 		
 		ADDED.add(onAdded);
+		
+		fps.interactive = true;
+		fps.HOVERED.add(onContainerPressed);
 	}
 	
 	function onAdded()
@@ -66,12 +71,14 @@ class SampleScreen extends Screen
 	
 	function onContainerPressed(target : InteractiveObject) 
 	{
-		container.removeAll();
+		trace("teest" + Math.random());
+		//container.removeAll();
 	}
 	
-	function onContainerUpdate(delta : Float) 
+	override function update(delta : Float) 
 	{
 		time++;
+		fps.update(delta);
 		container.rotation += 0.01;
 		container.alpha += alphaDirection;
 		if (container.alpha <= 0)

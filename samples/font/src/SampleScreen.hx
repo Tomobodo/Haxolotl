@@ -45,7 +45,7 @@ class SampleScreen extends Screen
 		
 		currentText = 0;
 		
-		format = new TextFormat("arial", 0, 24);
+		format = new TextFormat("arial", 0, 42);
 		var format2 = new TextFormat("pr_agamemnon", 0x9999ff, 40);
 		
 		text = new Text(getText(), format);
@@ -64,11 +64,9 @@ class SampleScreen extends Screen
 		
 		text.interactive = true;
 		text.HOVERED.add(onTextPressed);
-		
-		UPDATED.add(onUpdate);
 	}
 	
-	function onUpdate(deltaTime : Float) 
+	override function update(deltaTime : Float) 
 	{
 		angle += angleStep;
 		
@@ -101,6 +99,7 @@ class SampleScreen extends Screen
 	
 	function onTextPressed(target : InteractiveObject) 
 	{
+		trace("hi");
 		text.text = getText();
 	}
 	
