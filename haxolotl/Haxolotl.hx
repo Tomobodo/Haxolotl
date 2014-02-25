@@ -5,6 +5,10 @@ import flash.Lib;
 import haxolotl.core.Engine;
 import haxolotl.app.Screen;
 
+#if cpp
+import cpp.vm.Thread;
+#end
+
 /**
  * ...
  * @author Thomas B
@@ -28,7 +32,11 @@ class Haxolotl
 		
 		m_lastTime = 0;
 		
+		#if cpp
+		Thread.create(update);
+		#else
 		m_stage.addEventListener(Event.ENTER_FRAME, update);
+		#end
 	}
 	
 	public function gotoScreen(screen : Screen)
@@ -39,11 +47,36 @@ class Haxolotl
 		m_screen.__added(m_engine);
 	}
 	
-	function update(e : Event = null)
+	#if cpp
+	function update()
+	{
+		while(true)
+		{
+			var deltaTime : Float = (Lib.getTimer() - m_lastTime) / 1000;
+			m_lastTime = Lib.getTimer();
+			if(m_screen != null)
+				m_screen.update(deltaTime);
+			
+			
+			var maxSleep = 1 / 60;
+			var minSleep = 0.005;
+			var sleepTime = maxSleep;
+			if (deltaTime < maxSleep)
+				sleepTime = maxSleep - deltaTime;
+			else
+				sleepTime = 0.005;
+			Sys.sleep(sleepTime);
+		}
+	}
+	#else
+	function update(e : Event)
 	{
 		var deltaTime : Float = (Lib.getTimer() - m_lastTime) / 1000;
 		m_lastTime = Lib.getTimer();
-		m_screen.update(deltaTime);
+		if(m_screen != null)
+			m_screen.update(deltaTime);
 	}
+	#end
+	
 	
 }
