@@ -23,6 +23,10 @@ class DisplayObjectContainer extends DisplayObject
 	public function add(child : DisplayObject)
 	{
 		children.push(child);
+		if (child.parent != null)
+		{
+			child.parent.remove(child);
+		}
 		child.parent = this;
 		
 		numChildren ++;
