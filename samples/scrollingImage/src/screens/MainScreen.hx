@@ -35,7 +35,7 @@ class MainScreen extends Screen
 	
 	override function update(deltaTime : Float)
 	{
-		//world.update(deltaTime);
+		world.update(deltaTime);
 	}
 	
 	private function onAdded()

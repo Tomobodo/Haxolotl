@@ -12,6 +12,9 @@ class ScrollableTileFiller extends TileFiller
 	private var coefX:Int;
 	private var coefY:Int;
 	
+	var scrollX : Float;
+	var scrollY : Float;
+	
 	public function new(_region:TextureRegion, _width:Float = -1, _height:Float = -1) 
 	{
 		super(_region, _width, _height);
@@ -52,8 +55,8 @@ class ScrollableTileFiller extends TileFiller
 		
 		for (tile in tiles)
 		{
-			tile.x += Math.round(_x);
-			tile.y += Math.round(_y);
+			tile.x += _x;
+			tile.y += _y;
 			
 			if (_x > 0)
 			{
