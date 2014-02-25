@@ -1,7 +1,7 @@
 #Bench's results :
 __Bench ported from [RunnerMark](https://github.com/esDotDev/RunnerMark)__
 ##Intel core i7 1.73 ghz NV gt425m 4 go:
-* nativ : 8080
+* nativ : 30210 great boost from thread
 * chrome : 5950
 * firfox 27 : 4690
 * neko : 920

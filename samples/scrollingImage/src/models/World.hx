@@ -25,11 +25,9 @@ class World extends Scene
 		ground.y = scene.height - 71;
 		add(background);
 		add(ground);
-		
-		UPDATED.add(onUpdate);
 	}
 	
-	private function onUpdate(_deltaTime:Float)
+	public function update(_deltaTime:Float)
 	{
 		background.scroll(-StaticSettings.GAME_SPEED * _deltaTime, 0);
 		ground.scroll((-StaticSettings.GAME_SPEED * 3) * _deltaTime, 0);

@@ -33,6 +33,11 @@ class MainScreen extends Screen
 		ADDED.add(onAdded);
 	}
 	
+	override function update(deltaTime : Float)
+	{
+		//world.update(deltaTime);
+	}
+	
 	private function onAdded()
 	{
 		world.init();
