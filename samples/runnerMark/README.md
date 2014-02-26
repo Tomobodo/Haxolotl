@@ -7,7 +7,7 @@ __Bench ported from [RunnerMark](https://github.com/esDotDev/RunnerMark)__
 * neko : 920
 
 ##Intel core i7 3.07 ghz NV gtx 550 Ti 6go:
-* nativ : 22090
+* nativ : 55720
 * chrome : 20000
 * IE 11 : 13900
 * firefox 28 : 11000
