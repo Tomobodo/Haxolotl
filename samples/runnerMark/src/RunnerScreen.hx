@@ -35,6 +35,8 @@ class RunnerScreen extends Screen
 	
 	var lastFluidFPS : Int;
 	
+	var fpsAdded : Bool = false;
+	
 	static private inline var GROUND_SPEED:Float = 250;
 	static private inline var FRAME_SAMPLE:Float = 30;
 
@@ -180,9 +182,14 @@ class RunnerScreen extends Screen
 		
 		if (fps.fps >= 58)
 		{
-			score = fps.fps * 10 + monsters.length;
+			if (!fpsAdded)
+			{
+				score += 10 * fps.fps;
+				fpsAdded = true;
+			}
 			scoreTxt.text = "Score : " + score;
 			addMonster();
+			score++;
 			lastFluidFPS = Lib.getTimer();
 		}
 		
