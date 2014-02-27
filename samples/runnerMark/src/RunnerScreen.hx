@@ -33,7 +33,7 @@ class RunnerScreen extends Screen
 	var runnerFrames : Array<TextureRegion>;
 	var runnerCurrentFrame : Int;
 	
-	var lastFluidFPS : Int = 0;
+	var lastFluidFPS : Int;
 	
 	static private inline var GROUND_SPEED:Float = 250;
 	static private inline var FRAME_SAMPLE:Float = 30;
@@ -55,6 +55,8 @@ class RunnerScreen extends Screen
 		scoreTxt = new Text("Score : ", format);
 		scoreTxt.x = 200;
 		scene.add(scoreTxt);
+		
+		lastFluidFPS = Lib.getTimer();
 		
 		ADDED.add(onAdded);
 	}
