@@ -5,7 +5,7 @@ import flash.Lib;
 import haxolotl.core.Engine;
 import haxolotl.app.Screen;
 
-#if cpp
+#if windows
 import cpp.vm.Thread;
 #end
 
@@ -39,7 +39,7 @@ class Haxolotl
 		updateTime = 0;
 		renderTime = 0;
 		
-		#if cpp
+		#if windows
 		Thread.create(update);
 		multiThreaded = true;
 		#else
@@ -56,7 +56,7 @@ class Haxolotl
 		m_screen.__added(m_engine);
 	}
 	
-	#if cpp
+	#if windows
 	function update()
 	{
 		while(true)

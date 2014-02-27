@@ -3,7 +3,7 @@
 	<!-- NMML reference: https://gist.github.com/1763850 -->
 	
 	<!-- metadata, make sure 'package' is at least 3 segments (ie. com.mycompany.myproject) -->
-	<meta title="runnerMark" package="runnerMark" version="1.0.0" company="Thomas B" />
+	<meta title="runnerMark" package="haxolotl.runnerMark" version="1.0.0" company="Thomas B" />
 	
 	<window background="#000000" />
 	<window fps="60" unless="html5" />

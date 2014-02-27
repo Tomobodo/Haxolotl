@@ -96,7 +96,8 @@ class Engine
 			trace(glError);
 		#end
 		
-		Haxolotl.current.renderTime = 0.001 * (Lib.getTimer() - renderTimeStart);
+		if(Haxolotl.current != null)
+			Haxolotl.current.renderTime = 0.001 * (Lib.getTimer() - renderTimeStart);
 	}
 	
 	function onResize(e:Event):Void 

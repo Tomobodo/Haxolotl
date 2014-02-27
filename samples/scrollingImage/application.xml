@@ -3,7 +3,7 @@
 	<!-- NMML reference: https://gist.github.com/1763850 -->
 	
 	<!-- metadata, make sure 'package' is at least 3 segments (ie. com.mycompany.myproject) -->
-	<meta title="ScrollingImage" package="ScrollingImage" version="1.0.0" company="Ynk33" />
+	<meta title="ScrollingImage" package="haxolotl.ScrollingImage" version="1.0.0" company="Ynk33" />
 	
 	<!-- output -->
 	<app main="Main" file="ScrollingImage" path="bin" />
