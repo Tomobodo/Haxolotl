@@ -101,7 +101,13 @@ class DisplayObjectContainer extends DisplayObject
 		{
 			var current = children[i];
 			if (current.testInput(iX, iY)) 
+			{
+				hover = true;
 				return true;
+			}else {
+				if (hover)
+					leaved(iX, iY);
+			}
 		}
 		
 		return false;

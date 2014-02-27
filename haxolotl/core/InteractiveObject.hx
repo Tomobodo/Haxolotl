@@ -95,7 +95,10 @@ class InteractiveObject
 		var inHeight = point.y > 0 && point.y < height;
 		
 		if (inWidth && inHeight)
+		{
+			hover = true;
 			return true;
+		}
 		else
 		{
 			if (hover)
