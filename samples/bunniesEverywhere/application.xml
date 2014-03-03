@@ -3,7 +3,7 @@
 	<!-- NMML reference: https://gist.github.com/1763850 -->
 	
 	<!-- metadata, make sure 'package' is at least 3 segments (ie. com.mycompany.myproject) -->
-	<meta title="bunniesEverywhere" package="" version="1.0.0" company="Thomas BAUDON" />
+	<meta title="bunniesEverywhere" package="org.haxolotl" version="1.0.0" company="Thomas BAUDON" />
 	
 	<!-- output -->
 	<app main="Main" file="bunniesEverywhere" path="bin" />

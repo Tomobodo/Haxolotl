@@ -34,7 +34,6 @@ class Bunny extends Image
 		time = cast Math.random() * 500;
 		
 		HOVERED.add(onHoveredd);
-		UPDATED.add(onEnterFrame);
 	}
 	
 	function onHoveredd(a) 

@@ -18,6 +18,7 @@ class BunnyScreen extends Screen
 	var mouth : Image;
 	var atlas : TextureAtlas;
 	var mouseDown : Bool;
+	var bunnies : Array<Bunny>;
 
 	public function new() 
 	{
@@ -26,12 +27,13 @@ class BunnyScreen extends Screen
 		atlas = Main.atlas;
 		
 		scene = new Scene();
-		scene.UPDATED.add(onUpdate);
 		add(scene);
 		
 		mouth = new Image(atlas.get("lol2"));
 		mouth.interactive = true;
 		scene.add(mouth);
+		
+		bunnies = new Array<Bunny>();
 		
 		mouth.PRESSED.add(mouthPressed);
 		mouth.RELEASED.add(mouthReleased);
@@ -40,11 +42,17 @@ class BunnyScreen extends Screen
 		scene.add(new FPS(new TextFormat("arial")));
 	}
 	
-	public function onUpdate(deltaTime : Float) 
+	override public function update(deltaTime : Float) 
 	{
 		if (mouseDown)
 			for (i in 0 ... 20)
-				scene.add(new Bunny());
+			{
+				var bunny = new Bunny();
+				bunnies.push(bunny);
+				scene.add(bunny);
+			}
+		for (bunny in bunnies)
+			bunny.onEnterFrame(deltaTime);
 	}
 	
 	function mouthReleased(target : InteractiveObject) 
