@@ -14,12 +14,6 @@ import openfl.gl.GL;
  * ...
  * @author Thomas BAUDON
  */
-
-enum ScaleMode
-{
-	NoScale;
-	Scale;
-}
  
 class Engine
 {
@@ -124,6 +118,14 @@ class Engine
 		eventCatcher.graphics.beginFill(0, 0);
 		eventCatcher.graphics.drawRect(0, 0,stage.stageWidth,stage.stageHeight);
 		eventCatcher.graphics.endFill();
+	}
+	
+	public function setViewPort(width : Int, height : Int)
+	{
+		viewport.width = width;
+		viewport.height = height;
+		for (scene in scenes)
+			scene.setViewport(viewport);
 	}
 	
 	public function add(scene : Scene)

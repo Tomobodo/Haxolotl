@@ -4,15 +4,13 @@ import flash.events.Event;
 import flash.Lib;
 import haxolotl.core.Engine;
 import haxolotl.app.Screen;
-
-#if cpp
-import cpp.vm.Thread;
-#end
+import haxolotl.core.ScaleMode;
 
 /**
  * ...
  * @author Thomas B
  */
+ 
 class Haxolotl
 {
 	var m_engine : Engine;
@@ -24,12 +22,15 @@ class Haxolotl
 	public var updateTime : Float;
 	public var renderTime : Float;
 	public var multiThreaded : Bool;
+	public var scaleMode : ScaleMode;
 	
 	public static var current : Haxolotl;
 	
 	public function new() 
 	{
 		current = this;
+		
+		scaleMode = NoScale;
 		
 		m_stage = Lib.current.stage;
 		m_engine = new Engine(m_stage);
@@ -39,13 +40,15 @@ class Haxolotl
 		updateTime = 0;
 		renderTime = 0;
 		
-		#if cpp
-		Thread.create(update);
-		multiThreaded = true;
-		#else
 		multiThreaded = false;
 		m_stage.addEventListener(Event.ENTER_FRAME, update);
-		#end
+	}
+	
+	public function strechTo(width : Int, height : Int)
+	{
+		scaleMode = Scale;
+		m_engine.scaleMode = Scale;
+		m_engine.setViewPort(width, height);
 	}
 	
 	public function gotoScreen(screen : Screen)
@@ -56,30 +59,6 @@ class Haxolotl
 		m_screen.__added(m_engine);
 	}
 	
-	#if cpp
-	function update()
-	{
-		while(true)
-		{
-			var deltaTime : Float = (Lib.getTimer() - m_lastTime) / 1000;
-			updateTime = deltaTime;
-			m_lastTime = Lib.getTimer();
-			if(m_screen != null)
-				m_screen.update(deltaTime);
-			
-			
-			var maxSleep = 1 / 60;
-			var minSleep = 0.005;
-			var sleepTime = maxSleep;
-			if (deltaTime < maxSleep)
-				sleepTime = maxSleep - deltaTime;
-			else
-				sleepTime = 0.005;
-				
-			Sys.sleep(sleepTime);
-		}
-	}
-	#else
 	function update(e : Event)
 	{
 		var deltaTime : Float = (Lib.getTimer() - m_lastTime) / 1000;
@@ -88,7 +67,4 @@ class Haxolotl
 		if(m_screen != null)
 			m_screen.update(deltaTime);
 	}
-	#end
-	
-	
 }
