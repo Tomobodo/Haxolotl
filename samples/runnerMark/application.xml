@@ -21,6 +21,7 @@
 	<!-- assets -->
 	<assets path="../assets/img" rename="img" />
 	<assets path="../assets/fonts" rename="fonts" />
+	<icons path="../assets/icons/bad.png" size = "96"/>
 	
 	<!-- optimize output 
 	<haxeflag name="-dce full" if="html5" /> -->

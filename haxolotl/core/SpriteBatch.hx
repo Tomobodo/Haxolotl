@@ -142,9 +142,9 @@ class SpriteBatch
 		GL.disable(GL.DEPTH_TEST);
 		
 		GL.enable(GL.BLEND);
-		GL.blendFunc(GL.ONE, GL.ONE_MINUS_SRC_ALPHA);
-		//GL.blendFuncSeparate(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA, GL.ONE, GL.ONE_MINUS_SRC_ALPHA);
-		
+		//GL.blendFunc(GL.ONE, GL.ONE_MINUS_SRC_ALPHA);
+		GL.blendFuncSeparate(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA, GL.ONE, GL.ONE_MINUS_SRC_ALPHA);
+	
 		GL.uniform1i(textureUniform, 0);
 		GL.uniform2f(viewportUniform, viewport.width, viewport.height);
 		

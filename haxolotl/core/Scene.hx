@@ -29,7 +29,6 @@ class Scene extends DisplayObjectContainer
 		viewport = _viewport;
 		baseWidth = _viewport.width;
 		baseHeight = _viewport.height;
-		trace(baseWidth, baseHeight);
 	}
 	
 	override public function add(_child : DisplayObject)

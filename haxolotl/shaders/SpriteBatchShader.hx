@@ -48,7 +48,7 @@ class SpriteBatchShader extends Program
 			"
 			#end
 			+"
-			gl_FragColor = vec4(tCol.x * vCol.x, tCol.y * vCol.y, tCol.z * vCol.z, tCol.w) * vCol.w;
+			gl_FragColor = tCol * vCol;// vec4(tCol.x * vCol.x, tCol.y * vCol.y, tCol.z * vCol.z, tCol.w) * vCol.w;
 		}";
 		
 		super();
