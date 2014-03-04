@@ -1,5 +1,7 @@
 package haxolotl.text;
+import haxolotl.core.InteractiveObject;
 import haxolotl.display.DisplayObjectContainer;
+import flash.geom.Point;
 
 /**
  * ...
@@ -30,6 +32,29 @@ class Word extends DisplayObjectContainer
 	public function getCurPos() : Float
 	{
 		return x + last.getCurPos() + m_format.spaceSize;
+	}
+	
+	override public function testInput(iX : Float, iY : Float) : Bool
+	{
+		var point = new Point(iX, iY);
+		var transformInvert = transform.clone();
+		transformInvert.invert();
+		point = transformInvert.transformPoint(point);
+		
+		var inWidth = point.x > 0 && point.x < width;
+		var inHeight = point.y > 0 && point.y < height;
+		
+		if (inWidth && inHeight)
+		{
+			hover = true;
+			return true;
+		}
+		else
+		{
+			if (hover)
+				leaved(iX, iY);
+			return false;
+		}
 	}
 	
 	function set_word(_word : String) : String

@@ -13,7 +13,8 @@ class Image extends DisplayObject
 	{
 		super();
 		
-		changeFrame(_texture);
+		if(_texture != null)
+			changeFrame(_texture);
 		prim = Primitive.getPlane();
 	}
 	

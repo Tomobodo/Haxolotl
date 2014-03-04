@@ -62,7 +62,7 @@ class Font
 		var code = char.charCodeAt(0);
 		var glyph = glyphs[code];
 		if(glyph != null) return glyph;
-		else return getGlyph('0');
+		else return null;
 	}
 	
 	public function get_size() : Int

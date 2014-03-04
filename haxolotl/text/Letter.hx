@@ -24,9 +24,9 @@ class Letter extends Image
 		format = _format;
 		m_char = _char;
 		glyph = m_format.font.getGlyph(m_char);
-		
+
 		super(glyph.getRegion());
-		draw();
+		draw();		
 	}
 	
 	public function getCurPos() : Float
