@@ -31,9 +31,9 @@ class Color
 		var gMask : UInt = (0xff00 & color) >> 8;
 		var bMask : UInt = 0xff & color;
 		
-		r = cast(rMask) / 255.0;
-		g = cast(gMask) / 255.0;
-		b = cast(bMask) / 255.0;
+		r = cast(rMask) / 256.0;
+		g = cast(gMask) / 256.0;
+		b = cast(bMask) / 256.0;
 		a = alpha;
 		
 		array[0] = r;

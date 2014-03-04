@@ -1,10 +1,10 @@
 package haxolotl.core;
 
 import flash.geom.Matrix;
-import flash.geom.Matrix3D;
-import haxolotl.geom.Rectangle;
 import haxolotl.display.DisplayObject;
+import haxolotl.geom.Rectangle;
 import haxolotl.shaders.SpriteBatchShader;
+import haxolotl.utils.Color;
 import openfl.gl.GL;
 import openfl.gl.GLBuffer;
 import openfl.gl.GLUniformLocation;
@@ -37,7 +37,7 @@ class SpriteBatch
 	
 	var needGeneration : Bool;
 	
-	var dataPerVertex : Int = 6;
+	var dataPerVertex : Int = 8;
 	var stride : Int;
 	
 	var nbSprite : Int = 0;
@@ -53,7 +53,7 @@ class SpriteBatch
 	var v1 : Float;
 	var v2 : Float;
 	
-	var color : Float;
+	var color : Color;
 	var alpha : Float;
 	
 	// vertex data index
@@ -74,6 +74,8 @@ class SpriteBatch
 	public function new() 
 	{
 		stride = dataPerVertex * 4;
+		
+		color = new Color(0xffffff);
 		
 		vertexBuffer = GL.createBuffer();
 		indexBuffer = GL.createBuffer();
@@ -137,11 +139,11 @@ class SpriteBatch
 		
 		program.use();
 		
-		//GL.disable(GL.DEPTH_TEST);
+		GL.disable(GL.DEPTH_TEST);
 		
 		GL.enable(GL.BLEND);
-		//GL.blendFunc(GL.ONE, GL.ONE_MINUS_SRC_ALPHA);
-		GL.blendFuncSeparate(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA, GL.ONE, GL.ONE_MINUS_SRC_ALPHA);
+		GL.blendFunc(GL.ONE, GL.ONE_MINUS_SRC_ALPHA);
+		//GL.blendFuncSeparate(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA, GL.ONE, GL.ONE_MINUS_SRC_ALPHA);
 		
 		GL.uniform1i(textureUniform, 0);
 		GL.uniform2f(viewportUniform, viewport.width, viewport.height);
@@ -155,7 +157,7 @@ class SpriteBatch
 		
 		GL.vertexAttribPointer(vertexPosAttribute, 2, GL.FLOAT, false, stride, 0);
 		GL.vertexAttribPointer(texCoordAttribute, 2, GL.FLOAT, false, stride, 2 * 4);
-		GL.vertexAttribPointer(colorAttribute, 2, GL.FLOAT, false, stride, 4 * 4);
+		GL.vertexAttribPointer(colorAttribute, 4, GL.FLOAT, true, stride, 4 * 4);
 	}
 	
 	private function flush()
@@ -225,7 +227,7 @@ class SpriteBatch
 			u2 = 1.0;
 			v2 = 1.0;
 			
-			color = object.color;
+			color.set(object.color);
 			alpha = object.alpha;
 			
 			if(object.texture != null)
@@ -244,32 +246,40 @@ class SpriteBatch
 			vertex[vdi++] = x1 * t.b + y1 * t.d + t.ty;
 			vertex[vdi++] = u1;
 			vertex[vdi++] = v1;
+			vertex[vdi++] = color.r;
+			vertex[vdi++] = color.g;
+			vertex[vdi++] = color.b;
 			vertex[vdi++] = alpha;
-			vertex[vdi++] = color;
 			
 			// top right
 			vertex[vdi++] = x2 * t.a + y1 * t.c + t.tx;
 			vertex[vdi++] = x2 * t.b + y1 * t.d + t.ty;
 			vertex[vdi++] = u2;
 			vertex[vdi++] = v1;
+			vertex[vdi++] = color.r;
+			vertex[vdi++] = color.g;
+			vertex[vdi++] = color.b;
 			vertex[vdi++] = alpha;
-			vertex[vdi++] = color;
 			
 			// bottom right
 			vertex[vdi++] = x2 * t.a + y2 * t.c + t.tx;
 			vertex[vdi++] = x2 * t.b + y2 * t.d + t.ty;
 			vertex[vdi++] = u2;
 			vertex[vdi++] = v2;
+			vertex[vdi++] = color.r;
+			vertex[vdi++] = color.g;
+			vertex[vdi++] = color.b;
 			vertex[vdi++] = alpha;
-			vertex[vdi++] = color;
 			
 			// bottom left
 			vertex[vdi++] = x1 * t.a + y2 * t.c + t.tx;
 			vertex[vdi++] = x1 * t.b + y2 * t.d + t.ty;
 			vertex[vdi++] = u1;
 			vertex[vdi++] = v2;
+			vertex[vdi++] = color.r;
+			vertex[vdi++] = color.g;
+			vertex[vdi++] = color.b;
 			vertex[vdi++] = alpha;
-			vertex[vdi++] = color;
 			
 			if (nbSprite >= MAX_SPRITE) flush();
 		}

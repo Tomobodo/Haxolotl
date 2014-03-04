@@ -13,9 +13,9 @@ class SpriteBatchShader extends Program
 		vertexShaderSource = "
 		attribute vec2 aVertPos;
 		attribute vec2 aTexCoord;
-		attribute vec2 aColor;
+		attribute vec4 aColor;
 		
-		varying vec2 vColor;
+		varying vec4 vCol;
 		varying vec2 vTexCoord;
 		
 		uniform vec2 viewport;
@@ -24,7 +24,7 @@ class SpriteBatchShader extends Program
 		{
 			vec2 vp = viewport / 2.0;
 			gl_Position = vec4((aVertPos.x/vp.x)-1.0,(aVertPos.y/-vp.y)+1.0, 0.0, 1.0);
-			vColor = aColor;
+			vCol = aColor;
 			vTexCoord = aTexCoord;
 		}";
 
@@ -34,22 +34,22 @@ class SpriteBatchShader extends Program
         #end
 		"
 		varying vec2 vTexCoord;
-		varying vec2 vColor;
+		varying vec4 vCol;
 		
 		uniform sampler2D uImage0;
 					
 		void main(void)
 		{
-			vec3 col = mod(vec3(vColor.y / 65536.0, vColor.y / 256.0, vColor.y), 256.0) / 256.0;
-			vec4 textureColor = texture2D(uImage0, vTexCoord);
-			vec4 finalColor = vec4(col, vColor.x);
+			vec4 tCol = texture2D(uImage0, vTexCoord);
+			//vec4 finalColor = vec4(tCol.x * vCol.x, tCol.y * vCol.y, tCol.z * vCol.z, tCol.w) * vCol.w;
 			"
 			#if !html5
 			+"
-			gl_FragColor = (textureColor * finalColor.argb).gbar;"
+			tCol = tCol.gbar;
+			gl_FragColor = vec4(tCol.x * vCol.x, tCol.y * vCol.y, tCol.z * vCol.z, tCol.w) * vCol.w;"
 			#else
 			+"
-			gl_FragColor = textureColor * finalColor;"
+			gl_FragColor = vec4(tCol.x * vCol.x, tCol.y * vCol.y, tCol.z * vCol.z, tCol.w) * vCol.w;"
 			#end 
 			+"
 			

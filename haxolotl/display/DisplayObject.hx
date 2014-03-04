@@ -15,7 +15,7 @@ import msignal.Signal.Signal1;
 @:allow(haxolotl.display.DisplayObjectContainer)
 class DisplayObject extends InteractiveObject
 {
-	public var color : Int;
+	public var color : UInt;
 	public var alpha(get_alpha, set_alpha) : Float;
 	
 	public var prim : Primitive;
@@ -34,7 +34,6 @@ class DisplayObject extends InteractiveObject
 		super();
 		
 		_alpha = 1;
-		
 		color = 0xffffff;
 		
 		ADDED = new Signal0();
