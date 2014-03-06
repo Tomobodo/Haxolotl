@@ -168,7 +168,7 @@ class SpriteBatch
 		
 		GL.vertexAttribPointer(vertexPosAttribute, 2, GL.FLOAT, false, stride, 0);
 		GL.vertexAttribPointer(texCoordAttribute, 2, GL.FLOAT, false, stride, 2 * 4);
-		GL.vertexAttribPointer(colorAttribute, 4, GL.FLOAT, true, stride, 4 * 4);
+		GL.vertexAttribPointer(colorAttribute, 4, GL.FLOAT, false, stride, 4 * 4);
 	}
 	
 	private function flush()

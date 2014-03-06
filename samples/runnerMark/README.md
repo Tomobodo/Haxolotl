@@ -7,11 +7,11 @@ __Bench ported from [RunnerMark](https://github.com/esDotDev/RunnerMark)__
 * neko : 960
 
 ##Intel core i7 3.07 ghz NV gtx 550 Ti 6go:
-* nativ : 55720 great boost from thread
-* chrome : 20000
-* IE 11 : 13900
-* firefox 28 : 11000
-* neko : 1070
+* chrome : 21340
+* windows : 17070
+* IE 11 : 14010
+* firefox 28 : 12500
+* neko : 960
 
 ##Galxy Note II 
 * Firefox : 5260 
