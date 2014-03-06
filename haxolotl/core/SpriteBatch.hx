@@ -195,7 +195,9 @@ class SpriteBatch
 		GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, null);
 		GL.bindTexture(GL.TEXTURE_2D, null);
 		
+		/*
 		GL.disable(GL.BLEND);
+		*/
 		
 		GL.disableVertexAttribArray(vertexPosAttribute);
 		GL.disableVertexAttribArray(texCoordAttribute);

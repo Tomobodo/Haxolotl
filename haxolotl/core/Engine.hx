@@ -59,7 +59,13 @@ class Engine
 		
 		glView = new OpenGLView();
 		glView.render = render;
+		
+		glView.addEventListener(OpenGLView.CONTEXT_LOST, onContextLost);
+		glView.addEventListener(OpenGLView.CONTEXT_RESTORED, onContextRestaured);
+		glView.addEventListener(Event.ADDED_TO_STAGE, onGLViewAdded);
+		
 		stage.addChild(glView);
+		
 		viewport = new Rectangle(0, 0, stage.stageWidth, stage.stageHeight);
 		
 		initEventCatcher();
@@ -67,6 +73,20 @@ class Engine
 		spriteBatch = new SpriteBatch();
 		
 		new EventHandler(stage, scenes);
+	}
+	
+	private function onGLViewAdded(e:Event):Void 
+	{
+	}
+	
+	private function onContextRestaured(e:Event):Void 
+	{
+		trace("context restaured");
+	}
+	
+	private function onContextLost(e:Event):Void 
+	{
+		trace("context lost");
 	}
 	
 	function render(viewport : flash.geom.Rectangle) : Void
