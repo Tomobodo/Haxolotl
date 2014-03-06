@@ -15,4 +15,5 @@ __Bench ported from [RunnerMark](https://github.com/esDotDev/RunnerMark)__
 
 ##Galxy Note II 
 * Firefox : 5260 
-* chrome : 4200
+* Chrome : 4200
+* nativ : 2750
