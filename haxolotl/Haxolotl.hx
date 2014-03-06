@@ -1,8 +1,9 @@
 package haxolotl;
 import flash.display.Stage;
 import flash.events.Event;
+import flash.events.FocusEvent;
 import flash.Lib;
-import haxolotl.core.Engine;
+import haxolotl.core.Renderer;
 import haxolotl.app.Screen;
 import haxolotl.core.ScaleMode;
 
@@ -13,11 +14,13 @@ import haxolotl.core.ScaleMode;
  
 class Haxolotl
 {
-	var m_engine : Engine;
+	var m_renderer : Renderer;
 	var m_stage : Stage;
 	var m_lastTime : Int;
 	
 	var m_screen : Screen;
+	
+	var m_focused : Bool;
 	
 	public var updateTime : Float;
 	public var renderTime : Float;
@@ -33,22 +36,46 @@ class Haxolotl
 		scaleMode = NoScale;
 		
 		m_stage = Lib.current.stage;
-		m_engine = new Engine(m_stage);
+		m_renderer = new Renderer(m_stage);
+		m_renderer.start();
 		
 		m_lastTime = 0;
 		
 		updateTime = 0;
 		renderTime = 0;
 		
+		m_focused = true;
+		
 		multiThreaded = false;
+		
 		m_stage.addEventListener(Event.ENTER_FRAME, update);
+		
+		m_stage.addEventListener(Event.DEACTIVATE, onDeactivate);
+		m_stage.addEventListener(Event.ACTIVATE, onActivate);
+		m_stage.addEventListener(FocusEvent.FOCUS_IN, onActivate);
+		m_stage.addEventListener(FocusEvent.FOCUS_OUT, onDeactivate);
+	}
+	
+	private function onActivate(e:FocusEvent):Void 
+	{
+		trace("activated");
+		m_renderer.start();
+		m_focused = true;
+		m_lastTime = Lib.getTimer();
+	}
+	
+	private function onDeactivate(e:FocusEvent):Void 
+	{
+		trace("deactivated");
+		m_renderer.stop();
+		m_focused = false;
 	}
 	
 	public function strechTo(width : Int, height : Int)
 	{
 		scaleMode = Scale;
-		m_engine.scaleMode = Scale;
-		m_engine.setViewPort(width, height);
+		m_renderer.scaleMode = Scale;
+		m_renderer.setViewPort(width, height);
 	}
 	
 	public function gotoScreen(screen : Screen)
@@ -56,15 +83,18 @@ class Haxolotl
 		if (m_screen != null)
 			m_screen.__removed();
 		m_screen = screen;
-		m_screen.__added(m_engine);
+		m_screen.__added(m_renderer);
 	}
 	
 	function update(e : Event)
 	{
-		var deltaTime : Float = (Lib.getTimer() - m_lastTime) / 1000;
-		updateTime = deltaTime;
-		m_lastTime = Lib.getTimer();
-		if(m_screen != null)
-			m_screen.update(deltaTime);
+		if (m_focused)
+		{
+			var deltaTime : Float = (Lib.getTimer() - m_lastTime) / 1000;
+			updateTime = deltaTime;
+			m_lastTime = Lib.getTimer();
+			if(m_screen != null)
+				m_screen.update(deltaTime);
+		}
 	}
 }

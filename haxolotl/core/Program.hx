@@ -23,14 +23,17 @@ class Program
 	
 	var name : String;
 	
+	
+	
 	function new() 
 	{
 		compiled = false;
 		compile();
 	}
 	
-	function compile() 
+	public function compile() 
 	{
+		trace("compiling program");
 		createVertexShader();
 		createFragmentShader();
 		

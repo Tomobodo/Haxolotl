@@ -34,4 +34,10 @@ class ShaderManager
 		return programs[key];	
 	}
 	
+	public function reloadAll()
+	{
+		for (program in programs)
+			program.compile();
+	}
+	
 }

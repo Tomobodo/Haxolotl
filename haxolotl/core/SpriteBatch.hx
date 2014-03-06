@@ -3,6 +3,7 @@ package haxolotl.core;
 import flash.geom.Matrix;
 import haxolotl.display.DisplayObject;
 import haxolotl.geom.Rectangle;
+import haxolotl.shaders.ShaderManager;
 import haxolotl.shaders.SpriteBatchShader;
 import haxolotl.utils.Color;
 import openfl.gl.GL;
@@ -80,34 +81,18 @@ class SpriteBatch
 		vertexBuffer = GL.createBuffer();
 		indexBuffer = GL.createBuffer();
 		
-		program = new SpriteBatchShader();
+		program = ShaderManager.get().program(SpriteBatchShader);
 		
-		vertex = new Float32Array(dataPerVertex * 4 * MAX_SPRITE);
+		initVertexBuffer();
 		
-		GL.bindBuffer(GL.ARRAY_BUFFER, vertexBuffer);
-		GL.bufferData(GL.ARRAY_BUFFER, vertex, GL.DYNAMIC_DRAW);
-		
-		index = new Int16Array(MAX_SPRITE * 6);
-		vertexOffset = 0;
-		indexes = [0, 1, 2, 2, 3, 0];
-		
-		var j : Int = 0;
-		var k : Int = 0;
-		
-		// Fill the index buffer as it never need to change
-		for (i in 0 ... MAX_SPRITE)
-		{
-			for (a in indexes)
-				index[j++] = a + k * 4;
-			k++;
-		}
-			
-		GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, indexBuffer);
-		GL.bufferData(GL.ELEMENT_ARRAY_BUFFER, index, GL.STATIC_DRAW);
+		initIndexBuffer();
 		
 		empty = true;
 		
 		program.use();
+		
+		GL.enable(GL.BLEND);
+		GL.blendFuncSeparate(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA, GL.ONE, GL.ONE_MINUS_SRC_ALPHA);
 		
 		initUniforms();
 		initAttributes();
@@ -126,6 +111,35 @@ class SpriteBatch
 		colorAttribute = GL.getAttribLocation(program.program, "aColor");
 	}
 	
+	public function initVertexBuffer():Void 
+	{
+		vertex = new Float32Array(dataPerVertex * 4 * MAX_SPRITE);
+		
+		GL.bindBuffer(GL.ARRAY_BUFFER, vertexBuffer);
+		GL.bufferData(GL.ARRAY_BUFFER, vertex, GL.DYNAMIC_DRAW);
+	}
+	
+	public function initIndexBuffer():Void 
+	{
+		index = new Int16Array(MAX_SPRITE * 6);
+		vertexOffset = 0;
+		indexes = [0, 1, 2, 2, 3, 0];
+		
+		var j : Int = 0;
+		var k : Int = 0;
+		
+		// Fill the index buffer as it never need to change
+		for (i in 0 ... MAX_SPRITE)
+		{
+			for (a in indexes)
+				index[j++] = a + k * 4;
+			k++;
+		}
+			
+		GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, indexBuffer);
+		GL.bufferData(GL.ELEMENT_ARRAY_BUFFER, index, GL.STATIC_DRAW);
+	}
+	
 	public function setViewport(_viewport : Rectangle) : Void
 	{
 		viewport = _viewport;
@@ -139,21 +153,18 @@ class SpriteBatch
 		
 		program.use();
 		
-		GL.disable(GL.DEPTH_TEST);
-		
-		GL.enable(GL.BLEND);
+		//GL.disable(GL.DEPTH_TEST);
 		//GL.blendFunc(GL.ONE, GL.ONE_MINUS_SRC_ALPHA);
-		GL.blendFuncSeparate(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA, GL.ONE, GL.ONE_MINUS_SRC_ALPHA);
-	
+		
 		GL.uniform1i(textureUniform, 0);
 		GL.uniform2f(viewportUniform, viewport.width, viewport.height);
+		
+		GL.bindBuffer(GL.ARRAY_BUFFER, vertexBuffer);
+		GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, indexBuffer);
 		
 		GL.enableVertexAttribArray(vertexPosAttribute);
 		GL.enableVertexAttribArray(texCoordAttribute);
 		GL.enableVertexAttribArray(colorAttribute);
-		
-		GL.bindBuffer(GL.ARRAY_BUFFER, vertexBuffer);
-		GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, indexBuffer);
 		
 		GL.vertexAttribPointer(vertexPosAttribute, 2, GL.FLOAT, false, stride, 0);
 		GL.vertexAttribPointer(texCoordAttribute, 2, GL.FLOAT, false, stride, 2 * 4);
@@ -194,10 +205,6 @@ class SpriteBatch
 		GL.bindBuffer(GL.ARRAY_BUFFER, null);
 		GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, null);
 		GL.bindTexture(GL.TEXTURE_2D, null);
-		
-		/*
-		GL.disable(GL.BLEND);
-		*/
 		
 		GL.disableVertexAttribArray(vertexPosAttribute);
 		GL.disableVertexAttribArray(texCoordAttribute);

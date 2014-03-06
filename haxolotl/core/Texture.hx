@@ -21,23 +21,47 @@ class Texture
 	
 	private static var cache = new  Map<String, Texture>();
 	
+	private static var loadedTexture : Array<Texture> = new Array<Texture>();
+	
+	var pixels : UInt8Array;
+	
+	public static function get(name : String) : Texture
+	{
+		if (cache[name] == null)
+			cache[name] = new Texture(name);
+		return cache[name];
+	}
+	
+	public static function reloadAll()
+	{
+		for (texture in loadedTexture)
+			texture.load();
+	}
+	
 	function new(_path : String) 
 	{
 		path = _path;
 		var bitmapData = Assets.getBitmapData(path);
 		
 		#if html5
-		var pixels = bitmapData.getPixels(bitmapData.rect).byteView;
+		pixels = bitmapData.getPixels(bitmapData.rect).byteView;
 		#else
-		var pixels = new UInt8Array(bitmapData.getPixels(bitmapData.rect));
+		pixels = new UInt8Array(bitmapData.getPixels(bitmapData.rect));
 		#end
 		
 		width = bitmapData.width;
 		height = bitmapData.height;
+		
+		loadedTexture.push(this);
 			
+		load();
+	}
+	
+	public function load()
+	{
 		texture = GL.createTexture();
 		GL.bindTexture(GL.TEXTURE_2D, texture);
-		GL.texImage2D(GL.TEXTURE_2D, 0, GL.RGBA, bitmapData.width, bitmapData.height, 0, GL.RGBA, GL.UNSIGNED_BYTE, pixels);
+		GL.texImage2D(GL.TEXTURE_2D, 0, GL.RGBA, width, height, 0, GL.RGBA, GL.UNSIGNED_BYTE, pixels);
 		if (checkPOT())
 		{
 			GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MAG_FILTER, GL.LINEAR);
@@ -53,15 +77,9 @@ class Texture
 		GL.bindTexture(GL.TEXTURE_2D, null);
 	}
 	
-	public static function get(name : String) : Texture
-	{
-		if (cache[name] == null)
-			cache[name] = new Texture(name);
-		return cache[name];
-	}
-	
 	public function dispose()
 	{
+		loadedTexture.remove(this);
 		GL.deleteTexture(texture);
 	}
 	

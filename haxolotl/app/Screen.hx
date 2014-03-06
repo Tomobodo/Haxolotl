@@ -1,5 +1,5 @@
 package haxolotl.app;
-import haxolotl.core.Engine;
+import haxolotl.core.Renderer;
 import haxolotl.core.Scene;
 import haxolotl.Haxolotl;
 import msignal.Signal.Signal0;
@@ -14,7 +14,7 @@ class Screen
 {
 	
 	var m_scenes : Array<Scene>;
-	var m_engine : Engine;
+	var m_renderer : Renderer;
 	
 	public var ADDED : Signal0;
 	public var REMOVED : Signal0;
@@ -30,15 +30,15 @@ class Screen
 	public function add(scene : Scene)
 	{
 		m_scenes.push(scene);
-		if (m_engine != null)
-			m_engine.add(scene);
+		if (m_renderer != null)
+			m_renderer.add(scene);
 	}
 	
 	public function remove(scene : Scene)
 	{
 		m_scenes.remove(scene);
-		if (m_engine != null)
-			m_engine.remove(scene);
+		if (m_renderer != null)
+			m_renderer.remove(scene);
 	}
 	
 	
@@ -47,11 +47,11 @@ class Screen
 	}
 	
 	@:final
-	function __added(engine : Engine)
+	function __added(renderer : Renderer)
 	{
-		m_engine = engine;
+		m_renderer = renderer;
 		for (scene in m_scenes)
-			m_engine.add(scene);
+			m_renderer.add(scene);
 		ADDED.dispatch();
 	}
 	
@@ -59,8 +59,8 @@ class Screen
 	function __removed()
 	{
 		for (scene in m_scenes)
-			m_engine.remove(scene);
-		m_engine = null;
+			m_renderer.remove(scene);
+		m_renderer = null;
 		REMOVED.dispatch();
 	}
 }

@@ -3,9 +3,11 @@ package haxolotl.core;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.Lib;
+import haxe.Timer;
 import haxolotl.core.Scene;
 import haxolotl.geom.Rectangle;
 import haxolotl.Haxolotl;
+import haxolotl.shaders.ShaderManager;
 import haxolotl.utils.Color;
 import openfl.display.OpenGLView;
 import openfl.gl.GL;
@@ -15,42 +17,42 @@ import openfl.gl.GL;
  * @author Thomas BAUDON
  */
  
-class Engine
+class Renderer
 {
 	public var scaleMode : ScaleMode;
 	public var backGroundColor : Color;
 	
 	var eventCatcher : Sprite;
-	
 	var touchDevice : Bool;
-	
 	var stage : flash.display.Stage;
-	
 	var glView : OpenGLView;
-	
 	var scenes : List<Scene>;
-	
 	var viewport : Rectangle;
-	
 	var spriteBatch : SpriteBatch;
-	
 	var lastTime:Int = 0;
+	var m_lastRestoreTime = 0;
 	
 	static private inline var TIME_STEP : Int = 16;
 	
 	public function new(_stage : flash.display.Stage) 
 	{
 		scaleMode = Scale;
-		
 		scenes = new List<Scene>();
-		
 		touchDevice = false;
-		
 		stage = _stage;
-		
 		backGroundColor = new Color(stage.color);
-		
 		init();
+	}
+	
+	public function stop()
+	{
+		glView.render = null;
+		m_lastRestoreTime = 0;
+	}
+	
+	public function start()
+	{
+		glView.render = render;
 	}
 	
 	function init() : Void
@@ -58,13 +60,9 @@ class Engine
 		stage.addEventListener(Event.RESIZE, onResize);
 		
 		glView = new OpenGLView();
-		glView.render = render;
-		
-		glView.addEventListener(OpenGLView.CONTEXT_LOST, onContextLost);
-		glView.addEventListener(OpenGLView.CONTEXT_RESTORED, onContextRestaured);
-		glView.addEventListener(Event.ADDED_TO_STAGE, onGLViewAdded);
 		
 		stage.addChild(glView);
+		stage.addEventListener(OpenGLView.CONTEXT_RESTORED, onContextRestored);
 		
 		viewport = new Rectangle(0, 0, stage.stageWidth, stage.stageHeight);
 		
@@ -75,18 +73,18 @@ class Engine
 		new EventHandler(stage, scenes);
 	}
 	
-	private function onGLViewAdded(e:Event):Void 
-	{
-	}
-	
-	private function onContextRestaured(e:Event):Void 
-	{
-		trace("context restaured");
-	}
-	
-	private function onContextLost(e:Event):Void 
-	{
-		trace("context lost");
+	function onContextRestored(e:Event):Void 
+	{		
+		var time = Lib.getTimer();
+		if (time - m_lastRestoreTime > 1000)
+		{
+			trace("context restored");
+			ShaderManager.get().reloadAll();
+			spriteBatch.initIndexBuffer();
+			spriteBatch.initVertexBuffer();
+			Texture.reloadAll();
+			m_lastRestoreTime = time;
+		}
 	}
 	
 	function render(viewport : flash.geom.Rectangle) : Void
@@ -104,11 +102,9 @@ class Engine
 			spriteBatch.end();
 		}
 		
-		#if debug
 		var glError = GL.getError();
 		if (glError != 0)
 			trace(glError);
-		#end
 		
 		if(Haxolotl.current != null)
 			Haxolotl.current.renderTime = 0.001 * (Lib.getTimer() - renderTimeStart);

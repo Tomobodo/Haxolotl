@@ -6,7 +6,7 @@
 	<meta title="runnerMark" package="haxolotl.runnerMark" version="1.0.0" company="Thomas B" />
 	
 	<window background="#000000" />
-	<window hardware="true" allow-shaders="true" require-shaders="true" depth-buffer="false" stencil-buffer="false" />
+	<window hardware="true" allow-shaders="true" require-shaders="true" depth-buffer="true" stencil-buffer="true" />
 	<window fps="60" unless="html5" />
 	<window width="600" height="320" unless="mobile" />
 	<window orientation="landscape" vsync="false" antialiasing="0" if="cpp" />

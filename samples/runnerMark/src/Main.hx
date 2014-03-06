@@ -1,19 +1,10 @@
 package ;
 
 import flash.display.Sprite;
-import flash.events.Event;
 import flash.Lib;
-import haxolotl.core.Engine;
-import haxolotl.Haxolotl;
-import haxolotl.text.Font;
-import haxolotl.core.Scene;
 import haxolotl.core.Texture;
 import haxolotl.core.TextureAtlas;
-import haxolotl.core.TextureRegion;
-import haxolotl.display.Image;
-import haxolotl.text.Text;
-import haxolotl.text.TextFormat;
-import haxolotl.utils.FPS;
+import haxolotl.Haxolotl;
 
 /**
  * ...
