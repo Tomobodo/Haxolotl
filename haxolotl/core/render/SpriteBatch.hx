@@ -1,4 +1,4 @@
-package haxolotl.core;
+package haxolotl.core.render;
 
 import flash.geom.Matrix;
 import haxolotl.display.DisplayObject;

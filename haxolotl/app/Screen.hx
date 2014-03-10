@@ -1,5 +1,5 @@
 package haxolotl.app;
-import haxolotl.core.Renderer;
+import haxolotl.core.render.Renderer;
 import haxolotl.core.Scene;
 import haxolotl.Haxolotl;
 import msignal.Signal.Signal0;

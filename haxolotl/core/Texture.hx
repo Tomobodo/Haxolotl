@@ -1,6 +1,7 @@
 package haxolotl.core;
 import flash.display.BitmapData;
 import flash.utils.ByteArray;
+import openfl.display.OpenGLView;
 import openfl.gl.GLTexture;
 import openfl.gl.GL;
 import openfl.Assets;
@@ -13,6 +14,7 @@ import openfl.utils.UInt8Array;
 class Texture
 {
 	public var texture : GLTexture;
+	public var bitmapData : BitmapData;
 	
 	public var width (get, null) : Int ;
 	public var height (get, null) : Int;
@@ -41,7 +43,7 @@ class Texture
 	function new(_path : String) 
 	{
 		path = _path;
-		var bitmapData = Assets.getBitmapData(path);
+		bitmapData = Assets.getBitmapData(path);
 		
 		#if html5
 		pixels = bitmapData.getPixels(bitmapData.rect).byteView;
@@ -52,9 +54,11 @@ class Texture
 		width = bitmapData.width;
 		height = bitmapData.height;
 		
-		loadedTexture.push(this);
-			
-		load();
+		if (OpenGLView.isSupported)
+		{
+			loadedTexture.push(this);
+			load();
+		}
 	}
 	
 	public function load()

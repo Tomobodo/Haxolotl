@@ -1,4 +1,4 @@
-package haxolotl.core;
+package haxolotl.core.render;
 
 import flash.display.Sprite;
 import flash.events.Event;

@@ -3,7 +3,7 @@ import flash.display.Stage;
 import flash.events.Event;
 import flash.events.FocusEvent;
 import flash.Lib;
-import haxolotl.core.Renderer;
+import haxolotl.core.render.Renderer;
 import haxolotl.app.Screen;
 import haxolotl.core.ScaleMode;
 
