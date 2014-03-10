@@ -1,5 +1,8 @@
 package haxolotl.core;
-import haxolotl.geom.Rectangle;
+import flash.display.BitmapData;
+import flash.geom.Point;
+import flash.geom.Rectangle;
+import haxolotl.Haxolotl;
 
 /**
  * ...
@@ -7,7 +10,6 @@ import haxolotl.geom.Rectangle;
  */
 class TextureRegion
 {
-
 	public var texture : Texture;
 	public var region : Rectangle;
 	
@@ -21,12 +23,15 @@ class TextureRegion
 			var ratioX = texture.width;
 			var ratioY = texture.height;
 			
-			_region.x /= ratioX;
-			_region.y /= ratioY;
-			_region.width /= ratioX;
-			_region.height /= ratioY;
+			if (Haxolotl.current.openglAllowed)
+			{
+				_region.x /= ratioX;
+				_region.y /= ratioY;
+				_region.width /= ratioX;
+				_region.height /= ratioY;
+			}
 		}
+		
 		region = _region;
 	}
-	
 }

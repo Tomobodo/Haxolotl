@@ -1,6 +1,7 @@
 package haxolotl.display;
 import haxolotl.core.Primitive;
 import haxolotl.core.TextureRegion;
+import haxolotl.Haxolotl;
 
 
 /**
@@ -26,7 +27,13 @@ class Image extends DisplayObject
 	function changeFrame(_texture : TextureRegion):Void 
 	{
 		texture = _texture;
-		baseWidth = texture.region.width * texture.texture.width;
-		baseHeight = texture.region.height * texture.texture.height;
+		if (Haxolotl.current.openglAllowed)
+		{
+			baseWidth = texture.region.width * texture.texture.width;
+			baseHeight = texture.region.height * texture.texture.height;
+		}else {
+			baseWidth = texture.region.width;
+			baseHeight = texture.region.height;
+		}
 	}
 }

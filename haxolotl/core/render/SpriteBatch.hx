@@ -2,7 +2,7 @@ package haxolotl.core.render;
 
 import flash.geom.Matrix;
 import haxolotl.display.DisplayObject;
-import haxolotl.geom.Rectangle;
+import flash.geom.Rectangle;
 import haxolotl.shaders.ShaderManager;
 import haxolotl.shaders.SpriteBatchShader;
 import haxolotl.utils.Color;
@@ -239,8 +239,7 @@ class SpriteBatch
 			color.set(object.color);
 			alpha = object.alpha;
 			
-			if(object.texture != null)
-				tRegion = object.texture.region;
+			tRegion = object.texture.region;
 			
 			if (tRegion != null)
 			{

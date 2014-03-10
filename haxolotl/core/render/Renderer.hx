@@ -3,10 +3,10 @@ package haxolotl.core.render;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.display.Stage;
+import flash.geom.Rectangle;
 import flash.Lib;
 import haxe.Timer;
 import haxolotl.core.Scene;
-import haxolotl.geom.Rectangle;
 import haxolotl.Haxolotl;
 import haxolotl.shaders.ShaderManager;
 import haxolotl.utils.Color;
@@ -59,7 +59,7 @@ class Renderer
 	{
 	}
 	
-	function render(viewport : flash.geom.Rectangle = null) : Void
+	function render(viewport : Rectangle = null) : Void
 	{
 		
 	}

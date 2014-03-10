@@ -1,7 +1,7 @@
 package haxolotl.text;
 
 import haxolotl.core.TextureRegion;
-import haxolotl.geom.Rectangle;
+import flash.geom.Rectangle;
 import haxolotl.core.Texture;
 
 /**

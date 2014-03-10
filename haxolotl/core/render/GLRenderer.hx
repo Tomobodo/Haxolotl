@@ -1,13 +1,13 @@
 package haxolotl.core.render;
 import flash.display.Stage;
+import flash.events.Event;
+import flash.geom.Rectangle;
+import flash.Lib;
 import haxolotl.core.Texture;
-import haxolotl.geom.Rectangle;
+import haxolotl.Haxolotl;
 import haxolotl.shaders.ShaderManager;
 import openfl.display.OpenGLView;
 import openfl.gl.GL;
-import flash.Lib;
-import haxolotl.Haxolotl;
-import flash.events.Event;
 
 /**
  * ...
@@ -60,7 +60,7 @@ class GLRenderer extends Renderer
 		}
 	}
 	
-	override function render(viewport : flash.geom.Rectangle = null) : Void
+	override function render(viewport : Rectangle = null) : Void
 	{
 		var renderTimeStart = Lib.getTimer();
 		GL.viewport (Std.int (viewport.x), Std.int (viewport.y), Std.int (viewport.width), Std.int (viewport.height));

@@ -5,6 +5,8 @@ import flash.display.Stage;
 import flash.events.Event;
 import flash.geom.Rectangle;
 import flash.Lib;
+import haxolotl.core.Scene;
+import haxolotl.display.DisplayObject;
 
 /**
  * ...
@@ -15,6 +17,7 @@ class CanvasRenderer extends Renderer
 	
 	var m_bitmapView : Bitmap;
 	var m_buffer : BitmapData;
+	var m_canvasDrawer : CanvasDrawer;
 
 	public function new(_stage : Stage) 
 	{
@@ -28,6 +31,7 @@ class CanvasRenderer extends Renderer
 		m_buffer = new BitmapData(cast m_viewport.width,cast m_viewport.height, false, backGroundColor.hex);
 		m_bitmapView = new Bitmap(m_buffer);
 		m_stage.addChild(m_bitmapView);
+		m_canvasDrawer = new CanvasDrawer(m_buffer);
 	}
 	
 	override function start() : Void
@@ -49,11 +53,14 @@ class CanvasRenderer extends Renderer
 	{
 		var renderTimeStart = Lib.getTimer();
 		
-		m_buffer.fillRect(new Rectangle(0, 0, 20, 20),cast Math.random() * 0xffffff);
+		// clear
+		m_buffer.fillRect(m_viewport, backGroundColor.hex);
+		
+		for (scene in m_scenes)
+			m_canvasDrawer.render(scene);
 		
 		if(Haxolotl.current != null)
 			Haxolotl.current.renderTime = 0.001 * (Lib.getTimer() - renderTimeStart);
 	}
-	
 	
 }

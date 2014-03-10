@@ -1,5 +1,5 @@
 package haxolotl.core;
-import haxolotl.geom.Rectangle;
+import flash.geom.Rectangle;
 import haxe.xml.Fast;
 import openfl.Assets;
 

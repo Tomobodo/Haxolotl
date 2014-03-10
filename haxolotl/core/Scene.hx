@@ -3,7 +3,7 @@ import flash.geom.Matrix3D;
 import haxolotl.core.IDrawable;
 import haxolotl.display.DisplayObject;
 import haxolotl.display.DisplayObjectContainer;
-import haxolotl.geom.Rectangle;
+import flash.geom.Rectangle;
 
 /**
  * ...
