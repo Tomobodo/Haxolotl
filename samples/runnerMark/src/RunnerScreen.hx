@@ -171,6 +171,7 @@ class RunnerScreen extends Screen
 	
 	override function update(deltaTime : Float) 
 	{
+		trace("aaa");
 		uppdateBg(deltaTime);
 		updateRunner(deltaTime);
 		updateGround(deltaTime);

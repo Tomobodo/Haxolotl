@@ -19,7 +19,6 @@ class EventHandler
 
 	public function new(_stage : flash.display.Stage, _stages : List<haxolotl.core.Scene>) 
 	{
-		
 		m_stage = _stage;
 		
 		#if mobile
@@ -101,12 +100,18 @@ class EventHandler
 	/////////
 	function convertX(x : Float):Float
 	{
-		return x / (m_stage.stageWidth / scenes.first().baseWidth);
+		if(scenes.first() != null)
+			return x / (m_stage.stageWidth / scenes.first().baseWidth);
+		else
+			return x;
 	}
 	
 	function convertY(y : Float):Float
 	{
-		return y / (m_stage.stageHeight / scenes.first().baseHeight);
+		if(scenes.first() != null)
+			return y / (m_stage.stageHeight / scenes.first().baseHeight);
+		else
+			return y;
 	}
 	
 }

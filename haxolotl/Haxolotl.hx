@@ -3,9 +3,12 @@ import flash.display.Stage;
 import flash.events.Event;
 import flash.events.FocusEvent;
 import flash.Lib;
+import haxolotl.core.render.CanvasRenderer;
+import haxolotl.core.render.GLRenderer;
 import haxolotl.core.render.Renderer;
 import haxolotl.app.Screen;
 import haxolotl.core.ScaleMode;
+import openfl.display.OpenGLView;
 
 /**
  * ...
@@ -26,6 +29,7 @@ class Haxolotl
 	public var renderTime : Float;
 	public var multiThreaded : Bool;
 	public var scaleMode : ScaleMode;
+	public var openglAllowed : Bool;
 	
 	public static var current : Haxolotl;
 	
@@ -36,7 +40,20 @@ class Haxolotl
 		scaleMode = NoScale;
 		
 		m_stage = Lib.current.stage;
-		m_renderer = new Renderer(m_stage);
+		
+		if (OpenGLView.isSupported)
+		{
+			trace("Opengl Renderer");
+			openglAllowed = true;
+			m_renderer = new GLRenderer(m_stage);
+		}
+		else
+		{
+			trace("Canvas Renderer");
+			openglAllowed = false;
+			m_renderer = new CanvasRenderer(m_stage);
+		}
+			
 		m_renderer.start();
 		
 		m_lastTime = 0;

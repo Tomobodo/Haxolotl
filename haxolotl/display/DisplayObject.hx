@@ -29,7 +29,7 @@ class DisplayObject extends InteractiveObject
 	
 	var _alpha : Float;
 	
-	function new() 
+	public function new() 
 	{
 		super();
 		

@@ -2,6 +2,7 @@ package haxolotl.core.render;
 
 import flash.display.Sprite;
 import flash.events.Event;
+import flash.display.Stage;
 import flash.Lib;
 import haxe.Timer;
 import haxolotl.core.Scene;
@@ -24,90 +25,43 @@ class Renderer
 	
 	var eventCatcher : Sprite;
 	var touchDevice : Bool;
-	var stage : flash.display.Stage;
-	var glView : OpenGLView;
-	var scenes : List<Scene>;
-	var viewport : Rectangle;
-	var spriteBatch : SpriteBatch;
+	var m_stage : Stage;
+	var m_scenes : List<Scene>;
+	var m_viewport : Rectangle;
+	
 	var lastTime:Int = 0;
-	var m_lastRestoreTime = 0;
 	
 	static private inline var TIME_STEP : Int = 16;
 	
-	public function new(_stage : flash.display.Stage) 
+	public function new(_stage : Stage) 
 	{
 		scaleMode = Scale;
-		scenes = new List<Scene>();
+		m_scenes = new List<Scene>();
 		touchDevice = false;
-		stage = _stage;
-		backGroundColor = new Color(stage.color);
+		m_stage = _stage;
+		backGroundColor = new Color(m_stage.color);
 		init();
-	}
-	
-	public function stop()
-	{
-		glView.render = null;
-		m_lastRestoreTime = 0;
-	}
-	
-	public function start()
-	{
-		glView.render = render;
 	}
 	
 	function init() : Void
 	{
-		stage.addEventListener(Event.RESIZE, onResize);
-		
-		glView = new OpenGLView();
-		
-		stage.addChild(glView);
-		stage.addEventListener(OpenGLView.CONTEXT_RESTORED, onContextRestored);
-		
-		viewport = new Rectangle(0, 0, stage.stageWidth, stage.stageHeight);
-		
+		m_viewport = new Rectangle(0, 0, m_stage.stageWidth, m_stage.stageHeight);
+		new EventHandler(m_stage, m_scenes);
 		initEventCatcher();
-		
-		spriteBatch = new SpriteBatch();
-		
-		new EventHandler(stage, scenes);
+		m_stage.addEventListener(Event.RESIZE, onResize);
 	}
 	
-	function onContextRestored(e:Event):Void 
-	{		
-		var time = Lib.getTimer();
-		if (time - m_lastRestoreTime > 1000)
-		{
-			trace("context restored");
-			ShaderManager.get().reloadAll();
-			spriteBatch.initIndexBuffer();
-			spriteBatch.initVertexBuffer();
-			Texture.reloadAll();
-			m_lastRestoreTime = time;
-		}
-	}
-	
-	function render(viewport : flash.geom.Rectangle) : Void
+	public function start()
 	{
-		var renderTimeStart = Lib.getTimer();
-		GL.viewport (Std.int (viewport.x), Std.int (viewport.y), Std.int (viewport.width), Std.int (viewport.height));
-		GL.clearColor (backGroundColor.r, backGroundColor.g, backGroundColor.b, 1);
-		GL.clear (GL.COLOR_BUFFER_BIT | GL.DEPTH_BUFFER_BIT);
+	}
+	
+	public function stop()
+	{
+	}
+	
+	function render(viewport : flash.geom.Rectangle = null) : Void
+	{
 		
-		for (scene in scenes)
-		{
-			spriteBatch.setViewport(scene.viewport);
-			spriteBatch.start();
-			spriteBatch.render(scene);
-			spriteBatch.end();
-		}
-		
-		var glError = GL.getError();
-		if (glError != 0)
-			trace(glError);
-		
-		if(Haxolotl.current != null)
-			Haxolotl.current.renderTime = 0.001 * (Lib.getTimer() - renderTimeStart);
 	}
 	
 	function onResize(e:Event):Void 
@@ -115,9 +69,9 @@ class Renderer
 		initEventCatcher();
 		if (scaleMode == NoScale)
 		{
-			viewport = new Rectangle(0, 0, stage.stageWidth, stage.stageHeight);
-			for (scene in scenes)
-				scene.setViewport(viewport);
+			m_viewport = new Rectangle(0, 0, m_stage.stageWidth, m_stage.stageHeight);
+			for (scene in m_scenes)
+				scene.setViewport(m_viewport);
 		}
 	}
 	
@@ -126,34 +80,34 @@ class Renderer
 		if (eventCatcher == null)
 		{
 			eventCatcher = new Sprite();
-			stage.addChild(eventCatcher);
+			m_stage.addChild(eventCatcher);
 		}
 		else
 			eventCatcher.graphics.clear();
 			
 		eventCatcher.graphics.beginFill(0, 0);
-		eventCatcher.graphics.drawRect(0, 0,stage.stageWidth,stage.stageHeight);
+		eventCatcher.graphics.drawRect(0, 0,m_stage.stageWidth,m_stage.stageHeight);
 		eventCatcher.graphics.endFill();
 	}
 	
 	public function setViewPort(width : Int, height : Int)
 	{
-		viewport.width = width;
-		viewport.height = height;
-		for (scene in scenes)
-			scene.setViewport(viewport);
+		m_viewport.width = width;
+		m_viewport.height = height;
+		for (scene in m_scenes)
+			scene.setViewport(m_viewport);
 	}
 	
 	public function add(scene : Scene)
 	{
-		this.scenes.push(scene);
-		scene.setViewport(viewport);
+		this.m_scenes.push(scene);
+		scene.setViewport(m_viewport);
 		scene.ADDED.dispatch();
 	}
 	
 	public function remove(scene : Scene)
 	{
-		this.scenes.remove(scene);
+		this.m_scenes.remove(scene);
 		scene.REMOVED.dispatch();
 	}
 }

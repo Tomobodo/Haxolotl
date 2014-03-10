@@ -1,6 +1,7 @@
 package haxolotl.core;
 import flash.display.BitmapData;
 import flash.utils.ByteArray;
+import haxolotl.Haxolotl;
 import openfl.display.OpenGLView;
 import openfl.gl.GLTexture;
 import openfl.gl.GL;
@@ -54,7 +55,7 @@ class Texture
 		width = bitmapData.width;
 		height = bitmapData.height;
 		
-		if (OpenGLView.isSupported)
+		if(Haxolotl.current.openglAllowed)
 		{
 			loadedTexture.push(this);
 			load();
