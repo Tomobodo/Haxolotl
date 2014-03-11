@@ -28,6 +28,7 @@ class Renderer
 	var m_stage : Stage;
 	var m_scenes : List<Scene>;
 	var m_viewport : Rectangle;
+	var m_app : Haxolotl;
 	
 	var lastTime:Int = 0;
 	
@@ -39,13 +40,14 @@ class Renderer
 		m_scenes = new List<Scene>();
 		touchDevice = false;
 		m_stage = _stage;
+		m_app = Haxolotl.current;
 		backGroundColor = new Color(m_stage.color);
 		init();
 	}
 	
 	function init() : Void
 	{
-		m_viewport = new Rectangle(0, 0, m_stage.stageWidth, m_stage.stageHeight);
+		m_viewport = new Rectangle(0, 0, m_app.width, m_app.height);
 		new EventHandler(m_stage, m_scenes);
 		initEventCatcher();
 		m_stage.addEventListener(Event.RESIZE, onResize);

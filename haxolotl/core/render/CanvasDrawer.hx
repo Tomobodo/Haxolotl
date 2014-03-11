@@ -20,10 +20,12 @@ class CanvasDrawer
 	var m_region : Rectangle;
 	var m_transform : Matrix;
 	var m_data : BitmapData;
+	var m_dest : Point;
 
 	public function new(buffer : BitmapData) 
 	{
 		m_buffer = buffer;
+		m_dest = new Point();
 	}
 	
 	public function render(object : DisplayObject)
@@ -34,10 +36,14 @@ class CanvasDrawer
 			m_transform = object.transform;
 			m_data = object.texture.texture.bitmapData;
 			
-			//m_region = new Rectangle(5, 5, 1, 1);
-			
-			m_buffer.draw(m_data, m_transform, null, null, m_region, true);
-			//m_buffer.copyPixels(object.texture.texture.bitmapData, m_region, new Point(object.transform.tx, object.transform.ty));
+			if(object.rotation != 0 || object.scaleX != 1 || object.scaleY != 1)
+				m_buffer.draw(m_data, m_transform, null, null, m_region, false);
+			else	
+			{
+				m_dest.x = m_transform.tx;
+				m_dest.y = m_transform.ty;
+				m_buffer.copyPixels(m_data, m_region, m_dest);
+			}
 		}
 		
 		if (object.children != null)

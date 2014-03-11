@@ -27,7 +27,6 @@ class CanvasRenderer extends Renderer
 	override function init() : Void
 	{
 		super.init();
-		
 		m_buffer = new BitmapData(cast m_viewport.width,cast m_viewport.height, false, backGroundColor.hex);
 		m_bitmapView = new Bitmap(m_buffer);
 		m_stage.addChild(m_bitmapView);
@@ -52,6 +51,9 @@ class CanvasRenderer extends Renderer
 	override function render(viewport : flash.geom.Rectangle = null) : Void
 	{
 		var renderTimeStart = Lib.getTimer();
+		
+		m_bitmapView.scaleX = m_stage.stageWidth / m_buffer.width;
+		m_bitmapView.scaleY = m_stage.stageHeight / m_buffer.height;
 		
 		// clear
 		m_buffer.fillRect(m_viewport, backGroundColor.hex);

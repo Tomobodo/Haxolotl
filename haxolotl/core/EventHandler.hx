@@ -37,32 +37,32 @@ class EventHandler
 	
 	private function onMouseMove(e:MouseEvent):Void 
 	{
-		moved(e.localX, e.localY);
+		moved(e.stageX, e.stageY);
 	}
 	
 	private function onTouchMove(e:TouchEvent):Void 
 	{
-		moved(e.localX, e.localY);
+		moved(e.stageX, e.stageY);
 	}
 	
 	private function onMouseDown(e:MouseEvent):Void 
 	{
-		began(e.localX, e.localY);
+		began(e.stageX, e.stageY);
 	}
 	
 	private function onTouchBegin(e:TouchEvent):Void 
 	{
-		began(e.localX, e.localY);
+		began(e.stageX, e.stageY);
 	}
 	
 	private function onMouseUp(e:MouseEvent):Void 
 	{
-		ended(e.localX, e.localY);
+		ended(e.stageX, e.stageY);
 	}
 	
 	private function onTouchEnd(e:TouchEvent):Void 
 	{
-		ended(e.localX, e.localY);
+		ended(e.stageX, e.stageY);
 	}
 	
 	///////////////////////////////////////////////

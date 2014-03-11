@@ -14,7 +14,6 @@ import openfl.display.OpenGLView;
  * ...
  * @author Thomas B
  */
- 
 class Haxolotl
 {
 	var m_renderer : Renderer;
@@ -22,7 +21,6 @@ class Haxolotl
 	var m_lastTime : Int;
 	
 	var m_screen : Screen;
-	
 	var m_focused : Bool;
 	
 	public var updateTime : Float;
@@ -31,15 +29,18 @@ class Haxolotl
 	public var scaleMode : ScaleMode;
 	public var openglAllowed : Bool;
 	
+	public var width : UInt;
+	public var height : UInt;
+	
 	public static var current : Haxolotl;
 	
-	public function new() 
+	public function new(_width : UInt, _height : UInt) 
 	{
 		current = this;
 		
-		scaleMode = NoScale;
-		
 		m_stage = Lib.current.stage;
+		width = _width;
+		height = _height;
 		
 		if (OpenGLView.isSupported)
 		{
@@ -53,6 +54,10 @@ class Haxolotl
 			openglAllowed = false;
 			m_renderer = new CanvasRenderer(m_stage);
 		}
+		
+		scaleMode = Scale;
+		
+		m_renderer.scaleMode = Scale;
 			
 		m_renderer.start();
 		
@@ -86,13 +91,6 @@ class Haxolotl
 		trace("deactivated");
 		m_renderer.stop();
 		m_focused = false;
-	}
-	
-	public function strechTo(width : Int, height : Int)
-	{
-		scaleMode = Scale;
-		m_renderer.scaleMode = Scale;
-		m_renderer.setViewPort(width, height);
 	}
 	
 	public function gotoScreen(screen : Screen)
