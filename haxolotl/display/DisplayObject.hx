@@ -24,6 +24,8 @@ class DisplayObject extends InteractiveObject
 	public var ADDED : Signal0;
 	public var REMOVED : Signal0;
 	
+	public var smooth : Bool;
+	
 	// not proud of it
 	public var children : Array<DisplayObject>;
 	
@@ -32,6 +34,8 @@ class DisplayObject extends InteractiveObject
 	public function new() 
 	{
 		super();
+		
+		smooth = false;
 		
 		_alpha = 1;
 		color = 0xffffff;

@@ -26,6 +26,7 @@ class Letter extends Image
 		glyph = m_format.font.getGlyph(m_char);
 
 		super(glyph.getRegion());
+		smooth = true;
 		draw();		
 	}
 	
