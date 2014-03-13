@@ -35,6 +35,7 @@ class CanvasDrawer
 		m_tintCache = new Map < Rectangle, Map < Int, BitmapData >> () ;
 		m_col = new Color(0xffffff);
 		m_colorRegion = new Rectangle(0, 0, 1, 1);
+		m_transform = new Matrix();
 	}
 	
 	public function render(object : DisplayObject)
@@ -44,8 +45,12 @@ class CanvasDrawer
 			m_dest.x = 0;
 			m_dest.y = 0;
 			m_region = object.texture.region;
-			m_transform = object.transform;
 			m_data = object.texture.texture.bitmapData;
+			
+			m_transform = object.transform;
+
+			m_transform.tx = Math.round(m_transform.tx);
+			m_transform.ty = Math.round(m_transform.ty);
 			
 			if (object.color != 0xFFFFFF)
 			{

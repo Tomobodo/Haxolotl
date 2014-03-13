@@ -1,6 +1,7 @@
 package haxolotl.core.render;
 import flash.display.Bitmap;
 import flash.display.BitmapData;
+import flash.display.PixelSnapping;
 import flash.display.Stage;
 import flash.events.Event;
 import flash.geom.Rectangle;
