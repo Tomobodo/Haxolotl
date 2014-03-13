@@ -29,13 +29,18 @@ class CanvasDrawer
 
 	public function new(buffer : BitmapData) 
 	{
-		m_buffer = buffer;
+		set_buffer(buffer);
 		m_dest = new Point();
 		m_colorTransform = new ColorTransform();
 		m_tintCache = new Map < Rectangle, Map < Int, BitmapData >> () ;
 		m_col = new Color(0xffffff);
 		m_colorRegion = new Rectangle(0, 0, 1, 1);
 		m_transform = new Matrix();
+	}
+	
+	public function set_buffer(buffer : BitmapData)
+	{
+		m_buffer = buffer;
 	}
 	
 	public function render(object : DisplayObject)

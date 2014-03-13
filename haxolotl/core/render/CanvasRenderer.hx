@@ -28,8 +28,9 @@ class CanvasRenderer extends Renderer
 	override function init() : Void
 	{
 		super.init();
-		m_buffer = new BitmapData(cast m_viewport.width,cast m_viewport.height, false, backGroundColor.hex);
+		m_buffer = new BitmapData(cast m_viewport.width, cast m_viewport.height, false, backGroundColor.hex);
 		m_bitmapView = new Bitmap(m_buffer);
+		m_bitmapView.cacheAsBitmap = true;
 		m_stage.addChild(m_bitmapView);
 		m_canvasDrawer = new CanvasDrawer(m_buffer);
 	}
@@ -57,7 +58,11 @@ class CanvasRenderer extends Renderer
 		m_bitmapView.scaleY = m_stage.stageHeight / m_buffer.height;
 		
 		// clear
+		#if !html5
 		m_buffer.fillRect(m_viewport, backGroundColor.hex);
+		#else
+		m_buffer.__clearCanvas();
+		#end
 		
 		for (scene in m_scenes)
 			m_canvasDrawer.render(scene);
