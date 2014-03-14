@@ -3,7 +3,6 @@ package ;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.Lib;
-import haxolotl.core.Engine;
 import haxolotl.core.Scene;
 import haxolotl.core.Texture;
 import haxolotl.core.TextureAtlas;
@@ -39,7 +38,7 @@ class Main extends Sprite
 		
 		trace ("Main inited");
 		
-		engine = new Haxolotl();
+		engine = new Haxolotl(800,480);
 		
 		trace ("Engine inited");
 		
