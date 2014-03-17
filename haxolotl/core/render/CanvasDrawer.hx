@@ -54,9 +54,6 @@ class CanvasDrawer
 			
 			m_transform = object.transform;
 
-			m_transform.tx = Math.round(m_transform.tx);
-			m_transform.ty = Math.round(m_transform.ty);
-			
 			if (object.color != 0xFFFFFF)
 			{
 				
@@ -104,10 +101,10 @@ class CanvasDrawer
 				m_buffer.copyPixels(m_data, m_region, m_dest);
 			}
 			else
-				m_buffer.draw(m_data, m_transform, null, null, m_region, object.smooth);
+				m_buffer.draw(m_data, m_transform, m_colorTransform, null, m_region, object.smooth);
 		}
 		
-		if (object.children != null)
+		else if (object.children != null && object.children.length > 0)
 			for (child in object.children)
 				render(child);
 	}

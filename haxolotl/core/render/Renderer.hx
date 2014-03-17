@@ -41,7 +41,7 @@ class Renderer
 		touchDevice = false;
 		m_stage = _stage;
 		m_app = Haxolotl.current;
-		backGroundColor = new Color(m_stage.color);
+		backGroundColor = new Color(0);
 		init();
 	}
 	

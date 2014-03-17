@@ -15,9 +15,9 @@
 	
 	<!-- classpath, haxe libs -->
 	<source path="src" />
-	<haxelib name="openfl" />
+
 	<haxelib name="haxolotl" />
-	<haxelib name="actuate" />
+	<haxelib name="openfl-bitfive" if="html5" />
 	
 	<!-- assets -->
 	<assets path="../assets/img" rename="img" />
