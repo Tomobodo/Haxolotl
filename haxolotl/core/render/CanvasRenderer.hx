@@ -58,9 +58,9 @@ class CanvasRenderer extends Renderer
 		
 		// clear
 		//#if !html5
-		m_buffer.fillRect(m_viewport, backGroundColor.hex);
+			m_buffer.fillRect(m_viewport, backGroundColor.hex);
 		//#else
-		//m_buffer.__clearCanvas();
+		//	m_buffer.__clearCanvas();
 		//#end
 		
 		for (scene in m_scenes)

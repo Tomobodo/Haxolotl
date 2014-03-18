@@ -24,6 +24,7 @@ class CanvasDrawer
 	var m_data : BitmapData;
 	var m_dest : Point;
 	var m_col : Color;
+	var m_tex : TextureRegion;
 	
 	var m_tintCache : Map < Rectangle, Map < Int, BitmapData >> ;
 
@@ -50,10 +51,9 @@ class CanvasDrawer
 			m_dest.x = 0;
 			m_dest.y = 0;
 			
-			m_region = object.texture.region;
-			m_region.x = 0;
-			m_region.y = 0;
-			m_data = object.texture.bitmapData;
+			m_tex = object.texture;
+			m_region = m_tex.region;
+			m_data = m_tex.bitmapData;
 			
 			m_transform = object.transform;
 			
@@ -77,18 +77,11 @@ class CanvasDrawer
 				
 				if (colorMap[object.color] == null)
 				{
-					var data = new BitmapData(cast m_region.width, cast m_region.height);
-					data.copyPixels(m_data, m_region, m_dest);
-					m_colorRegion.width = m_region.width;
-					m_colorRegion.height = m_region.height;
-					m_region = m_colorRegion;
-					data.colorTransform(m_region, m_colorTransform);
+					var data = m_data.clone();
+					data.colorTransform(m_tex.bounds, m_colorTransform);
 					colorMap[object.color] = data;
 				}
 				
-				m_colorRegion.width = m_region.width;
-				m_colorRegion.height = m_region.height;
-				m_region = m_colorRegion;
 				m_data = colorMap[object.color];
 			}
 			
@@ -101,10 +94,10 @@ class CanvasDrawer
 			{
 				m_dest.x = Math.round(m_transform.tx);
 				m_dest.y = Math.round(m_transform.ty);
-				m_buffer.copyPixels(m_data, m_region, m_dest);
+				m_buffer.copyPixels(m_data, m_tex.bounds, m_dest);
 			}
 			else
-				m_buffer.draw(m_data, m_transform, m_colorTransform, null, m_region, object.smooth);
+				m_buffer.draw(m_data, m_transform, null, null, m_tex.bounds, object.smooth);
 		}
 		
 		else if (object.children != null && object.children.length > 0)

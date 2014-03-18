@@ -12,8 +12,11 @@ class TextureRegion
 {
 	public var texture : Texture;
 	public var region : Rectangle;
+	public var bounds : Rectangle;
 	
-	public var bitmapData : BitmapData;
+	public var bitmapData(get, null) : BitmapData;
+	
+	var m_bitmapData : BitmapData;
 	
 	public function new(_texture : Texture, _region : Rectangle = null) 
 	{
@@ -35,8 +38,18 @@ class TextureRegion
 		}
 		
 		region = _region;
-		
-		bitmapData = new BitmapData(cast region.width,cast region.height);
-		bitmapData.copyPixels(texture.bitmapData, region, new Point());
+		bounds = region.clone();
+		bounds.x = 0;
+		bounds.y = 0;
+	}
+	
+	function get_bitmapData() : BitmapData
+	{
+		if (m_bitmapData == null)
+		{
+			m_bitmapData = new BitmapData(cast region.width,cast region.height);
+			m_bitmapData.copyPixels(texture.bitmapData, region, new Point());
+		}
+		return m_bitmapData;
 	}
 }
