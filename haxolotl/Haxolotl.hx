@@ -3,11 +3,12 @@ import flash.display.Stage;
 import flash.events.Event;
 import flash.events.FocusEvent;
 import flash.Lib;
-import haxolotl.core.render.CanvasRenderer;
-import haxolotl.core.render.GLRenderer;
-import haxolotl.core.render.Renderer;
+import haxe.Timer;
 import haxolotl.app.Screen;
+import haxolotl.core.render.CanvasRenderer;
+import haxolotl.core.render.Renderer;
 import haxolotl.core.ScaleMode;
+import haxolotl.core.render.GLRenderer;
 import openfl.display.OpenGLView;
 
 /**

@@ -49,11 +49,14 @@ class CanvasDrawer
 		{
 			m_dest.x = 0;
 			m_dest.y = 0;
+			
 			m_region = object.texture.region;
-			m_data = object.texture.texture.bitmapData;
+			m_region.x = 0;
+			m_region.y = 0;
+			m_data = object.texture.bitmapData;
 			
 			m_transform = object.transform;
-
+			
 			if (object.color != 0xFFFFFF)
 			{
 				
@@ -96,8 +99,8 @@ class CanvasDrawer
 			// quite simple and we can find work around atm.
 			if (object.scaleX == 1 && object.scaleY == 1 && object.rotation == 0)
 			{
-				m_dest.x = m_transform.tx;
-				m_dest.y = m_transform.ty;
+				m_dest.x = Math.round(m_transform.tx);
+				m_dest.y = Math.round(m_transform.ty);
 				m_buffer.copyPixels(m_data, m_region, m_dest);
 			}
 			else

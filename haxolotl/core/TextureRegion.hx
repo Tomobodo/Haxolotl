@@ -13,6 +13,8 @@ class TextureRegion
 	public var texture : Texture;
 	public var region : Rectangle;
 	
+	public var bitmapData : BitmapData;
+	
 	public function new(_texture : Texture, _region : Rectangle = null) 
 	{
 		texture = _texture;
@@ -33,5 +35,8 @@ class TextureRegion
 		}
 		
 		region = _region;
+		
+		bitmapData = new BitmapData(cast region.width,cast region.height);
+		bitmapData.copyPixels(texture.bitmapData, region, new Point());
 	}
 }
