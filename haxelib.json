@@ -3,11 +3,10 @@
 	"url" : "https://github.com/TBaudon/Haxolotl",
 	"license" : "MIT",
     "description" : "A multiplatform opengl game engine for haxe",
-    "version" : "0.8.1",
-	"releasenote" : "bug fix and threads for c++",
+    "version" : "2.0.0",
+	"releasenote" : "restart and change of goal as new openfl-html5 backend is now out with webgl suport.",
 	"contributors" : ["Thomas BAUDON"],
     "dependencies" : { 
-		"openfl" : "",
-		"msignal" : ""
+		"openfl" : ""
 	}
 }
